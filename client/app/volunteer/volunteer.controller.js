@@ -2,5 +2,5 @@
 
 angular.module('ulyssesApp')
   .controller('VolunteerCtrl', function ($scope) {
-    $scope.message = 'Hello';
+    $scope.message = "Test";
   });

@@ -4,8 +4,9 @@ angular.module('ulyssesApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('volunteer', {
-        url: 'volunteers',
+        url: '/volunteers',
         templateUrl: 'app/volunteer/volunteer.html',
-        controller: 'VolunteerCtrl'
+        controller: 'VolunteerCtrl',
+        authenticate: 'organizer'
       });
   });

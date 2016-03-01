@@ -171,6 +171,30 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
     },
 
     /**
+     * Check if a user is an volunteer
+     *   (synchronous|asynchronous)
+     *
+     * @param  {Function|*} callback - optional, function(is)
+     * @return {Bool|Promise}
+     */
+    isVolunteer() {
+      return Auth.hasRole
+        .apply(Auth, [].concat.apply(['volunteer'], arguments));
+    },
+
+    /**
+     * Check if a user is an organizer
+     *   (synchronous|asynchronous)
+     *
+     * @param  {Function|*} callback - optional, function(is)
+     * @return {Bool|Promise}
+     */
+    isOrganizer() {
+      return Auth.hasRole
+        .apply(Auth, [].concat.apply(['organizer'], arguments));
+    },
+
+    /**
      * Get auth token
      *
      * @return {String} - a token string used for authenticating
