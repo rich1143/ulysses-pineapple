@@ -52,7 +52,19 @@ User.find({}).removeAsync()
       name: 'Admin',
       email: 'admin@example.com',
       password: 'admin'
-    })
+    }, {
+    provider: 'local',
+    role: 'organizer',
+    name: 'Elena Organizer',
+    email: 'elena@example.com',
+    password: 'elena'
+  }, {
+    provider: 'local',
+    role: 'volunteer',
+    name: 'Peter Volunteer',
+    email: 'peter@example.com',
+    password: 'peter'
+  })
     .then(() => {
       console.log('finished populating users');
     });

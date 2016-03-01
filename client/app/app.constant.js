@@ -3,7 +3,7 @@
 
 angular.module('ulyssesApp.constants', [])
 
-.constant('appConfig', {userRoles:['guest','user','admin']})
+.constant('appConfig', {userRoles:['guest','user','volunteer','organizer','admin']})
 
 ;
 })(angular);
