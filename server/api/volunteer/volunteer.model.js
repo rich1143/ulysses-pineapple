@@ -14,7 +14,7 @@ var VolunteerSchema = new mongoose.Schema({
   country: String,
   region: String,
   phone: String,
-  workPhone, String,
+  workPhone: String,
   email: String,
   fax: String,
   assocExp: Number,
