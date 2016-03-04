@@ -1,19 +1,31 @@
 'use strict';
 
-angular.module('ulyssesApp')
-  .controller('UploadCtrl', function ($scope) {
+(function() {
 
+  class UploadCtrl {
 
-    $scope.uploadFile = function() {
+    constructor($http, $scope, socket) {
+
+      self = this;
+
+    }
+
+    uploadFile() {
       console.log("Clicked submit");
-      console.log("")
-      Papa.parse(file, {
+      console.log(this.fileinput);
+      Papa.parse(this.fileinput, {
         header: true,
         dynamicTyping: true,
         complete: function(results) {
-          data = results;
+          var data = results;
           console.log(data);
         }
       });
     }
-  });
+  }
+
+    angular.module('ulyssesApp').controller('UploadCtrl', UploadCtrl);
+
+  })();
+
+
