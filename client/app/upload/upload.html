@@ -1,11 +1,6 @@
 <div class="panel panel-default upload">
   <div class="panel-body">
-    <form>
-      <div class="form-group">
-        <label for="exampleInputFile">Upload your volunteer CSV file: </label>
-        <input type="file" id="exampleInputFile">
-      </div>
-      <button type="submit" class="btn btn-default">Upload</button>
-    </form>
+    <input type="file" id="fileinput" />
+    <input type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">
   </div>
 </div>

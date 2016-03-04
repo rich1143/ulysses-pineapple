@@ -6,6 +6,7 @@ angular.module('ulyssesApp')
       .state('upload', {
         url: '/upload',
         templateUrl: 'app/upload/upload.html',
-        controller: 'UploadCtrl'
+        controller: 'UploadCtrl',
+        controllerAs: 'uploadCtrl'
       });
   });
