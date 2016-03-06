@@ -9,5 +9,11 @@ angular.module('ulyssesApp')
         controller: 'VolunteerCtrl',
         controllerAs: 'volunteerCtrl',
         authenticate: 'organizer'
+      }).state('volunteer-details', {
+        url: '/volunteers/:id',
+        templateUrl: 'app/volunteer/volunteer-detail.html',
+        controller: 'VolunteerCtrl',
+        controllerAs: 'volunteerCtrl',
+        authenticate: 'organizer'
       });
   });
