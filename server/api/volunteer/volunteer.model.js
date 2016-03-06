@@ -38,13 +38,13 @@ var VolunteerSchema = new mongoose.Schema({
   tshirtSize: String,
   positionHeld: String,
   comment: String,
-  certP1: String,
-  certP2: String,
-  certP3: String,
-  certP4: String,
-  certP5: String,
-  certScore: String,
-  certSpont: String,
+  certP1: Boolean,
+  certP2: Boolean,
+  certP3: Boolean,
+  certP4: Boolean,
+  certP5: Boolean,
+  certScore: Boolean,
+  certSpont: Boolean,
   isJudge: Boolean
 
 });
