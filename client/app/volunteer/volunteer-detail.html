@@ -1,7 +1,17 @@
 <div class="container">
-  <div class="list-group">
+  <div class="panel panel-default">
     <div class="list-group-item list-group-item-info">Volunteer Info:
     <div class="pull-right"><a href="/volunteers">Back to volunteer list</a></div></div>
-    {{ volunteerCtrl.data[0].firstName }}
+    {{ volunteerCtrl.volunteer.firstName }} {{ volunteerCtrl.volunteer.lastName }}
+    <br/>Address:
+    <br/>{{ volunteerCtrl.volunteer.street1 }} {{ volunteerCtrl.volunteer.street2 }}
+    <br/>{{ volunteerCtrl.volunteer.city }}, {{ volunteerCtrl.volunteer.state }} {{ volunteerCtrl.volunteer.zip }}
+    <br/>
+    <br/>Country: {{ volunteerCtrl.volunteer.country }}
+    <br/>Region: {{ volunteerCtrl.volunteer.region }}
+    <br/>
+    <br/>Phone: {{ volunteerCtrl.volunteer.phone }}
+    <br/>Work Phone: {{ volunteerCtrl.volunteer.workPhone }}
+
   </div>
 </div>

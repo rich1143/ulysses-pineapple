@@ -5,13 +5,15 @@ angular.module('ulyssesApp')
     var self = this;
 
     self.data = [];
+    self.volunteer = {};
+
     console.log($state.current.name);
     if($state.current.name == "volunteer") {
       self.data = Volunteer.query();
     } else if($state.current.name == "volunteer-details") {
-      self.data = [Volunteer.get({id: $stateParams.id }, function(response) {
+      self.volunteer = Volunteer.get({id: $stateParams.id }, function(response) {
         console.log(response);
-      })]
+      });
     }
 
   });
