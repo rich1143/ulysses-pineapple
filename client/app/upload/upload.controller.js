@@ -22,4 +22,8 @@ angular.module('ulyssesApp')
         }
       });
     }
+
+    self.isUploaded = function() {
+      return uploaded;
+    }
 });

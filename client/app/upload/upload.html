@@ -1,8 +1,9 @@
 <div class="panel panel-default upload">
   <div class="panel-body">
-    <form>
-      <input type="file" file="uploadCtrl.fileinput"  />
-      <input type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">
+    <div ng-show="uploadCtrl.isUploaded()">Successfully uploaded!</div>
+    <form ng-hide="uploadCtrl.isUploaded()">
+      <input type="file" file="uploadCtrl.fileinput"  /><br />
+      <button type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">Submit</button>
     </form>
   </div>
 </div>
