@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import Upload from './upload.model';
+import Volunteer from '../volunteer/volunteer.model.js';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -76,7 +77,19 @@ export function show(req, res) {
 
 // Creates a new Upload in the DB
 export function create(req, res) {
-console.log(req.body);
+  for(var i = 0; i < req.body.data.length; i++) {
+    if(i == 0) {
+      console.log(req.body.data[i]['First name']);
+      var volunteer = new Volunteer({
+        firstName: req.body.data[i]['First name'],
+        lastName: req.body.data[i]['Last name']
+      });
+
+      volunteer.save().then(respondWithResult(res))
+        .catch(handleError(res));
+    }
+
+  }
 }
 
 // Updates an existing Upload in the DB
