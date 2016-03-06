@@ -1,7 +1,7 @@
 <div class="container">
   <div class="list-group">
     <div class="list-group-item list-group-item-info">List of all volunteers:</div>
-    <a href="" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data">
+    <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data">
       {{ volunteer.firstName }} {{ volunteer.lastName }}
     </a>
   </div>
