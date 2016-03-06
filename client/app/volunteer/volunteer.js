@@ -7,6 +7,7 @@ angular.module('ulyssesApp')
         url: '/volunteers',
         templateUrl: 'app/volunteer/volunteer.html',
         controller: 'VolunteerCtrl',
+        controllerAs: 'volunteerCtrl',
         authenticate: 'organizer'
       });
   });
