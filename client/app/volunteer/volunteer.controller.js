@@ -14,6 +14,9 @@ angular.module('ulyssesApp')
       self.volunteer = Volunteer.get({id: $stateParams.id }, function(response) {
         console.log(response);
       });
-    }
+    } else if($state.current.name == "volunteer-create") {
+      self.addVolunteer = function() {
 
+      }
+    }
   });
