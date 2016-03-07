@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('JobCtrl', function ($scope, $state, Job) {
+  .controller('JobCtrl', function ($scope, $state, Job, Auth) {
     var self = this;
 
 
@@ -10,14 +10,25 @@ angular.module('ulyssesApp')
 
 
     } else if($state.current.name == "job-create") {
+      self.jobtitle = "";
+      self.description = "";
+      self.errorMessage = "";
 
       self.createJob = function() {
-        console.log("Clicked submit!");
-        console.log(self.jobtitle);
-        var data = { title: self.jobtitle, description: self.description };
-        Job.save(data);
-        self.jobtitle = "";
-        self.description = "";
+        if(self.jobtitle.length >= 1 && self.description.length >=1) {
+          console.log("Clicked submit!");
+
+          var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id };
+          Job.save(data);
+
+          self.jobtitle = "";
+          self.description = "";
+          self.errorMessage = "";
+        } else {
+          console.log("eror");
+          self.errorMessage = "You must fill out all relevant information!";
+        }
+
       }
 
     }
