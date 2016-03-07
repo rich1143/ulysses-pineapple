@@ -1,0 +1,17 @@
+<div class="panel panel-default job-container">
+  <div class="panel-heading">Create a job:</div>
+  <div class="panel-body">
+    Create a job here. These are jobs that will later be used to create time slots for the schedule. <br /><br />
+    <form>
+      <div class="form-group">
+        <label for="jobtitle">Job Title</label>
+        <input type="text" class="form-control" id="jobtitle" placeholder="Job title" ng-model="jobCtrl.jobtitle">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" placeholder="Description of the job" ng-model="jobCtrl.description">
+      </div>
+      <button type="submit" ng-click="jobCtrl.createJob()" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>
