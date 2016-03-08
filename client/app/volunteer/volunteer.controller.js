@@ -60,7 +60,7 @@ angular.module('ulyssesApp')
         if (self.firstName.length >= 1 && self.lastName.length >= 1) {
           console.log(self.firstName);
           console.log("Clicked submit!");
-        });
+        }
         else {
           console.log("error");
           self.errorMessage = "You must fill out all relevant information!";
