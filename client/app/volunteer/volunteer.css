@@ -1,6 +1,7 @@
-.container {
-  width: 70%;
-  min-width: 400px;
+.volunteer-container {
+  width: 60%;
+  margin: 0 auto;
+  min-width: 300px;
 }
 
 .form-group{

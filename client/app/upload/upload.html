@@ -1,9 +1,10 @@
-<div class="panel panel-default upload">
+<div class="panel panel-default upload-container">
+  <div class="panel-heading">Upload a CSV file containing volunteer information:</div>
   <div class="panel-body">
     <div ng-show="uploadCtrl.isUploaded()">Successfully uploaded!</div>
     <form ng-hide="uploadCtrl.isUploaded()">
       <input type="file" file="uploadCtrl.fileinput"  /><br />
-      <button type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">Submit</button>
+      <button type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">Upload File</button>
     </form>
   </div>
 </div>
