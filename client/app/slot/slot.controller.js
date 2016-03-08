@@ -6,8 +6,40 @@ angular.module('ulyssesApp')
 
     if($state.current.name == "slot") {
 
-      self.data = Slot.query();
+      self.jobTitles = [];
 
+      Slot.query().$promise.then(function(results) {
+        self.data = results;
+        self.data.forEach(function(slot) {
+          slot["jobTitle"] = self.getJobTitle(slot.jobID);
+        })
+      }, function (error) {
+        console.log("ERROR");
+      });
+
+      Job.query().$promise.then(function(results) {
+        results.forEach(function(job) {
+          console.log("run");
+          self.jobTitles.push({title: job.title, id: job._id});
+        });
+        console.log(self.jobTitles);
+      }, function(error) {
+        console.log("ERROR");
+      });
+
+      self.getJobTitle = function(name) {
+        console.log("Getting title");
+        var title;
+        self.jobTitles.forEach(function(job) {
+
+          if(job.id == name) {
+            console.log("found", job.title);
+            title = job.title;
+          }
+
+        });
+        return title;
+      }
 
     } else if($state.current.name == "slot-create") {
 
