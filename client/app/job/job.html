@@ -1,1 +1,11 @@
-<div>This is the job view: {{ message }}</div>
+<div class="job-container">
+  <div class="list-group">
+    <div class="list-group-item list-group-item-info">List of all jobs:
+      <div class="pull-right"><a href="/jobs/create">Add a job</a></div>
+    </div>
+    <a ng-href="" class="list-group-item" ng-repeat="job in jobCtrl.data">
+      <strong>Job title</strong>: {{ job.title }} <br />
+      <strong>Description</strong>: {{ job.description }}
+    </a>
+  </div>
+</div>

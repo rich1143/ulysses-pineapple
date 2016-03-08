@@ -7,7 +7,8 @@ angular.module('ulyssesApp')
 
     if($state.current.name == "job") {
 
-
+      self.data = [];
+      self.data = Job.query();
 
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
