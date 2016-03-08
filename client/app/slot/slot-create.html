@@ -1,0 +1,29 @@
+<div class="panel panel-default slot-container">
+  <div class="panel-heading">Create a time slot:</div>
+  <div class="panel-body">
+    Create a time slot here. You can assign a job to this time slot and how many volunteers are needed for this.<br /><br />
+    <form>
+      <div class="form-group">
+        <label for="jobtitle">Job Title</label><br />
+        <select id="jobtitle" name="jobtitle" ng-model="slotCtrl.jobtitle">
+          <option ng-repeat="job in slotCtrl.jobs" value="{{ job._id }}" >{{ job.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="jobtitle">Start Time</label><br />
+          <select id="start" name="start" ng-model="slotCtrl.start">
+            <option value="800">8:00</option>
+            <option value="815">8:15</option>
+            <option value="830">8:30</option>
+            <option value="845">8:45</option>
+            <option value="900">9:00</option>
+          </select>
+          <select id="startam" name="startam" ng-model="slotCtrl.startam">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+      </div>
+      <button type="submit" ng-click="jobCtrl.createJob()" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>

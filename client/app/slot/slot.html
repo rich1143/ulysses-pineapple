@@ -1,1 +1,10 @@
-<div>This is the slot view.</div>
+<div class="panel panel-default slot-container">
+  <div class="panel-heading">List of all time slots:
+    <div class="pull-right"><a href="/slot/create">Add a time slot</a></div>
+  </div>
+  <div class="list-group">
+    <a ng-href="" class="list-group-item" ng-repeat="slot in slotCtrl.data">
+      <strong>Job title</strong>: {{ slot.name }} <br />
+    </a>
+  </div>
+</div>
