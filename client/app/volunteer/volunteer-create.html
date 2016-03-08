@@ -1,10 +1,10 @@
 <div class="form-group">
   <label for="firstName">First Name:</label>
-  <input type="text" class="form-control" id="firstName">
+  <input type="text" class="form-control" id="firstName" align="right" ng-model="volunteerCtrl.firstName">
 </div>
 <div class="form-group">
   <label for="lastName">Last Name:</label>
-  <input type="text" class="form-control" id="lastName">
+  <input type="text" class="form-control" id="lastName" ng-model="volunteerCtrl.lastName">
 </div>
 <div class="form-group">
   <label for="assoc">Assoc:</label>
@@ -141,3 +141,4 @@
 <div class="checkbox">
   <label><input type="checkbox" value="">Are they a judge?</label>
 </div>
+<button type="submit" ng-click="volunteerCtrl.addVolunteer()" name="submit">Submit</button>
