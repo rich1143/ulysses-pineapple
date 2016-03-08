@@ -4,7 +4,11 @@
   </div>
   <div class="list-group">
     <a ng-href="" class="list-group-item" ng-repeat="slot in slotCtrl.data">
-      <strong>Job title</strong>: {{ slot.name }} <br />
+      <strong>Job title</strong>: {{ slot.jobID }} <br />
+      <strong>Start time</strong>: {{ slot.start }} <br />
+      <strong>End time</strong>: {{ slot.end }} <br />
+      <strong>Volunteers needed</strong>: {{ slot.volunteersNeeded }} <br />
+
     </a>
   </div>
 </div>
