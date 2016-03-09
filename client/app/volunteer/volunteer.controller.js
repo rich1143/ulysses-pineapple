@@ -42,7 +42,7 @@ angular.module('ulyssesApp')
       self.jobPreference2 = '';
       self.membershipNumber = '';
       self.problem = '';
-      self.divisoin = '';
+      self.division = '';
       self.submitDate = '';
       self.lastModified = '';
       self.mName = '';
