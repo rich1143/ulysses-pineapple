@@ -5,6 +5,7 @@ angular.module('ulyssesApp')
     var self = this;
 
     self.data = [];
+    self.slots = [];
     self.volunteer = {};
 
     self.jobTitles = [];
@@ -31,11 +32,21 @@ angular.module('ulyssesApp')
       return title;
     }
 
-    console.log($state.current.name);
+    self.areThereVolunteers = function() {
+      if(self.data) {
+        return !(self.data.length == 0);
+      }
+    }
+
+    self.areThereSlots = function() {
+      if(self.slots) {
+        return !(self.slots.length == 0);
+      }
+    }
+
     if ($state.current.name == "viewer") {
       self.data = Volunteer.query();
     } else if($state.current.name == "viewer-detail") {
-      self.slots = [];
       Volunteer.get({id: $stateParams.id}, function (response) {
         console.log(response);
         self.volunteer = response;
