@@ -1,14 +1,40 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('SlotCtrl', function ($scope, $state, Job, Slot, Auth) {
+  .controller('SlotCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth) {
     var self = this;
     self.success = false;
     self.error = false;
 
+    self.jobTitles = [];
+
+    Job.query().$promise.then(function(results) {
+      results.forEach(function(job) {
+        console.log("run");
+        self.jobTitles.push({title: job.title, id: job._id});
+      });
+      console.log(self.jobTitles);
+    }, function(error) {
+      console.log("ERROR");
+    });
+
+    self.getJobTitle = function(name) {
+      console.log("Getting title");
+      var title;
+      self.jobTitles.forEach(function(job) {
+
+        if(job.id == name) {
+          console.log("found", job.title);
+          title = job.title;
+        }
+
+      });
+      return title;
+    }
+
     if($state.current.name == "slot") {
 
-      self.jobTitles = [];
+
 
       Slot.query().$promise.then(function(results) {
         self.data = results;
@@ -25,30 +51,12 @@ angular.module('ulyssesApp')
         }
       }
 
-      Job.query().$promise.then(function(results) {
-        results.forEach(function(job) {
-          console.log("run");
-          self.jobTitles.push({title: job.title, id: job._id});
-        });
-        console.log(self.jobTitles);
-      }, function(error) {
-        console.log("ERROR");
+
+
+    } else if ($state.current.name == "slot-detail") {
+      self.slot = Slot.get({id: $stateParams.id}, function (response) {
+        console.log(response);
       });
-
-      self.getJobTitle = function(name) {
-        console.log("Getting title");
-        var title;
-        self.jobTitles.forEach(function(job) {
-
-          if(job.id == name) {
-            console.log("found", job.title);
-            title = job.title;
-          }
-
-        });
-        return title;
-      }
-
     } else if($state.current.name == "slot-create") {
 
       // Get jobs
