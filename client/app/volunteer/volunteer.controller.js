@@ -56,6 +56,7 @@ angular.module('ulyssesApp')
 
 
 
+
       self.addVolunteer = function () {
         console.log(self.firstName)
         if (self.firstName.length >= 1 && self.lastName.length >= 1) {
