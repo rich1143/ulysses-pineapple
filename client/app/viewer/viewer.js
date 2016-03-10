@@ -7,11 +7,13 @@ angular.module('ulyssesApp')
         url: '/viewer',
         templateUrl: 'app/viewer/viewer.html',
         controller: 'ViewerCtrl',
-        controllerAs: 'viewerCtrl'
+        controllerAs: 'viewerCtrl',
+        authenticate: true
       }).state('viewer-detail', {
         url: '/viewer/:id',
         templateUrl: 'app/viewer/viewer-detail.html',
         controller: 'ViewerCtrl',
-        controllerAs: 'viewerCtrl'
+        controllerAs: 'viewerCtrl',
+        authenticate: true
       });
   });

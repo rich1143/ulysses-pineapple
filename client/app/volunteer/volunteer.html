@@ -1,10 +1,17 @@
 <div class="panel panel-default volunteer-container">
+  <div class="panel-heading">Search for a specific volunteer:</div>
+  <div class="panel-body text-center">
+    <input type="search" ng-model="search.firstName" placeholder="filter volunteer by first name" aria-label="filter volunteer" class="filtering"/>
+    <input type="search" ng-model="search.lastName" placeholder="filter volunteer by last name" aria-label="filter volunteer" class="filtering" />
+  </div>
+</div><br />
+<div class="panel panel-default volunteer-container">
   <div class="panel-heading">List of all volunteers:
     <div class="pull-right"><a href="/volunteers/create">Add a volunteer</a></div>
   </div>
   <div class="list-group">
     <div class="list-group-item" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
-    <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data">
+    <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: volunteer.lastName">
       {{ volunteer.firstName }} {{ volunteer.lastName }}
     </a>
   </div>
