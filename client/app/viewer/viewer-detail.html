@@ -2,7 +2,13 @@
   <div class="panel panel-default">
     <div class="panel-heading">Volunteer Schedule: {{ viewerCtrl.volunteer.firstName }} {{ viewerCtrl.volunteer.lastName }}
       <div class="pull-right"><a href="/viewer">Back to volunteer list</a></div></div>
-    {{ viewerCtrl.volunteer.slots }}
+    <div class="panel-body">
+      <div ng-repeat="slot in viewerCtrl.slots">
+        <strong>Job title</strong>: {{ viewerCtrl.getJobTitle(slot.jobID) }} <br />
+        <strong>Start time</strong>: {{ slot.start }} <br />
+        <strong>End time</strong>: {{ slot.end }} <br />
+      </div>
+    </div>
 
 
   </div>
