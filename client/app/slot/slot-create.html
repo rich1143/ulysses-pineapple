@@ -5,6 +5,7 @@
   </div>
   <div class="panel-body" ng-show="slotCtrl.canCreate()">
     Create a time slot here. You can assign a job to this time slot and how many volunteers are needed for this.<br /><br />
+    <div ng-show="slotCtrl.isSuccess()">You have successfully entered a time slot.<br /><br /></div>
     {{ slotCtrl.errorMessage }}
     <form>
       <div class="form-group">

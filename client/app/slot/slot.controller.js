@@ -3,6 +3,7 @@
 angular.module('ulyssesApp')
   .controller('SlotCtrl', function ($scope, $state, Job, Slot, Auth) {
     var self = this;
+    self.success = false;
 
     if($state.current.name == "slot") {
 
@@ -52,11 +53,16 @@ angular.module('ulyssesApp')
       // Get jobs
       self.jobs = Job.query();
       self.errorMessage = "";
+      self.success = false;
 
       self.canCreate = function () {
         if(self.jobs) {
           return !(self.jobs.length == 0);
         }
+      }
+
+      self.isSuccess = function () {
+        return self.success;
       }
 
       self.createSlot = function () {
@@ -65,8 +71,14 @@ angular.module('ulyssesApp')
         if(self.start && self.jobtitle && self.end && self.volunteersNeeded) {
           Slot.save({ start: self.start, end: self.end, volunteers: [], volunteersNeeded: self.volunteersNeeded, jobID: self.jobtitle, createdBy: Auth.getCurrentUser()._id });
           self.errorMessage = "";
+          self.jobtitle = "";
+          self.start = "";
+          self.end = "";
+          self.volunteersNeeded = "";
+          self.success = true;
         } else {
           self.errorMessage = "You must fill out all the fields.";
+          self.success = false;
         }
 
       }
