@@ -2,6 +2,7 @@
 
 angular.module('ulyssesApp')
   .controller('ViewerCtrl', function ($scope, $state, $stateParams, Volunteer, Slot, Job) {
+
     var self = this;
 
     self.data = [];
@@ -19,6 +20,11 @@ angular.module('ulyssesApp')
     }, function(error) {
       console.log("ERROR");
     });
+
+    self.parseTime = function(time) {
+      var strTime = time.toString();
+      return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+    }
 
     self.getJobTitle = function(name) {
       var title;
