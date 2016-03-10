@@ -7,10 +7,10 @@
   </div><br />
 <div class="panel panel-default viewer-container">
   <div class="panel-heading">List of all volunteers:</div>
-  <div class="list-group-item" ng-hide="viewerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
   <div class="list-group">
     <a ng-href="/viewer/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in viewerCtrl.data | filter: search | orderBy: volunteer.lastName">
       {{ volunteer.firstName }} {{ volunteer.lastName }}
     </a>
+    <div class="list-group-item" ng-hide="viewerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
   </div>
 </div>

@@ -3,13 +3,12 @@
     <div class="pull-right"><a href="/slots/create">Add a time slot</a></div>
   </div>
   <div class="list-group">
-    <div class="list-group-item" ng-hide="slotCtrl.areThereSlots()">There are currently no time slots entered.</div>
     <a ng-href="/slots/{{slot._id}}" class="list-group-item" ng-repeat="slot in slotCtrl.data">
       <strong>Job title</strong>: {{ slotCtrl.getJobTitle(slot.jobID) }} <br />
       <strong>Start time</strong>: {{ slotCtrl.parseTime(slot.start) }} <br />
       <strong>End time</strong>: {{ slotCtrl.parseTime(slot.end) }} <br />
       <strong>Volunteers needed</strong>: {{ slot.volunteersNeeded }} <br />
-
+      <div class="list-group-item" ng-hide="slotCtrl.areThereSlots()">There are currently no time slots entered.</div>
     </a>
   </div>
 </div>
