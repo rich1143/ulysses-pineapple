@@ -32,7 +32,7 @@ angular.module('ulyssesApp')
           self.description = "";
           self.errorMessage = "";
         } else {
-          console.log("eror");
+          console.log("error");
           self.errorMessage = "You must fill out all relevant information!";
         }
 
