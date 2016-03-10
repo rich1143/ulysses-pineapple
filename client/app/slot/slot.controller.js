@@ -76,6 +76,7 @@ angular.module('ulyssesApp')
           return !(self.vols.length == 0);
         }
       }
+
       self.addVolunteer = function() {
         if(self.volunteer) {
           self.slot.volunteers.push(self.volunteer);
