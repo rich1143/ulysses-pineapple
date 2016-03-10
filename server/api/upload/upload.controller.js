@@ -123,7 +123,8 @@ export function create(req, res) {
       certP5: (req.body.data[i]['cert_p5'] == "yes"),
       certScore: (req.body.data[i]['cert_score'] == "yes"),
       certSpont: (req.body.data[i]['cert_spont'] == "yes"),
-      isJudge: (req.body.data[i][''] == "AS_JUDGE")
+      isJudge: (req.body.data[i][''] == "AS_JUDGE"),
+      slots: []
     });
 
     volunteer.save()

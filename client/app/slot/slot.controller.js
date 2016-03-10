@@ -48,7 +48,7 @@ angular.module('ulyssesApp')
       self.areThereSlots = function() {
         if(self.data) {
           return !(self.data.length == 0);
-        }
+        }
       }
 
 
@@ -65,8 +65,14 @@ angular.module('ulyssesApp')
           console.log(self.slot);
           Slot.update({ id: $stateParams.id}, self.slot);
 
-          var vol = Volunteer.get({id: self.volunteer });
-
+          Volunteer.get({id: self.volunteer }).$promise.then(function(results) {
+            console.log("async finished");
+            var vol = results;
+            vol.slots.push(self.slot._id);
+            Volunteer.update({id: vol._id}, vol);
+          }, function(error) {
+            console.log("ERROR");
+          });
         }
       }
 
