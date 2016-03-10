@@ -8,18 +8,18 @@ angular.module('ulyssesApp')
         templateUrl: 'app/slot/slot.html',
         controller: 'SlotCtrl',
         controllerAs: 'slotCtrl',
-        authenticate: 'Organizer'
+        authenticate: 'organizer'
       }).state('slot-create', {
         url: '/slots/create',
         templateUrl: 'app/slot/slot-create.html',
         controller: 'SlotCtrl',
         controllerAs: 'slotCtrl',
-        authenticate: 'Organizer'
+        authenticate: 'organizer'
       }).state('slot-detail', {
         url: '/slots/:id',
         templateUrl: 'app/slot/slot-detail.html',
         controller: 'SlotCtrl',
         controllerAs: 'slotCtrl',
-        authenticate: 'Organizer'
+        authenticate: 'organizer'
       });
   });
