@@ -85,6 +85,7 @@ angular.module('ulyssesApp')
 
           Volunteer.get({id: self.volunteer }).$promise.then(function(results) {
             console.log("async finished");
+            self.vols.push(results);
             var vol = results;
             vol.slots.push(self.slot._id);
             Volunteer.update({id: vol._id}, vol);
