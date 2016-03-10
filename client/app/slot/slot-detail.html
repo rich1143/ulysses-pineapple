@@ -12,6 +12,16 @@
   </div>
 
   <div class="panel panel-default">
+    <div class="panel-heading">Volunteers assigned to this time slot:</div>
+    <div class="list-group">
+      <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in slotCtrl.vols | orderBy: volunteer.lastName">
+        {{ volunteer.firstName }} {{ volunteer.lastName }}
+      </a>
+      <div class="panel-body" ng-hide="slotCtrl.areThereAssignees()">There are currently no volunteers assigned to this time slot.</div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
     <div class="panel-heading">Add a volunteer to this time slot:</div>
     <div class="panel-body">
       <form>

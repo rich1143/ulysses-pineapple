@@ -59,11 +59,23 @@ angular.module('ulyssesApp')
 
 
     } else if ($state.current.name == "slot-detail") {
+      self.vols = [];
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
-        console.log(response);
+        var vols = self.slot.volunteers;
+        vols.forEach(function(data) {
+          Volunteer.get({id: data}).$promise.then(function(results) {
+            self.vols.push(results);
+            console.log(self.vols);
+          })
+        });
       });
       self.volunteers = Volunteer.query();
 
+      self.areThereAssignees = function() {
+        if(self.vols) {
+          return !(self.vols.length == 0);
+        }
+      }
       self.addVolunteer = function() {
         if(self.volunteer) {
           self.slot.volunteers.push(self.volunteer);
