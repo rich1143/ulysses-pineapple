@@ -1,0 +1,25 @@
+<div class="job-container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Job Info:
+      <div class="pull-right"><a href="/jobs">Back to job list</a></div>
+    </div>
+    <div class="panel-body">
+      <strong>Job title</strong>: {{ jobCtrl.job.title }} <br />
+      <strong>Description</strong>: {{ jobCtrl.job.description }} <br />
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Time slots for this job:
+      <div class="pull-right"><a href="/slots/create">Create a time slot</a></div>
+    </div>
+    <div class="list-group">
+      <a ng-href="/slots/{{slot._id}}" class="list-group-item" ng-repeat="slot in jobCtrl.slots">
+        <strong>Start time</strong>: {{ jobCtrl.parseTime(slot.start) }} <br />
+        <strong>End time</strong>: {{ jobCtrl.parseTime(slot.end) }} <br />
+        <strong>Volunteers needed</strong>: {{ slot.volunteersNeeded }} <br />
+      </a>
+      <div class="panel-body" ng-hide="jobCtrl.areThereSlotsHere()">There are currently no time slots created for this job.</div>
+    </div>
+  </div>
+</div>

@@ -15,5 +15,11 @@ angular.module('ulyssesApp')
         controller: 'JobCtrl',
         controllerAs: 'jobCtrl',
         authenticate: 'organizer'
+      }).state('job-detail', {
+        url: '/jobs/:id',
+        templateUrl: 'app/job/job-detail.html',
+        controller: 'JobCtrl',
+        controllerAs: 'jobCtrl',
+        authenticate: 'organizer'
       });
   });

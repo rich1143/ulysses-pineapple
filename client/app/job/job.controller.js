@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('JobCtrl', function ($scope, $state, Job, Auth) {
+  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth) {
     var self = this;
 
 
@@ -48,5 +48,26 @@ angular.module('ulyssesApp')
 
       }
 
+    } else if($state.current.name == "job-detail") {
+      self.job = Job.get({id: $stateParams.id});
+      self.slots = Slot.query();
+
+      self.parseTime = function(time) {
+        var strTime = time.toString();
+        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      }
+
+      self.areThereSlotsHere = function() {
+        if(self.slots && self.job) {
+          var areThere = false;
+          self.slots.forEach(function(data) {
+            if(data.jobID == self.job._id) {
+              areThere = true;
+            }
+          });
+
+          return areThere;
+        }
+      }
     }
   });
