@@ -1,6 +1,9 @@
 <div class="panel panel-default slot-container">
   <div class="panel-heading">Create a time slot:</div>
-  <div class="panel-body">
+  <div class="panel-body" ng-hide="slotCtrl.canCreate()">
+    There are currently no entered jobs. To create a time slot, you must first create jobs.
+  </div>
+  <div class="panel-body" ng-show="slotCtrl.canCreate()">
     Create a time slot here. You can assign a job to this time slot and how many volunteers are needed for this.<br /><br />
     {{ slotCtrl.errorMessage }}
     <form>

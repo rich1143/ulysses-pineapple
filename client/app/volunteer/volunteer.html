@@ -3,6 +3,7 @@
     <div class="pull-right"><a href="/volunteers/create">Add a volunteer</a></div>
   </div>
   <div class="list-group">
+    <div class="list-group-item" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
     <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data">
       {{ volunteer.firstName }} {{ volunteer.lastName }}
     </a>

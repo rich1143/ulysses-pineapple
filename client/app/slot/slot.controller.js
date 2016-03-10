@@ -18,7 +18,9 @@ angular.module('ulyssesApp')
       });
 
       self.areThereSlots = function() {
-        return !(self.data.length == 0);
+        if(self.data) {
+          return !(self.data.length == 0);
+        }
       }
 
       Job.query().$promise.then(function(results) {
@@ -51,7 +53,11 @@ angular.module('ulyssesApp')
       self.jobs = Job.query();
       self.errorMessage = "";
 
-
+      self.canCreate = function () {
+        if(self.jobs) {
+          return !(self.jobs.length == 0);
+        }
+      }
 
       self.createSlot = function () {
         console.log("clicked submit!");

@@ -10,6 +10,12 @@ angular.module('ulyssesApp')
     console.log($state.current.name);
     if ($state.current.name == "volunteer") {
       self.data = Volunteer.query();
+
+      self.areThereVolunteers = function() {
+        if(self.data) {
+          return !(self.data.length == 0);
+        }
+      }
     } else if ($state.current.name == "volunteer-details") {
       self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
         console.log(response);

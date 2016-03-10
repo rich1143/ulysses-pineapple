@@ -10,6 +10,12 @@ angular.module('ulyssesApp')
       self.data = [];
       self.data = Job.query();
 
+      self.areThereJobs = function() {
+        if(self.data) {
+          return !(self.data.length == 0);
+        }
+      }
+
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
