@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('SlotCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth) {
+  .controller('SlotCtrl', function ($scope, $state, $stateParams, Volunteer, Job, Slot, Auth) {
     var self = this;
     self.success = false;
     self.error = false;
+
+    console.log($state.current.name)
 
     self.jobTitles = [];
 
@@ -19,12 +21,10 @@ angular.module('ulyssesApp')
     });
 
     self.getJobTitle = function(name) {
-      console.log("Getting title");
       var title;
       self.jobTitles.forEach(function(job) {
 
         if(job.id == name) {
-          console.log("found", job.title);
           title = job.title;
         }
 
@@ -48,7 +48,7 @@ angular.module('ulyssesApp')
       self.areThereSlots = function() {
         if(self.data) {
           return !(self.data.length == 0);
-        }
+        }
       }
 
 
@@ -57,6 +57,19 @@ angular.module('ulyssesApp')
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
         console.log(response);
       });
+      self.volunteers = Volunteer.query();
+
+      self.addVolunteer = function() {
+        if(self.volunteer) {
+          self.slot.volunteers.push(self.volunteer);
+          console.log(self.slot);
+          Slot.update({ id: $stateParams.id}, self.slot);
+
+          var vol = Volunteer.get({id: self.volunteer });
+
+        }
+      }
+
     } else if($state.current.name == "slot-create") {
 
       // Get jobs
@@ -82,6 +95,7 @@ angular.module('ulyssesApp')
         console.log("clicked submit!");
 
         if(self.start && self.jobtitle && self.end && self.volunteersNeeded) {
+          console.log(self.volunteer);
           Slot.save({ start: self.start, end: self.end, volunteers: [], volunteersNeeded: self.volunteersNeeded, jobID: self.jobtitle, createdBy: Auth.getCurrentUser()._id });
           self.error = false;
           self.jobtitle = "";
