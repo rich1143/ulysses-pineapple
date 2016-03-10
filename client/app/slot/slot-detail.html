@@ -8,6 +8,22 @@
       <strong>Start time</strong>: {{ slotCtrl.slot.start }} <br />
       <strong>End time</strong>: {{ slotCtrl.slot.end }} <br />
       <strong>Volunteers needed</strong>: {{ slotCtrl.slot.volunteersNeeded }} <br />
+      <strong>Volunteers in array</strong>: {{ slotCtrl.slot.volunteers }} <br />
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Add a volunteer to this time slot:</div>
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label for="volunteer">Pick a volunteer</label><br />
+          <select id="volunteer" name="volunteer" ng-model="slotCtrl.volunteer" required>
+            <option ng-repeat="vol in slotCtrl.volunteers" value="{{ vol._id }}" >{{ vol.firstName }} {{ vol.lastName }}</option>
+          </select>
+        </div>
+        <button type="submit" ng-click="slotCtrl.addVolunteer()" class="btn btn-default">Add Volunteer</button>
+      </form>
     </div>
   </div>
 </div>

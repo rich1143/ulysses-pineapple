@@ -6,7 +6,7 @@ var Volunteer = require('../volunteer/volunteer.model.js');
 var SlotSchema = new mongoose.Schema({
   start: Number,
   end: Number,
-  volunteers: [Volunteer],
+  volunteers: [],
   volunteersNeeded: Number,
   jobID: String,
   createdBy: String
