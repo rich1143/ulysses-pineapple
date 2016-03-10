@@ -1,0 +1,14 @@
+<h4 class="page-header"> Search volunteers to view their schedule!</h4>
+<div class="form-group">
+  <input type="search" ng-model="search.firstName" placeholder="filter volunteer by first name" aria-label="filter volunteer" />
+  <input type="search" ng-model="search.lastName" placeholder="filter volunteer by last name" aria-label="filter volunteer" />
+  </div>
+<div class="panel panel-default volunteer-container">
+  <div class="panel-heading">List of all volunteers:
+  </div>
+  <div class="list-group">
+    <a ng-href="/viewer/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in viewerCtrl.data | filter: search">
+      {{ volunteer.firstName }} {{ volunteer.lastName }}
+    </a>
+  </div>
+</div>

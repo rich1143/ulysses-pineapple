@@ -14,6 +14,7 @@
         <li ng-repeat="item in nav.menu" ui-sref-active="active">
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
+        <li ng-show="nav.isLoggedIn()" ui-sref-active="active"><a ui-sref="viewer">View Volunteer Schedule</a></li>
         <li ng-show="nav.isOrganizer()" ui-sref-active="active"><a ui-sref="job">Jobs</a></li>
         <li ng-show="nav.isOrganizer()" ui-sref-active="active"><a ui-sref="slot">Time Slots</a></li>
         <li ng-show="nav.isOrganizer()" ui-sref-active="active"><a ui-sref="volunteer">Volunteers</a></li>
