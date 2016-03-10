@@ -11,3 +11,7 @@
 .filtering {
   width: 200px;
 }
+.control-label {
+  content:"*";
+  color:red;
+}
