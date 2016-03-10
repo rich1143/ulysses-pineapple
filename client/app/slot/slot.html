@@ -3,6 +3,7 @@
     <div class="pull-right"><a href="/slot/create">Add a time slot</a></div>
   </div>
   <div class="list-group">
+    <div class="list-group-item" ng-hide="slotCtrl.areThereSlots()">There are currently no time slots entered.</div>
     <a ng-href="" class="list-group-item" ng-repeat="slot in slotCtrl.data">
       <strong>Job title</strong>: {{ slotCtrl.getJobTitle(slot.jobID) }} <br />
       <strong>Start time</strong>: {{ slot.start }} <br />

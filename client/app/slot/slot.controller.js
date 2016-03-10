@@ -17,6 +17,10 @@ angular.module('ulyssesApp')
         console.log("ERROR");
       });
 
+      self.areThereSlots = function() {
+        return !(self.data.length == 0);
+      }
+
       Job.query().$promise.then(function(results) {
         results.forEach(function(job) {
           console.log("run");

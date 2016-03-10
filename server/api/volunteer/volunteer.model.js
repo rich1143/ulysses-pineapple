@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var Slot = require('../slot/slot.model.js');
 
 var VolunteerSchema = new mongoose.Schema({
   firstName: String,
@@ -45,8 +46,8 @@ var VolunteerSchema = new mongoose.Schema({
   certP5: Boolean,
   certScore: Boolean,
   certSpont: Boolean,
-  isJudge: Boolean
-
+  isJudge: Boolean,
+  slots: [Slot]
 });
 
 export default mongoose.model('Volunteer', VolunteerSchema);
