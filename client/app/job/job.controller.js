@@ -19,7 +19,16 @@ angular.module('ulyssesApp')
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
-      self.errorMessage = "";
+      self.error = false;
+      self.success = false;
+
+      self.isSuccess = function () {
+        return self.success;
+      }
+
+      self.isError = function () {
+        return self.error;
+      }
 
       self.createJob = function() {
         if(self.jobtitle.length >= 1 && self.description.length >=1) {
@@ -30,10 +39,11 @@ angular.module('ulyssesApp')
 
           self.jobtitle = "";
           self.description = "";
-          self.errorMessage = "";
+          self.error = false;
+          self.success = true;
         } else {
-          console.log("error");
-          self.errorMessage = "You must fill out all relevant information!";
+          self.error = true;
+          self.success = false;
         }
 
       }
