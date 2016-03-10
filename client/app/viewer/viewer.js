@@ -4,13 +4,13 @@ angular.module('ulyssesApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('viewer', {
-        url: '/viewer',
+        url: '/view',
         templateUrl: 'app/viewer/viewer.html',
         controller: 'ViewerCtrl',
         controllerAs: 'viewerCtrl',
         authenticate: true
       }).state('viewer-detail', {
-        url: '/viewer/:id',
+        url: '/view/:id',
         templateUrl: 'app/viewer/viewer-detail.html',
         controller: 'ViewerCtrl',
         controllerAs: 'viewerCtrl',

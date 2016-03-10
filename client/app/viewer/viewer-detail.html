@@ -1,7 +1,7 @@
 <div class="volunteer-container">
   <div class="panel panel-default">
     <div class="panel-heading">Volunteer Schedule: {{ viewerCtrl.volunteer.firstName }} {{ viewerCtrl.volunteer.lastName }}
-      <div class="pull-right"><a href="/viewer">Back to volunteer list</a></div></div>
+      <div class="pull-right"><a href="/view">Back to volunteer list</a></div></div>
     <div class="panel-body">
       <div ng-repeat="slot in viewerCtrl.slots">
         <strong>Job title</strong>: {{ viewerCtrl.getJobTitle(slot.jobID) }} <br />
