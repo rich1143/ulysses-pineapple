@@ -7,6 +7,7 @@ angular.module('ulyssesApp')
         url: '/upload',
         templateUrl: 'app/upload/upload.html',
         controller: 'UploadCtrl',
-        controllerAs: 'uploadCtrl'
+        controllerAs: 'uploadCtrl',
+        authenticate: 'Organizer'
       });
   });

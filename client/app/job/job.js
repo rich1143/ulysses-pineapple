@@ -7,11 +7,13 @@ angular.module('ulyssesApp')
         url: '/jobs',
         templateUrl: 'app/job/job.html',
         controller: 'JobCtrl',
-        controllerAs: 'jobCtrl'
+        controllerAs: 'jobCtrl',
+        authenticate: 'Organizer'
       }).state('job-create', {
         url: '/jobs/create',
         templateUrl: 'app/job/job-create.html',
         controller: 'JobCtrl',
-        controllerAs: 'jobCtrl'
+        controllerAs: 'jobCtrl',
+        authenticate: 'Organizer'
       });
   });
