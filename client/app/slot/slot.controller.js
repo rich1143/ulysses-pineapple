@@ -21,8 +21,10 @@ angular.module('ulyssesApp')
     });
 
     self.parseTime = function(time) {
-      var strTime = time.toString();
-      return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      if (time) {
+        var strTime = time.toString();
+        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      }
     }
 
     self.getJobTitle = function(name) {
