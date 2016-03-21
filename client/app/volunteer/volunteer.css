@@ -4,14 +4,23 @@
   min-width: 300px;
 }
 
-.form-group{
-  padding-left: 20px;
-  width: 250px;
+.volunteer-create-container {
+  width: 70%;
+  margin: 0 auto;
+  min-width: 300px;
 }
+
+
 .filtering {
   width: 200px;
 }
-.control-label {
+.control-label2 {
   content:"*";
   color:red;
+}
+
+
+.ctr {
+  margin: 0 auto;
+  text-align: center;
 }

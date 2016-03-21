@@ -54,6 +54,7 @@ angular.module('ulyssesApp')
       self.mName = "";
       self.mRegion = "";
       self.childTeam = "";
+      self.coachName = "";
       self.coachEmail = "";
       self.tshirtSize = "";
       self.positionHeld = "";
@@ -74,7 +75,7 @@ angular.module('ulyssesApp')
             email: self.email, fax: self.fax, assocExp: self.assocExp, coachExp: self.coachExp, memberExp: self.memberExp, username: self.username,
             password: self.password, current: self.current, jobPreference1: self.jobPreference1, jobPreference2: self.jobPreference2, membershipNumber: self.membershipNumber,
             problem: self.problem, division: self.division, submitDate: self.submitDate, lastModified: self.lastModified, mName: self.mName, mRegion: self.mRegion,
-            childTeam: self.childTeam, coachEmail: self.coachEmail, tshirtSize: self.tshirtSize, positionHeld: self.positionHeld, comment: self.comment, isJudge: self.isJudge, slots: []};
+            childTeam: self.childTeam, coachName: self.coachName, coachEmail: self.coachEmail, tshirtSize: self.tshirtSize, positionHeld: self.positionHeld, comment: self.comment, isJudge: self.isJudge, slots: []};
           Volunteer.save(data);
 
           self.firstName = "";
@@ -108,6 +109,7 @@ angular.module('ulyssesApp')
           self.mRegion = "";
           self.childTeam = "";
           self.coachEmail = "";
+          self.coachName = "";
           self.tshirtSize = "";
           self.positionHeld = "";
           self.comment = "";
