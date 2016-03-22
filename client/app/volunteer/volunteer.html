@@ -15,30 +15,5 @@
       <a ng-click="volunteerCtrl.removeVolunteer(volunteer)" ng-href="" class="btn btn-sm btn-danger" style="position: absolute; top: 50%; right: 15px; margin-top: -15px;"><span class="glyphicon glyphicon-trash"></span></a>
     </div>
   </div>
-    <button class="btn btn-default" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</button>
+  <div class="list-group-item" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
   </div>
-<br/><br/><br/>
-<div class="panel panel-default viewer-container">
-  <div class="panel-heading">List of all volunteers:</div>
-  <div class="list-group">
-    <a ng-href="/view/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in viewerCtrl.data | filter: search | orderBy: 'lastName'">
-      {{ volunteer.firstName }} {{ volunteer.lastName }}
-    </a>
-    <div class="list-group-item" ng-hide="viewerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
-  </div>
-</div>
-
-
-
-<div ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: 'lastName'">
-  <div class="btn-group btn-group-justified">
-    <a ng-href="/volunteers/{{volunteer._id}}" class="btn btn-default"> {{ volunteer.firstName }} {{ volunteer.lastName }} </a>
-
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default" aria-label="Left Align">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-      </button>
-    </div>
-
-  </div>
-</div>
