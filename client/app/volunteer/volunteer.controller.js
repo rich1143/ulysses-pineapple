@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer) {
+  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, $anchorScroll) {
     var self = this;
 
     self.data = [];
     self.volunteer = {};
+    self.readOnly = true;
+    self.success = false;
+    self.error = false;
 
     console.log($state.current.name);
     if ($state.current.name == "volunteer") {
@@ -20,6 +23,51 @@ angular.module('ulyssesApp')
       self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
         console.log(response);
       });
+
+      self.isReadOnly = function() {
+        return self.readOnly;
+      }
+
+      self.toggleEdit = function () {
+        console.log("Editing");
+        self.readOnly = false;
+      }
+
+      self.isSuccess = function () {
+        return self.success;
+      }
+
+      self.isError = function () {
+        return self.error;
+      }
+
+      self.updateVolunteer = function() {
+
+        if (self.volunteer.firstName.length >= 1 && self.volunteer.lastName.length >= 1) {
+          console.log("Clicked update!");
+          var data = { firstName: self.volunteer.firstName, lastName: self.volunteer.lastName, assoc: self.volunteer.assoc, street1: self.volunteer.street1, street2: self.volunteer.street2,
+            city: self.volunteer.city, state: self.volunteer.state, zip: self.volunteer.zip, country: self.volunteer.country, region: self.volunteer.region, phone: self.volunteer.phone, workPhone: self.volunteer.workPhone,
+            email: self.volunteer.email, fax: self.volunteer.fax, assocExp: self.volunteer.assocExp, coachExp: self.volunteer.coachExp, memberExp: self.volunteer.memberExp, username: self.volunteer.username,
+            password: self.volunteer.password, current: self.volunteer.current, jobPreference1: self.volunteer.jobPreference1, jobPreference2: self.volunteer.jobPreference2, membershipNumber: self.volunteer.membershipNumber,
+            problem: self.volunteer.problem, division: self.volunteer.division, submitDate: self.volunteer.submitDate, lastModified: self.volunteer.lastModified, mName: self.volunteer.mName, mRegion: self.volunteer.mRegion,
+            childTeam: self.volunteer.childTeam, coachName: self.volunteer.coachName, coachEmail: self.volunteer.coachEmail, tshirtSize: self.volunteer.tshirtSize, positionHeld: self.volunteer.positionHeld, comment: self.volunteer.comment, isJudge: self.volunteer.isJudge, slots: []};
+          Volunteer.update({id: self.volunteer._id}, data);
+
+          self.readOnly = true;
+          self.success = true;
+          self.error = false;
+          $anchorScroll();
+
+        }
+        else {
+          console.log("error");
+          self.success = false;
+          self.error = true;
+          $anchorScroll();
+        }
+      }
+
+
     } else if ($state.current.name == "volunteer-create") {
       // Working on Button Submit still.
 
