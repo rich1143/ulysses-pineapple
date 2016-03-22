@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Slots
 export function index(req, res) {
-  Slot.findAsync()
+  Slot.findAsync(req.query)
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

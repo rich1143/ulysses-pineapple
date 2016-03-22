@@ -14,7 +14,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">Volunteers assigned to this time slot:</div>
     <div class="list-group">
-      <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in slotCtrl.vols | orderBy: volunteer.lastName">
+      <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in slotCtrl.vols | orderBy: 'lastName'">
         {{ volunteer.firstName }} {{ volunteer.lastName }}
       </a>
       <div class="panel-body" ng-hide="slotCtrl.areThereAssignees()">There are currently no volunteers assigned to this time slot.</div>
@@ -28,7 +28,7 @@
         <div class="form-group">
           <label for="volunteer">Pick a volunteer</label><br />
           <select id="volunteer" name="volunteer" ng-model="slotCtrl.volunteer" required>
-            <option ng-repeat="vol in slotCtrl.volunteers" value="{{ vol._id }}" >{{ vol.firstName }} {{ vol.lastName }}</option>
+            <option ng-repeat="vol in slotCtrl.volunteers | orderBy: 'lastName'" value="{{ vol._id }}" >{{ vol.firstName }} {{ vol.lastName }}</option>
           </select>
         </div>
         <button type="submit" ng-click="slotCtrl.addVolunteer()" class="btn btn-default">Add Volunteer</button>
