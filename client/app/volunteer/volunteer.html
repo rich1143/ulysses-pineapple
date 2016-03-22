@@ -1,4 +1,4 @@
-<div class="panel panel-default volunteer-container">
+<div class="panel panel-default volunteer-container" xmlns="http://www.w3.org/1999/html">
   <div class="panel-heading">Search for a specific volunteer:</div>
   <div class="panel-body text-center">
     <input type="search" ng-model="search.firstName" placeholder="filter volunteer by first name" aria-label="filter volunteer" class="filtering"/>
@@ -9,10 +9,18 @@
   <div class="panel-heading">List of all volunteers:
     <div class="pull-right"><a href="/volunteers/create">Add a volunteer</a></div>
   </div>
-  <div class="list-group">
-    <a ng-href="/volunteers/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: 'lastName'">
-      {{ volunteer.firstName }} {{ volunteer.lastName }}
-    </a>
-    <div class="list-group-item" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
+  <div>
+    <div ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: 'lastName'">
+      <div class="btn-group btn-group-justified">
+         <a ng-href="/volunteers/{{volunteer._id}}" class="btn btn-default"> {{ volunteer.firstName }} {{ volunteer.lastName }} </a>
+
+         <div class="btn btn-default"> Remove <div>
+
+         </div>
+
+    </div>
+    <button class="btn btn-primary" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</button>
   </div>
 </div>
+
+

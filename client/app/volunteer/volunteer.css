@@ -24,3 +24,11 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.majorwidth {
+  width: 50%;
+}
+
+.minorwidth {
+  width: 10%;
+}
