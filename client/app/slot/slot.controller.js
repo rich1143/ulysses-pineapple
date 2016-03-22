@@ -80,7 +80,8 @@ angular.module('ulyssesApp')
       }
 
       self.addVolunteer = function() {
-        if(self.volunteer) {
+        if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
+
           self.slot.volunteers.push(self.volunteer);
           console.log(self.slot);
           Slot.update({ id: $stateParams.id}, self.slot);
@@ -91,9 +92,15 @@ angular.module('ulyssesApp')
             var vol = results;
             vol.slots.push(self.slot._id);
             Volunteer.update({id: vol._id}, vol);
+            self.success = true;
+            self.error = false;
           }, function(error) {
             console.log("ERROR");
           });
+        } else {
+          self.error = true;
+          self.success = false;
+          console.log("included");
         }
       }
 

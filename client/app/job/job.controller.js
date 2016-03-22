@@ -50,7 +50,7 @@ angular.module('ulyssesApp')
 
     } else if($state.current.name == "job-detail") {
       self.job = Job.get({id: $stateParams.id});
-      self.slots = Slot.query();
+      self.slots = Slot.query({jobID: $stateParams.id});
 
       self.parseTime = function(time) {
         var strTime = time.toString();
@@ -58,15 +58,10 @@ angular.module('ulyssesApp')
       }
 
       self.areThereSlotsHere = function() {
-        if(self.slots && self.job) {
-          var areThere = false;
-          self.slots.forEach(function(data) {
-            if(data.jobID == self.job._id) {
-              areThere = true;
-            }
-          });
-
-          return areThere;
+        if(self.slots && self.slots.length > 0) {
+          return true;
+        } else {
+          return false;
         }
       }
     }

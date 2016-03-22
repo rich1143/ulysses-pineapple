@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, $anchorScroll) {
+  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, $anchorScroll, Job, Slot) {
     var self = this;
 
     self.data = [];
@@ -9,6 +9,9 @@ angular.module('ulyssesApp')
     self.readOnly = true;
     self.success = false;
     self.error = false;
+    self.slots = [];
+    self.jobTitles = [];
+
 
     console.log($state.current.name);
     if ($state.current.name == "volunteer") {
@@ -20,9 +23,52 @@ angular.module('ulyssesApp')
         }
       }
     } else if ($state.current.name == "volunteer-details") {
-      self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
-        console.log(response);
+
+      Job.query().$promise.then(function(results) {
+        results.forEach(function(job) {
+          console.log("run");
+          self.jobTitles.push({title: job.title, id: job._id});
+        });
+        console.log(self.jobTitles);
+      }, function(error) {
+        console.log("ERROR");
       });
+
+      self.parseTime = function(time) {
+        var strTime = time.toString();
+        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      }
+
+      self.getJobTitle = function(name) {
+        var title;
+        self.jobTitles.forEach(function(job) {
+
+          if(job.id == name) {
+            title = job.title;
+          }
+
+        });
+        return title;
+      }
+
+      self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
+        self.volunteer.slots.forEach(function(data) {
+          console.log("id: ", data);
+          Slot.get({id: data}).$promise.then(function(results) {
+            console.log("async finished");
+            self.slots.push(results);
+            console.log(self.slots);
+          }, function(error) {
+            console.log("ERROR");
+          });
+        });
+      });
+
+      self.areThereSlots = function() {
+        if(self.slots) {
+          return !(self.slots.length == 0);
+        }
+      }
 
       self.isReadOnly = function() {
         return self.readOnly;

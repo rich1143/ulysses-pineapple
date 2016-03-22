@@ -25,10 +25,6 @@
   text-align: center;
 }
 
-.majorwidth {
-  width: 50%;
-}
-
-.minorwidth {
-  width: 10%;
+.slot {
+  padding: 8px;
 }

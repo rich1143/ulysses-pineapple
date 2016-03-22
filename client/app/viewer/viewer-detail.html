@@ -1,16 +1,17 @@
 <div class="volunteer-container">
   <div class="panel panel-default">
     <div class="panel-heading">Volunteer Schedule: {{ viewerCtrl.volunteer.firstName }} {{ viewerCtrl.volunteer.lastName }}
-      <div class="pull-right"><a href="/view">Back to volunteer list</a></div></div>
-    <div class="panel-body">
-      <div ng-repeat="slot in viewerCtrl.slots">
+      <div class="pull-right"><a href="/view">Back to volunteer list</a></div>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item" ng-repeat="slot in viewerCtrl.slots">
         <strong>Job title</strong>: {{ viewerCtrl.getJobTitle(slot.jobID) }} <br />
         <strong>Start time</strong>: {{ viewerCtrl.parseTime(slot.start) }} <br />
-        <strong>End time</strong>: {{ viewerCtrl.parseTime(slot.end) }} <br /><br />
+        <strong>End time</strong>: {{ viewerCtrl.parseTime(slot.end) }} <br />
       </div>
       <div ng-hide="viewerCtrl.areThereSlots()">There are currently no assigned jobs for this volunteer.</div>
     </div>
-
-
   </div>
 </div>
+
+
