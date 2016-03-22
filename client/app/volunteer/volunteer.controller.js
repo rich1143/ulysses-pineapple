@@ -22,6 +22,19 @@ angular.module('ulyssesApp')
           return !(self.data.length == 0);
         }
       }
+
+      self.removeVolunteer = function (volunteer) {
+        if(confirm("Are you sure you want to delete?")) {
+          console.log("Deleting");
+          Volunteer.remove({id: volunteer._id});
+          var index = self.data.indexOf(volunteer);
+          if(index > - 1) {
+            self.data.splice(index, 1);
+          }
+        }
+      }
+
+
     } else if ($state.current.name == "volunteer-details") {
 
       Job.query().$promise.then(function(results) {
