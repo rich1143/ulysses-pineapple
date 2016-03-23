@@ -3,7 +3,16 @@
 angular.module('ulyssesApp')
   .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth) {
     var self = this;
+    self.error = false;
+    self.success = false;
 
+    self.isSuccess = function () {
+      return self.success;
+    }
+
+    self.isError = function () {
+      return self.error;
+    }
 
     if($state.current.name == "job") {
 
@@ -16,19 +25,29 @@ angular.module('ulyssesApp')
         }
       }
 
+      self.removeJob = function (job) {
+        if(confirm("Are you sure you want to delete? This will delete all time slots associated with this job.")) {
+          console.log("Deleting");
+
+          Slot.query({jobID: job._id}, function(results) {
+            var slots = results;
+            slots.forEach(function(slot) {
+              console.log("Removing slot...");
+              Slot.remove({id: slot._id});
+            });
+          });
+
+          //Job.remove({id: job._id});
+          //var index = self.data.indexOf(job);
+          //if(index > - 1) {
+           // self.data.splice(index, 1);
+          //}
+        }
+      }
+
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
-      self.error = false;
-      self.success = false;
-
-      self.isSuccess = function () {
-        return self.success;
-      }
-
-      self.isError = function () {
-        return self.error;
-      }
 
       self.createJob = function() {
         if(self.jobtitle.length >= 1 && self.description.length >=1) {

@@ -10,9 +10,9 @@
     <div class="pull-right"><a href="/volunteers/create">Add a volunteer</a></div>
   </div>
   <div class="list-group">
-    <div class="list-group-item" style="padding: 0;" ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: 'lastName'">
+    <div class="list-group-item no-padding" ng-repeat="volunteer in volunteerCtrl.data | filter: search | orderBy: 'lastName'">
       <a ng-href="/volunteers/{{volunteer._id}}" class="group-item">{{ volunteer.firstName }} {{ volunteer.lastName }}</a>
-      <a ng-click="volunteerCtrl.removeVolunteer(volunteer)" ng-href="" class="btn btn-sm btn-danger" style="position: absolute; top: 50%; right: 15px; margin-top: -15px;"><span class="glyphicon glyphicon-trash"></span></a>
+      <a ng-click="volunteerCtrl.removeVolunteer(volunteer)" ng-href="" class="btn btn-sm btn-danger group-item-remove"><span class="glyphicon glyphicon-trash"></span></a>
     </div>
   </div>
   <div class="list-group-item" ng-hide="volunteerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
