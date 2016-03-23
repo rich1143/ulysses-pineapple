@@ -132,6 +132,41 @@ angular.module('ulyssesApp')
         }
       }
 
+      self.removeVolunteer = function(volunteer) {
+        if (confirm("Are you sure you want to delete?")) {
+          Slot.get({id: self.slot._id}, function(results) {
+            var slot = results;
+            var index = slot.volunteers.indexOf(volunteer._id);
+            if(index > -1) {
+              slot.volunteers.splice(index, 1);
+            }
+            Slot.update({id: self.slot._id}, slot);
+          });
+
+          Volunteer.get({id: volunteer._id}, function (results) {
+            var vol = results;
+            console.log(vol);
+            var index = vol.slots.indexOf(self.slot._id);
+            if (index > -1) {
+              vol.slots.splice(index, 1);
+            }
+            console.log("updating");
+            Volunteer.update({id: volunteer._id}, vol);
+          });
+
+          var index = self.vols.indexOf(volunteer);
+          if(index > -1) {
+            self.vols.splice(index, 1);
+          }
+
+          index = self.slot.volunteers.indexOf(volunteer._id);
+          if(index > -1) {
+            self.slot.volunteers.splice(index, 1);
+          }
+
+        }
+      }
+
     } else if($state.current.name == "slot-create") {
 
       // Get jobs
