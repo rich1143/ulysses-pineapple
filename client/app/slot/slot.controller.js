@@ -118,7 +118,7 @@ angular.module('ulyssesApp')
             self.vols.push(results);
             var vol = results;
             vol.slots.push(self.slot._id);
-            //Volunteer.update({id: vol._id}, vol);
+            Volunteer.update({id: vol._id}, vol);
             self.success = true;
             self.error = false;
           }, function(error) {

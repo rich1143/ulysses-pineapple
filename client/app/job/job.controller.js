@@ -57,6 +57,8 @@ angular.module('ulyssesApp')
         }
       }
 
+
+
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
@@ -86,6 +88,31 @@ angular.module('ulyssesApp')
       self.parseTime = function(time) {
         var strTime = time.toString();
         return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      }
+
+      self.removeSlot = function (slot) {
+        if (confirm("Are you sure you want to delete? This will remove all volunteers from this time slot.")) {
+          console.log("Deleting");
+
+          var vols = slot.volunteers;
+          vols.forEach(function(volunteer) {
+            Volunteer.get({id: volunteer}, function(results) {
+              var vol = results;
+              var index = vol.slots.indexOf(slot._id);
+              if(index > -1) {
+                vol.slots.splice(index, 1);
+              }
+              console.log("updating");
+              Volunteer.update({id: volunteer}, vol);
+            });
+          });
+
+          Slot.remove({id: slot._id});
+          var index = self.slots.indexOf(slot);
+          if (index > -1) {
+            self.slots.splice(index, 1);
+          }
+        }
       }
 
       self.areThereSlotsHere = function() {
