@@ -108,9 +108,30 @@ angular.module('ulyssesApp')
         return self.readOnly;
       }
 
+      self.cancelUpdates = function() {
+        console.log("Cancel");
+        $anchorScroll();
+        self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
+          self.volunteer.slots.forEach(function(data) {
+            console.log("id: ", data);
+            Slot.get({id: data}).$promise.then(function(results) {
+              console.log("async finished");
+              self.slots.push(results);
+              console.log(self.slots);
+            }, function(error) {
+              console.log("ERROR");
+            });
+          });
+        });
+
+        self.toggleEdit();
+        self.success = false;
+        self.error = false;
+
+      }
+
       self.toggleEdit = function () {
-        console.log("Editing");
-        self.readOnly = false;
+        self.readOnly = !self.readOnly;
       }
 
       self.updateVolunteer = function() {
