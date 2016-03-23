@@ -26,6 +26,18 @@ angular.module('ulyssesApp')
       self.removeVolunteer = function (volunteer) {
         if(confirm("Are you sure you want to delete?")) {
           console.log("Deleting");
+
+          volunteer.slots.forEach(function(slot) {
+            console.log(slot);
+            Slot.get({id: slot}, function (response) {
+              console.log("Removing from slot");
+              var slot2 = response;
+              var index = slot2.volunteers.indexOf(volunteer._id);
+              slot2.volunteers.splice(index, 1);
+              Slot.update({id: slot}, slot2);
+            });
+          });
+
           Volunteer.remove({id: volunteer._id});
           var index = self.data.indexOf(volunteer);
           if(index > - 1) {
