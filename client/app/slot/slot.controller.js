@@ -33,6 +33,26 @@ angular.module('ulyssesApp')
       }
     }
 
+    //checks to see if two time slots overlap
+    self.isConflict = function(slot1, slot2) {
+      var start1 = parseInt(slot1.start);
+      var end1 = parseInt(slot1.end);
+      var start2 = parseInt(slot2.start);
+      var end2 = parseInt(slot2.end);
+      console.log("running");
+      if((start1 < start2 && start2 < end1)) {
+        return true;
+      }
+      else if(start2 < start1 && start1 < end2) {
+        return true;
+      }
+      else if(start1 == start2 && end1 == end2)
+      {
+        return true;
+      }
+      return false;
+    }
+
     self.getJobTitle = function(name) {
       var title;
       self.jobTitles.forEach(function(job) {
