@@ -9,8 +9,17 @@ angular.module('ulyssesApp')
     self.readOnly = true;
     self.success = false;
     self.error = false;
+    self.errorMessage = "";
     self.slots = [];
     self.jobTitles = [];
+
+    self.isSuccess = function () {
+      return self.success;
+    }
+
+    self.isError = function () {
+      return self.error;
+    }
 
 
     console.log($state.current.name);
@@ -102,14 +111,6 @@ angular.module('ulyssesApp')
       self.toggleEdit = function () {
         console.log("Editing");
         self.readOnly = false;
-      }
-
-      self.isSuccess = function () {
-        return self.success;
-      }
-
-      self.isError = function () {
-        return self.error;
       }
 
       self.updateVolunteer = function() {

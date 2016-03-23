@@ -6,7 +6,13 @@ angular.module('ulyssesApp')
     self.success = false;
     self.error = false;
 
-    console.log($state.current.name)
+    self.isSuccess = function () {
+      return self.success;
+    }
+
+    self.isError = function () {
+      return self.error;
+    }
 
     self.jobTitles = [];
 
@@ -98,9 +104,10 @@ angular.module('ulyssesApp')
             console.log("ERROR");
           });
         } else {
+          console.log("err");
           self.error = true;
           self.success = false;
-          console.log("included");
+          self.errorMessage = "You have already added this volunteer to this time slot.";
         }
       }
 
@@ -115,14 +122,6 @@ angular.module('ulyssesApp')
         if(self.jobs) {
           return !(self.jobs.length == 0);
         }
-      }
-
-      self.isSuccess = function () {
-        return self.success;
-      }
-
-      self.isError = function () {
-        return self.error;
       }
 
       self.createSlot = function () {

@@ -24,6 +24,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">Add a volunteer to this time slot:</div>
     <div class="panel-body">
+      <div class="success" ng-show="slotCtrl.isSuccess()">You have successfully added a volunteer to this time slot.<br /><br /></div>
+      <div class="warning" ng-show="slotCtrl.isError()">{{ slotCtrl.errorMessage }}<br /><br /></div>
       <form>
         <div class="form-group">
           <label for="volunteer">Pick a volunteer</label><br />
