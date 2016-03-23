@@ -47,8 +47,6 @@ angular.module('ulyssesApp')
 
     if($state.current.name == "slot") {
 
-
-
       Slot.query().$promise.then(function(results) {
         self.data = results;
         self.data.forEach(function(slot) {
@@ -64,7 +62,30 @@ angular.module('ulyssesApp')
         }
       }
 
+      self.removeSlot = function (slot) {
+        if (confirm("Are you sure you want to delete? This will remove all volunteers from this time slot.")) {
+          console.log("Deleting");
 
+          var vols = slot.volunteers;
+          vols.forEach(function(volunteer) {
+            Volunteer.get({id: volunteer}, function(results) {
+              var vol = results;
+              var index = vol.slots.indexOf(slot._id);
+              if(index > -1) {
+                vol.slots.splice(index, 1);
+              }
+              console.log("updating");
+              Volunteer.update({id: volunteer}, vol);
+            });
+          });
+
+          Slot.remove({id: slot._id});
+          var index = self.data.indexOf(slot);
+          if (index > -1) {
+            self.data.splice(index, 1);
+          }
+        }
+      }
 
     } else if ($state.current.name == "slot-detail") {
       self.vols = [];
@@ -97,7 +118,7 @@ angular.module('ulyssesApp')
             self.vols.push(results);
             var vol = results;
             vol.slots.push(self.slot._id);
-            Volunteer.update({id: vol._id}, vol);
+            //Volunteer.update({id: vol._id}, vol);
             self.success = true;
             self.error = false;
           }, function(error) {

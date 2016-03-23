@@ -11,6 +11,6 @@
     <a ng-href="/view/{{volunteer._id}}" class="list-group-item" ng-repeat="volunteer in viewerCtrl.data | filter: search | orderBy: 'lastName'">
       {{ volunteer.firstName }} {{ volunteer.lastName }}
     </a>
-    <div class="list-group-item" ng-hide="viewerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
+    <div class="panel-body" ng-hide="viewerCtrl.areThereVolunteers()">There are currently no entered volunteers.</div>
   </div>
 </div>

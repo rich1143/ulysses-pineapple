@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth) {
+  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer) {
     var self = this;
     self.error = false;
     self.success = false;
@@ -33,6 +33,18 @@ angular.module('ulyssesApp')
             var slots = results;
             slots.forEach(function(slot) {
               console.log("Removing slot...");
+              slot.volunteers.forEach(function(volunteer) {
+                Volunteer.get({id: volunteer}, function(results2) {
+                  var vol = results2;
+                  var index = vol.slots.indexOf(slot._id);
+                  if(index > -1) {
+                    vol.slots.splice(index, 1);
+                  }
+                  console.log("new", vol.slots);
+                  console.log("updating");
+                  Volunteer.update({id: volunteer}, vol);
+                });
+              });
               Slot.remove({id: slot._id});
             });
           });

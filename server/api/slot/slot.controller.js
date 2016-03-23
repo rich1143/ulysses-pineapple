@@ -23,11 +23,11 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
+    delete updates.__v;
     var updated = _.extend(entity, updates);
+    console.log(updated);
     return updated.saveAsync()
       .spread(updated => {
-        console.log("updated");
-        console.log(updated);
         return updated;
       });
   };
