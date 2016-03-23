@@ -1,11 +1,23 @@
 <div class="job-container">
   <div class="panel panel-default">
     <div class="panel-heading">Job Info:
-      <div class="pull-right"><a href="/jobs">Back to job list</a></div>
+      <div class="pull-right"><span ng-show="jobCtrl.isReadOnly()"><a  ng-click="jobCtrl.toggleEdit()">Toggle Editing Mode</a> | </span><a href="/jobs">Back to job list</a></div>
     </div>
     <div class="panel-body">
-      <strong>Job title</strong>: {{ jobCtrl.job.title }} <br />
-      <strong>Description</strong>: {{ jobCtrl.job.description }} <br />
+      <div class="success" ng-show="jobCtrl.isSuccess()">You have successfully updated this job.<br /><br /></div>
+      <div class="warning" ng-show="jobCtrl.isError()">You must fill out all of the required fields.<br /><br /></div>
+      <div class="form-group">
+        <label for="jobtitle">Job Title:</label>
+        <input type="text" class="form-control" id="jobtitle" ng-model="jobCtrl.job.title" ng-readonly="jobCtrl.isReadOnly()">
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" ng-model="jobCtrl.job.description" ng-readonly="jobCtrl.isReadOnly()">
+      </div>
+      <div ng-hide="jobCtrl.isReadOnly()" class="form-group text-center">
+        <button class="btn btn-primary" type="submit" ng-click="jobCtrl.updateJob()" name="submit">Update Job</button>
+        <button class="btn btn-danger" type="submit" ng-click="jobCtrl.cancelUpdates()" name="cancel">Cancel Changes</button>
+      </div>
     </div>
   </div>
 
@@ -26,4 +38,3 @@
     <div class="panel-body" ng-hide="jobCtrl.areThereSlotsHere()">There are currently no time slots created for this job.</div>
   </div>
 </div>
-

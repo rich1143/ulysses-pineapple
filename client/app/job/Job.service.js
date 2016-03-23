@@ -2,5 +2,7 @@
 
 angular.module('ulyssesApp')
   .factory('Job', function($resource) {
-    return new $resource('/api/jobs/:id');
+    return new $resource('/api/jobs/:id', null, {
+      'update': { method: 'PUT'}
+    });
   });

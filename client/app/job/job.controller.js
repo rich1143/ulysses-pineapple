@@ -5,6 +5,7 @@ angular.module('ulyssesApp')
     var self = this;
     self.error = false;
     self.success = false;
+    self.readOnly = true;
 
     self.isSuccess = function () {
       return self.success;
@@ -113,6 +114,38 @@ angular.module('ulyssesApp')
             self.slots.splice(index, 1);
           }
         }
+      }
+
+      self.isReadOnly = function() {
+        return self.readOnly;
+      }
+
+      self.toggleEdit = function () {
+        self.readOnly = !self.readOnly;
+      }
+
+      self.updateJob = function() {
+        console.log("updating");
+        if(self.job.title.length > 1 && self.job.description.length > 1) {
+          var job = {title: self.job.title, description: self.job.description};
+          Job.update({id: $stateParams.id}, job);
+          self.success = true;
+          self.error = false;
+          self.toggleEdit();
+        } else {
+          self.success = false;
+          self.error = true;
+        }
+
+      }
+
+      self.cancelUpdates = function() {
+        console.log("Cancel");
+        self.job = Job.get({id: $stateParams.id});
+        self.toggleEdit();
+        self.success = false;
+        self.error = false;
+
       }
 
       self.areThereSlotsHere = function() {
