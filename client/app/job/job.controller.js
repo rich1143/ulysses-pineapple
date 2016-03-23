@@ -37,11 +37,11 @@ angular.module('ulyssesApp')
             });
           });
 
-          //Job.remove({id: job._id});
-          //var index = self.data.indexOf(job);
-          //if(index > - 1) {
-           // self.data.splice(index, 1);
-          //}
+          Job.remove({id: job._id});
+          var index = self.data.indexOf(job);
+          if(index > - 1) {
+            self.data.splice(index, 1);
+          }
         }
       }
 
