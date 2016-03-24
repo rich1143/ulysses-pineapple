@@ -135,22 +135,31 @@ angular.module('ulyssesApp')
       self.addVolunteer = function() {
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
 
-          self.slot.volunteers.push(self.volunteer);
-          console.log(self.slot);
-          Slot.update({ id: $stateParams.id}, self.slot);
+          if (self.vols.length >= self.slot.volunteersNeeded) {
+            self.error = true;
+            self.errorMessage = "You cannot add more volunteers than needed.";
+            self.success = false;
+          } else {
 
-          Volunteer.get({id: self.volunteer }).$promise.then(function(results) {
-            console.log("async finished");
-            self.vols.push(results);
-            var vol = results;
-            vol.slots.push(self.slot._id);
-            Volunteer.update({id: vol._id}, vol);
-            self.success = true;
-            self.error = false;
-          }, function(error) {
-            console.log("ERROR");
-          });
-        } else {
+            self.slot.volunteers.push(self.volunteer);
+            console.log(self.slot);
+            Slot.update({id: $stateParams.id}, self.slot);
+
+            Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+              console.log("async finished");
+              self.vols.push(results);
+              var vol = results;
+              vol.slots.push(self.slot._id);
+              Volunteer.update({id: vol._id}, vol);
+              self.success = true;
+              self.error = false;
+            }, function (error) {
+              console.log("ERROR");
+            });
+          }
+        }
+        else
+        {
           console.log("err");
           self.error = true;
           self.success = false;
