@@ -87,8 +87,21 @@ angular.module('ulyssesApp')
       self.slots = Slot.query({jobID: $stateParams.id});
 
       self.parseTime = function(time) {
-        var strTime = time.toString();
-        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+        if(time) {
+          var strTime = "";
+          if(time >= 1300) {
+            time = time - 1200;
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " PM";
+          } else {
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " AM";
+          }
+
+          return strTime;
+        }
       }
 
       self.removeSlot = function (slot) {
