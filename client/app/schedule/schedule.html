@@ -1,7 +1,10 @@
 <div class="panel panel-default schedule-container">
   <div class="panel-heading">Master schedule:
   </div>
-  <div class="panel-body">
-    There is currently no master schedule.
-  </div>
+    <ul class="list-group">
+      <li class="list-group-item clearfix" ng-repeat="time in scheduleCtrl.data.times | orderBy: 'time'">
+        <div class="col-xs-6">{{ time }} </div>
+        <div class="col-xs-6">{{ time.job1 }}</div>
+      </li>
+    </ul>
 </div>
