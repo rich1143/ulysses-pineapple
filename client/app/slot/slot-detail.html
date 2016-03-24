@@ -24,7 +24,7 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">Add a volunteer to this time slot:</div>
-    <div class="panel-body">
+    <div class="panel-body" ng-show="slotCtrl.areThereVolunteers()">
       <div class="success" ng-show="slotCtrl.isSuccess()">You have successfully added a volunteer to this time slot.<br /><br /></div>
       <div class="warning" ng-show="slotCtrl.isError()">{{ slotCtrl.errorMessage }}<br /><br /></div>
       <form>
@@ -37,6 +37,7 @@
         <button type="submit" ng-click="slotCtrl.addVolunteer()" class="btn btn-default">Add Volunteer</button>
       </form>
     </div>
+    <div class="panel-body" ng-hide="slotCtrl.areThereVolunteers()">There are currently no volunteers to be added.</div>
   </div>
 </div>
 

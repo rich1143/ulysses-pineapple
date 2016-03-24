@@ -126,6 +126,12 @@ angular.module('ulyssesApp')
         }
       }
 
+      self.areThereVolunteers = function() {
+        if(self.volunteers) {
+          return !(self.volunteers.length == 0);
+        }
+      }
+
       self.addVolunteer = function() {
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
 

@@ -2,7 +2,7 @@
   <div class="panel-heading">
     <span ng-show="volunteerCtrl.isReadOnly()">Viewing Volunteer:</span>
     <span ng-hide="volunteerCtrl.isReadOnly()">Editing Volunteer:</span>
-    <div class="pull-right"><span ng-show="volunteerCtrl.isReadOnly()"><a  ng-click="volunteerCtrl.toggleEdit()">Toggle Editing Mode</a> | </span><a href="/volunteers">Back to volunteer list</a></div>
+    <div class="pull-right"><span ng-show="volunteerCtrl.isReadOnly()"><a href="" ng-click="volunteerCtrl.toggleEdit()">Enter Editing Mode</a> | </span><a href="/volunteers">Back to volunteer list</a></div>
   </div>
   <div class="panel-body">
     <div class="success" ng-show="volunteerCtrl.isSuccess()">You have successfully updated this volunteer.<br /><br /></div>
