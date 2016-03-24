@@ -27,43 +27,67 @@ angular.module('ulyssesApp')
     });
 
     self.parseTime = function(time) {
-      if(time) {
-        var strTime = "";
-        if(time >= 1300) {
-          time = time - 1200;
-          strTime = time.toString();
-          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
-          strTime = strTime + " PM";
-        } else {
-          strTime = time.toString();
-          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
-          strTime = strTime + " AM";
-        }
-
-        return strTime;
+      if (time) {
+        var strTime = time.toString();
+        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
       }
     }
 
-    //checks to see if two time slots overlap
+      //checks to see if two time slots overlap
     self.isConflict = function(slot1, slot2) {
       var start1 = parseInt(slot1.start);
+      console.log(start1);
       var end1 = parseInt(slot1.end);
+      console.log(end1);
       var start2 = parseInt(slot2.start);
+      console.log(start2);
       var end2 = parseInt(slot2.end);
+      console.log(end2);
       console.log("running");
       if((start1 < start2 && start2 < end1)) {
+        console.log("scenario1");
         return true;
+
       }
       else if(start2 < start1 && start1 < end2) {
+        console.log("scenario2");
         return true;
+
       }
       else if(start1 == start2 && end1 == end2)
       {
+        console.log("scenario3");
         return true;
+
       }
+      console.log("scenario4");
       return false;
     }
 
+    self.conflictLoop = function(slot1, volunteerid) {
+      console.log("test");
+      Volunteer.get({id: volunteerid }, function(results) {
+        var volunteer1 = results;
+
+          for(var i = 0; i < results.slots.length; i++)
+          {
+            Slot.get({id: results.slots[i]}, function(results1) {
+            console.log(results1);
+            if(self.isConflict(slot1, results1))
+            {
+              console.log("true!");
+              return true;
+
+            }
+            })
+          }
+
+          console.log("false!");
+          return false;
+
+      })
+    }
+    
     self.getJobTitle = function(name) {
       var title;
       self.jobTitles.forEach(function(job) {
