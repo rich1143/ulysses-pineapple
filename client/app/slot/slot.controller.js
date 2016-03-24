@@ -36,21 +36,58 @@ angular.module('ulyssesApp')
     //checks to see if two time slots overlap
     self.isConflict = function(slot1, slot2) {
       var start1 = parseInt(slot1.start);
+      console.log(start1);
       var end1 = parseInt(slot1.end);
+      console.log(end1);
       var start2 = parseInt(slot2.start);
+      console.log(start2);
       var end2 = parseInt(slot2.end);
+      console.log(end2);
       console.log("running");
       if((start1 < start2 && start2 < end1)) {
+        console.log("scenario1");
         return true;
+
       }
       else if(start2 < start1 && start1 < end2) {
+        console.log("scenario2");
         return true;
+
       }
       else if(start1 == start2 && end1 == end2)
       {
+        console.log("scenario3");
         return true;
+
       }
+      console.log("scenario4");
       return false;
+    }
+
+    self.conflictLoop = function(slot1, volunteerid) {
+      console.log("test");
+      Volunteer.get({id: volunteerid }, function(results) {
+        var volunteer1 = results;
+
+          for(var i = 0; i < results.slots.length; i++)
+          {
+            Slot.get({id: results.slots[i]}, function(results1) {
+            console.log(results1);
+            if(self.isConflict(slot1, results1))
+            {
+              console.log("true!");
+              return true;
+
+            }
+            })
+          }
+
+          console.log("false!");
+          return false;
+
+      })
+
+      //var slot1 = Slot.get({id: slotid});
     }
 
     self.getJobTitle = function(name) {
@@ -60,7 +97,7 @@ angular.module('ulyssesApp')
         if(job.id == name) {
           title = job.title;
         }
-
+1
       });
       return title;
     }
@@ -133,29 +170,33 @@ angular.module('ulyssesApp')
       }
 
       self.addVolunteer = function() {
+
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
+         // if(self.conflictLoop(self.slot, self.volunteer)) {
+              console.log("arg");
+              self.slot.volunteers.push(self.volunteer);
+              //console.log(self.slot);
+              Slot.update({id: $stateParams.id}, self.slot);
 
-          self.slot.volunteers.push(self.volunteer);
-          console.log(self.slot);
-          Slot.update({ id: $stateParams.id}, self.slot);
+              Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+                //console.log("async finished");
+                self.vols.push(results);
+                var vol = results;
+                vol.slots.push(self.slot._id);
+                Volunteer.update({id: vol._id}, vol);
+                self.success = true;
+                self.error = false;
+              }, function (error) {
+                console.log("ERROR");
+              });
+         //  }
+          } else {
+            console.log("err");
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "You have already added this volunteer to this time slot.";
+          }
 
-          Volunteer.get({id: self.volunteer }).$promise.then(function(results) {
-            console.log("async finished");
-            self.vols.push(results);
-            var vol = results;
-            vol.slots.push(self.slot._id);
-            Volunteer.update({id: vol._id}, vol);
-            self.success = true;
-            self.error = false;
-          }, function(error) {
-            console.log("ERROR");
-          });
-        } else {
-          console.log("err");
-          self.error = true;
-          self.success = false;
-          self.errorMessage = "You have already added this volunteer to this time slot.";
-        }
       }
 
       self.removeVolunteer = function(volunteer) {
