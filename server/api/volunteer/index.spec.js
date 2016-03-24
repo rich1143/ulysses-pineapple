@@ -10,6 +10,15 @@ var volunteerCtrlStub = {
   destroy: 'volunteerCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var volunteerIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './volunteer.controller': volunteerCtrlStub
+  './volunteer.controller': volunteerCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Volunteer API Router:', function() {
@@ -38,7 +48,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'volunteerCtrl.index')
+        .withArgs('/', 'authService.isAuthenticated', 'volunteerCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'volunteerCtrl.show')
+        .withArgs('/:id', 'authService.isAuthenticated', 'volunteerCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'volunteerCtrl.create')
+        .withArgs('/', 'authService.isAuthenticated', 'volunteerCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'volunteerCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'volunteerCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'volunteerCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'volunteerCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('Volunteer API Router:', function() {
 
     it('should route to volunteer.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'volunteerCtrl.destroy')
+        .withArgs('/:id', 'authService.isAuthenticated', 'volunteerCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

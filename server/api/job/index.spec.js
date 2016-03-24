@@ -10,6 +10,15 @@ var jobCtrlStub = {
   destroy: 'jobCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var jobIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './job.controller': jobCtrlStub
+  './job.controller': jobCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Job API Router:', function() {
@@ -38,7 +48,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'jobCtrl.index')
+        .withArgs('/', 'authService.hasRole.organizer', 'jobCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'jobCtrl.show')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'jobCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'jobCtrl.create')
+        .withArgs('/', 'authService.hasRole.organizer', 'jobCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'jobCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'jobCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'jobCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'jobCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('Job API Router:', function() {
 
     it('should route to job.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'jobCtrl.destroy')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'jobCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

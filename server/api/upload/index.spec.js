@@ -10,6 +10,15 @@ var uploadCtrlStub = {
   destroy: 'uploadCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var uploadIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './upload.controller': uploadCtrlStub
+  './upload.controller': uploadCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Upload API Router:', function() {
@@ -38,7 +48,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'uploadCtrl.index')
+        .withArgs('/', 'authService.hasRole.organizer', 'uploadCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'uploadCtrl.show')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'uploadCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'uploadCtrl.create')
+        .withArgs('/', 'authService.hasRole.organizer', 'uploadCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'uploadCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'uploadCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'uploadCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'uploadCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('Upload API Router:', function() {
 
     it('should route to upload.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'uploadCtrl.destroy')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'uploadCtrl.destroy')
         .should.have.been.calledOnce;
     });
 
