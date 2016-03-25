@@ -254,6 +254,7 @@ angular.module('ulyssesApp')
       self.jobs = Job.query();
       self.error = false;
       self.success = false;
+      self.errorMessage = "";
 
       self.canCreate = function () {
         if(self.jobs) {
@@ -264,22 +265,38 @@ angular.module('ulyssesApp')
       self.createSlot = function () {
         console.log("clicked submit!");
 
-        if(self.start && self.jobtitle && self.end && self.volunteersNeeded) {
-          console.log(self.volunteer);
-          Slot.save({ start: self.start, end: self.end, volunteers: [], volunteersNeeded: self.volunteersNeeded, jobID: self.jobtitle, createdBy: Auth.getCurrentUser()._id });
-          self.error = false;
-          self.jobtitle = "";
-          self.start = "";
-          self.end = "";
-          self.volunteersNeeded = "";
-          self.success = true;
+        if (self.start && self.jobtitle && self.end && self.volunteersNeeded) {
+          if(parseInt(self.start) < parseInt(self.end)) {
+            console.log(self.volunteer);
+            Slot.save({
+              start: self.start,
+              end: self.end,
+              volunteers: [],
+              volunteersNeeded: self.volunteersNeeded,
+              jobID: self.jobtitle,
+              createdBy: Auth.getCurrentUser()._id
+            });
+            self.error = false;
+            self.jobtitle = "";
+            self.start = "";
+            self.end = "";
+            self.volunteersNeeded = "";
+            self.success = true;
+          } else if(parseInt(self.start) == parseInt(self.end)) {
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "Your start time and end time cannot be the same.";
+          } else {
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "Your start time and end time are not in chronological order.";
+          }
         } else {
           self.error = true;
           self.success = false;
+          self.errorMessage = "You must fill out all of the required fields.";
         }
 
       }
-
-
     }
   });
