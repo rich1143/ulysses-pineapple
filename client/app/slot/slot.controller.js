@@ -85,6 +85,7 @@ angular.module('ulyssesApp')
 
     self.conflictLoop = function(slot1, volunteerid, callback) {
       Volunteer.get({id: volunteerid }, function(results) {
+        var hasCalledBack = false;
         for(var i = 0; i < results.slots.length; i++)
         {
           Slot.get({id: results.slots[i]}, function(results1) {
@@ -92,8 +93,11 @@ angular.module('ulyssesApp')
             if(self.isConflict(slot1, results1))
             {
               callback(true);
+              hasCalledBack = true;
             } else if(i == results.slots.length) {
+              if(!hasCalledBack) {
                 callback(false);
+              }
             }
           });
         }
