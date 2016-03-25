@@ -1,7 +1,7 @@
-<div class="panel panel-default schedule-container">
+<div class="panel panel-default" ng-class="scheduleCtrl.getClass()">
   <div class="panel-heading">Master Schedule:
   </div>
-    <ul class="list-group">
+    <ul class="list-group" ng-show="scheduleCtrl.areThereJobs()">
       <li class="list-group-item list-group-item-information clearfix">
         <div class="col-xs-2">Time</div>
         <div class="col" style="float: left; width: {{ scheduleCtrl.width }}" ng-repeat="job in scheduleCtrl.jobs">
@@ -15,4 +15,5 @@
         </div>
       </li>
     </ul>
+  <div class="panel-body" ng-hide="scheduleCtrl.areThereJobs()">In order to show a schedule, enter at least one job.</div>
 </div>

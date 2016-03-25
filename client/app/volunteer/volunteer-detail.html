@@ -1,307 +1,316 @@
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">
-    <span ng-show="volunteerCtrl.isReadOnly()">Viewing Volunteer:</span>
-    <span ng-hide="volunteerCtrl.isReadOnly()">Editing Volunteer:</span>
-    <div class="pull-right"><span ng-show="volunteerCtrl.isReadOnly()"><a href="" ng-click="volunteerCtrl.toggleEdit()">Enter Editing Mode</a> | </span><a href="/volunteers">Back to volunteer list</a></div>
-  </div>
-  <div class="panel-body">
-    <div class="success" ng-show="volunteerCtrl.isSuccess()">You have successfully updated this volunteer.<br /><br /></div>
-    <div class="warning" ng-show="volunteerCtrl.isError()">You must fill out all of the required fields.<br /><br /></div>
-    <form class="form-horizontal">
-      <div class="col-md-5">
-        <div class="form-group">
-          <label for="firstName" class="col-sm-3 control-label">First Name:&nbsp;<label class="control-label2">*</label></label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="firstName" ng-model="volunteerCtrl.volunteer.firstName" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="lastName" class="col-sm-3 control-label">Last Name:&nbsp;<label class="control-label2">*</label></label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="lastName" ng-model="volunteerCtrl.volunteer.lastName" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="assoc" class="col-sm-3 control-label">Assoc:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="assoc" ng-model="volunteerCtrl.volunteer.assoc" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="email" class="col-sm-3 control-label">E-mail:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="email" ng-model="volunteerCtrl.volunteer.email" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="phone" class="col-sm-3 control-label">Phone:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="phone" ng-model="volunteerCtrl.volunteer.phone" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="workPhone" class="col-sm-3 control-label">Work Phone:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="workPhone" ng-model="volunteerCtrl.volunteer.workPhone" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="fax" class="col-sm-3 control-label">Fax:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="fax" ng-model="volunteerCtrl.volunteer.fax" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="form-group">
-          <label for="street1" class="col-sm-2 control-label">Street 1:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="street1" ng-model="volunteerCtrl.volunteer.street1" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="street2" class="col-sm-2 control-label">Street 2:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="street2" ng-model="volunteerCtrl.volunteer.street2" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="city" class="col-sm-2 control-label">City:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="city" ng-model="volunteerCtrl.volunteer.city" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="state" class="col-sm-2 control-label">State:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="state" ng-model="volunteerCtrl.volunteer.state" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="zip" class="col-sm-2 control-label">ZIP Code:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="zip" ng-model="volunteerCtrl.volunteer.zip" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="country" class="col-sm-2 control-label">Country:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="country" ng-model="volunteerCtrl.volunteer.country" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="region" class="col-sm-2 control-label">Region:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="region" ng-model="volunteerCtrl.volunteer.region" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<br /><br />
-
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">Experience:</div>
-  <div class="panel-body">
-    <form class="form-horizontal">
-      <div class="col-md-5">
-        <div class="form-group">
-          <label for="assocExp" class="col-sm-3 control-label">Association Experience:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="assocExp" ng-model="volunteerCtrl.volunteer.assocExp" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="coachExp" class="col-sm-3 control-label">Coach Experience:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="coachExp" ng-model="volunteerCtrl.volunteer.coachExp" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="memberExp" class="col-sm-3 control-label">Member Experience:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="memberExp" ng-model="volunteerCtrl.volunteer.memberExp" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="problem" class="col-sm-3 control-label">Problem:</label>
-          <div class="col-sm-9">
-            <input type="number" class="form-control" id="problem" ng-model="volunteerCtrl.volunteer.problem" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="division" class="col-sm-3 control-label">Division:</label>
-          <div class="col-sm-9">
-            <input type="number" class="form-control" id="division" ng-model="volunteerCtrl.volunteer.division" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="form-group">
-          <label for="jobPreference1" class="col-sm-2 control-label">Job Preference 1:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="jobPreference1" ng-model="volunteerCtrl.volunteer.jobPreference1" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="jobpreference2" class="col-sm-2 control-label">Job Preference 2:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="jobPreference2" ng-model="volunteerCtrl.volunteer.jobPreference2" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="membershipNumber" class="col-sm-2 control-label">Membership Number:</label>
-          <div class="col-sm-10">
-            <input class="form-control" id="membershipNumber" ng-model="volunteerCtrl.volunteer.membershipNumber" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="current" class="col-sm-2 control-label">Current Problem:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="current" ng-model="volunteerCtrl.volunteer.current" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<br /><br />
-
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">School Information:</div>
-  <div class="panel-body">
-    <form class="form-horizontal">
-      <div class="col-md-5">
-        <div class="form-group">
-          <label for="mName" class="col-sm-3 control-label">Name of School:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="mName" ng-model="volunteerCtrl.volunteer.mName" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="mRegion" class="col-sm-3 control-label">Region of School:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="mRegion" ng-model="volunteerCtrl.volunteer.mRegion" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="childTeam" class="col-sm-3 control-label">Child's Team:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="childTeam" ng-model="volunteerCtrl.volunteer.childTeam" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="tshirtSize" class="col-sm-3 control-label">T-Shirt Size:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="tshirtSize" ng-model="volunteerCtrl.volunteer.tshirtSize" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="form-group">
-          <label for="coachName" class="col-sm-2 control-label">Coach Name:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="coachName" ng-model="volunteerCtrl.volunteer.coachName" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="coachEmail" class="col-sm-2 control-label">Coach E-mail:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="coachEmail" ng-model="volunteerCtrl.volunteer.coachEmail" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="positionHeld" class="col-sm-2 control-label">Position Held:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="positionHeld" ng-model="volunteerCtrl.volunteer.positionHeld" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="isjudge" class="col-sm-2 control-label">Is Judge:</label>
-          <div class="col-sm-10">
-            <input type="checkbox" id="isjudge" value="" ng-model="volunteerCtrl.volunteer.isJudge" ng-disabled="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<br /><br />
-
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">Comments:</div>
-  <div class="panel-body">
-    <form class="form-horizontal">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="comment" class="col-sm-1 control-label">Comments:</label>
-          <div class="col-sm-11">
-            <textarea class="form-control" rows="5" id="comment" ng-model="volunteerCtrl.volunteer.comment"  ng-readonly="volunteerCtrl.isReadOnly()"></textarea>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<br /><br />
-
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">Assigned jobs:</div>
-  <div class="list-group">
-    <div class="list-group-item" ng-repeat="slot in volunteerCtrl.slots">
-      <strong>Job title</strong>: {{ volunteerCtrl.getJobTitle(slot.jobID) }} <br />
-      <strong>Start time</strong>: {{ volunteerCtrl.parseTime(slot.start) }} <br />
-      <strong>End time</strong>: {{ volunteerCtrl.parseTime(slot.end) }} <br />
+<div ng-show="volunteerCtrl.doesVolunteerExist()">
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">
+      <span ng-show="volunteerCtrl.isReadOnly()">Viewing Volunteer:</span>
+      <span ng-hide="volunteerCtrl.isReadOnly()">Editing Volunteer:</span>
+      <div class="pull-right"><span ng-show="volunteerCtrl.isReadOnly()"><a href="" ng-click="volunteerCtrl.toggleEdit()">Enter Editing Mode</a> | </span><a href="/volunteers">Back to volunteer list</a></div>
     </div>
-    <div class="panel-body" ng-hide="volunteerCtrl.areThereSlots()">There are currently no assigned jobs for this volunteer.</div>
+    <div class="panel-body">
+      <div class="success" ng-show="volunteerCtrl.isSuccess()">You have successfully updated this volunteer.<br /><br /></div>
+      <div class="warning" ng-show="volunteerCtrl.isError()">You must fill out all of the required fields.<br /><br /></div>
+      <form class="form-horizontal">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">First Name:&nbsp;<label class="control-label2">*</label></label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="firstName" ng-model="volunteerCtrl.volunteer.firstName" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastName" class="col-sm-3 control-label">Last Name:&nbsp;<label class="control-label2">*</label></label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="lastName" ng-model="volunteerCtrl.volunteer.lastName" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="assoc" class="col-sm-3 control-label">Assoc:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="assoc" ng-model="volunteerCtrl.volunteer.assoc" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-sm-3 control-label">E-mail:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="email" ng-model="volunteerCtrl.volunteer.email" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone" class="col-sm-3 control-label">Phone:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="phone" ng-model="volunteerCtrl.volunteer.phone" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="workPhone" class="col-sm-3 control-label">Work Phone:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="workPhone" ng-model="volunteerCtrl.volunteer.workPhone" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fax" class="col-sm-3 control-label">Fax:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="fax" ng-model="volunteerCtrl.volunteer.fax" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <label for="street1" class="col-sm-2 control-label">Street 1:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="street1" ng-model="volunteerCtrl.volunteer.street1" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="street2" class="col-sm-2 control-label">Street 2:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="street2" ng-model="volunteerCtrl.volunteer.street2" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="city" ng-model="volunteerCtrl.volunteer.city" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="state" class="col-sm-2 control-label">State:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="state" ng-model="volunteerCtrl.volunteer.state" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="zip" class="col-sm-2 control-label">ZIP Code:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="zip" ng-model="volunteerCtrl.volunteer.zip" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="country" class="col-sm-2 control-label">Country:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="country" ng-model="volunteerCtrl.volunteer.country" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="region" class="col-sm-2 control-label">Region:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="region" ng-model="volunteerCtrl.volunteer.region" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">Experience:</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="assocExp" class="col-sm-3 control-label">Association Experience:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="assocExp" ng-model="volunteerCtrl.volunteer.assocExp" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="coachExp" class="col-sm-3 control-label">Coach Experience:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="coachExp" ng-model="volunteerCtrl.volunteer.coachExp" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="memberExp" class="col-sm-3 control-label">Member Experience:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="memberExp" ng-model="volunteerCtrl.volunteer.memberExp" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="problem" class="col-sm-3 control-label">Problem:</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="problem" ng-model="volunteerCtrl.volunteer.problem" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="division" class="col-sm-3 control-label">Division:</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="division" ng-model="volunteerCtrl.volunteer.division" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <label for="jobPreference1" class="col-sm-2 control-label">Job Preference 1:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="jobPreference1" ng-model="volunteerCtrl.volunteer.jobPreference1" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="jobpreference2" class="col-sm-2 control-label">Job Preference 2:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="jobPreference2" ng-model="volunteerCtrl.volunteer.jobPreference2" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="membershipNumber" class="col-sm-2 control-label">Membership Number:</label>
+            <div class="col-sm-10">
+              <input class="form-control" id="membershipNumber" ng-model="volunteerCtrl.volunteer.membershipNumber" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="current" class="col-sm-2 control-label">Current Problem:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="current" ng-model="volunteerCtrl.volunteer.current" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">School Information:</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="mName" class="col-sm-3 control-label">Name of School:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="mName" ng-model="volunteerCtrl.volunteer.mName" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mRegion" class="col-sm-3 control-label">Region of School:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="mRegion" ng-model="volunteerCtrl.volunteer.mRegion" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="childTeam" class="col-sm-3 control-label">Child's Team:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="childTeam" ng-model="volunteerCtrl.volunteer.childTeam" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tshirtSize" class="col-sm-3 control-label">T-Shirt Size:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="tshirtSize" ng-model="volunteerCtrl.volunteer.tshirtSize" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <label for="coachName" class="col-sm-2 control-label">Coach Name:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="coachName" ng-model="volunteerCtrl.volunteer.coachName" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="coachEmail" class="col-sm-2 control-label">Coach E-mail:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="coachEmail" ng-model="volunteerCtrl.volunteer.coachEmail" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="positionHeld" class="col-sm-2 control-label">Position Held:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="positionHeld" ng-model="volunteerCtrl.volunteer.positionHeld" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="isjudge" class="col-sm-2 control-label">Is Judge:</label>
+            <div class="col-sm-10">
+              <input type="checkbox" id="isjudge" value="" ng-model="volunteerCtrl.volunteer.isJudge" ng-disabled="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">Comments:</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="comment" class="col-sm-1 control-label">Comments:</label>
+            <div class="col-sm-11">
+              <textarea class="form-control" rows="5" id="comment" ng-model="volunteerCtrl.volunteer.comment"  ng-readonly="volunteerCtrl.isReadOnly()"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">Assigned jobs:</div>
+    <div class="list-group">
+      <div class="list-group-item" ng-repeat="slot in volunteerCtrl.slots">
+        <strong>Job title</strong>: {{ volunteerCtrl.getJobTitle(slot.jobID) }} <br />
+        <strong>Start time</strong>: {{ volunteerCtrl.parseTime(slot.start) }} <br />
+        <strong>End time</strong>: {{ volunteerCtrl.parseTime(slot.end) }} <br />
+      </div>
+      <div class="panel-body" ng-hide="volunteerCtrl.areThereSlots()">There are currently no assigned jobs for this volunteer.</div>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="panel panel-default volunteer-create-container">
+    <div class="panel-heading">Administrative Information:</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="username" class="col-sm-3 control-label">Username:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="username" ng-model="volunteerCtrl.volunteer.username" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-sm-3 control-label">Password:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="password" ng-model="volunteerCtrl.volunteer.password" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="submitDate" class="col-sm-3 control-label">Submit Date:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="submitDate" ng-model="volunteerCtrl.volunteer.submitDate" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastModified" class="col-sm-3 control-label">Last Modified:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="lastModified" ng-model="volunteerCtrl.volunteer.lastModified" ng-readonly="volunteerCtrl.isReadOnly()">
+            </div>
+          </div>
+          <br />
+        </div>
+
+        <div ng-hide="volunteerCtrl.isReadOnly()" class="form-group text-center">
+          <button class="btn btn-primary" type="submit" ng-click="volunteerCtrl.updateVolunteer()" name="submit">Update Volunteer</button>
+          <button class="btn btn-danger" type="submit" ng-click="volunteerCtrl.cancelUpdates()" name="cancel">Cancel Changes</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
-<br /><br />
-
-<div class="panel panel-default volunteer-create-container">
-  <div class="panel-heading">Administrative Information:</div>
+<div class="panel panel-default volunteer-container" ng-hide="volunteerCtrl.doesVolunteerExist()">
+  <div class="panel-heading">Viewing Volunteer:</div>
   <div class="panel-body">
-    <form class="form-horizontal">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="username" class="col-sm-3 control-label">Username:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="username" ng-model="volunteerCtrl.volunteer.username" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="password" class="col-sm-3 control-label">Password:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="password" ng-model="volunteerCtrl.volunteer.password" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="submitDate" class="col-sm-3 control-label">Submit Date:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="submitDate" ng-model="volunteerCtrl.volunteer.submitDate" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="lastModified" class="col-sm-3 control-label">Last Modified:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="lastModified" ng-model="volunteerCtrl.volunteer.lastModified" ng-readonly="volunteerCtrl.isReadOnly()">
-          </div>
-        </div>
-        <br />
-      </div>
-
-      <div ng-hide="volunteerCtrl.isReadOnly()" class="form-group text-center">
-        <button class="btn btn-primary" type="submit" ng-click="volunteerCtrl.updateVolunteer()" name="submit">Update Volunteer</button>
-        <button class="btn btn-danger" type="submit" ng-click="volunteerCtrl.cancelUpdates()" name="cancel">Cancel Changes</button>
-      </div>
-    </form>
+    This volunteer does not exist.
   </div>
 </div>

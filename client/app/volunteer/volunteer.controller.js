@@ -98,7 +98,10 @@ angular.module('ulyssesApp')
         return title;
       }
 
+      self.exists = false;
+
       self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
+        self.exists = true;
         self.volunteer.slots.forEach(function(data) {
           console.log("id: ", data);
           Slot.get({id: data}).$promise.then(function(results) {
@@ -110,6 +113,12 @@ angular.module('ulyssesApp')
           });
         });
       });
+
+      self.doesVolunteerExist = function() {
+        if(self.volunteer) {
+          return self.exists;
+        }
+      }
 
       self.areThereSlots = function() {
         if(self.slots) {

@@ -1,4 +1,4 @@
-<div class="job-container">
+<div class="job-container" ng-show="jobCtrl.doesJobExist()">
   <div class="panel panel-default">
     <div class="panel-heading">Job Info:
       <div class="pull-right"><span ng-show="jobCtrl.isReadOnly()"><a href="" ng-click="jobCtrl.toggleEdit()">Enter Editing Mode</a> | </span><a href="/jobs">Back to job list</a></div>
@@ -36,5 +36,12 @@
       </div>
     </div>
     <div class="panel-body" ng-hide="jobCtrl.areThereSlotsHere()">There are currently no time slots created for this job.</div>
+  </div>
+</div>
+
+<div class="panel panel-default job-container" ng-hide="jobCtrl.doesJobExist()">
+  <div class="panel-heading">Job Info:</div>
+  <div class="panel-body">
+    This job does not exist.
   </div>
 </div>

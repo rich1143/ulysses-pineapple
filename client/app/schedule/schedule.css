@@ -1,4 +1,10 @@
 .schedule-container {
+  width: 60%;
+  margin: 0 auto;
+  min-width: 300px;
+}
+
+.schedule-container-big {
   width: 80%;
   margin: 0 auto;
   min-width: 300px;

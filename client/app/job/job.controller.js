@@ -58,8 +58,6 @@ angular.module('ulyssesApp')
         }
       }
 
-
-
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
@@ -83,8 +81,17 @@ angular.module('ulyssesApp')
       }
 
     } else if($state.current.name == "job-detail") {
-      self.job = Job.get({id: $stateParams.id});
+      self.exists = false;
+      self.job = Job.get({id: $stateParams.id}, function(results) {
+        self.exists = true;
+      });
       self.slots = Slot.query({jobID: $stateParams.id});
+
+      self.doesJobExist = function() {
+        if(self.job) {
+          return self.exists;
+        }
+      }
 
       self.parseTime = function(time) {
         if(time) {

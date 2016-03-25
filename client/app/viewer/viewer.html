@@ -1,10 +1,12 @@
-<div class="panel panel-default viewer-container">
+<div ng-show="viewerCtrl.areThereVolunteers()">
+  <div class="panel panel-default viewer-container">
     <div class="panel-heading">Search for a specific volunteer:</div>
     <div class="panel-body text-center">
       <input type="search" ng-model="search.firstName" placeholder="filter volunteer by first name" aria-label="filter volunteer" class="filtering"/>
       <input type="search" ng-model="search.lastName" placeholder="filter volunteer by last name" aria-label="filter volunteer" class="filtering" />
     </div>
   </div><br />
+</div>
 <div class="panel panel-default viewer-container">
   <div class="panel-heading">List of all volunteers:</div>
   <div class="list-group">

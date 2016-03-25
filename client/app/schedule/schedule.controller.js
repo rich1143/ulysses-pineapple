@@ -13,6 +13,20 @@ angular.module('ulyssesApp')
       console.log(self.width);
     });
 
+    self.areThereJobs = function() {
+      if(self.jobs) {
+        return !(self.jobs.length == 0);
+      }
+    }
+
+    self.getClass = function() {
+      if(self.areThereJobs()) {
+        return "schedule-container-big";
+      } else {
+        return "schedule-container";
+      }
+    }
+
     self.getRow = function(time) {
       console.log("Run once");
       var result = {"slots" : []};
