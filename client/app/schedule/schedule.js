@@ -7,6 +7,7 @@ angular.module('ulyssesApp')
         url: '/schedule',
         templateUrl: 'app/schedule/schedule.html',
         controller: 'ScheduleCtrl',
-        controllerAs: 'scheduleCtrl'
+        controllerAs: 'scheduleCtrl',
+        authenticate: 'organizer'
       });
   });
