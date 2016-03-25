@@ -49,39 +49,26 @@ angular.module('ulyssesApp')
       //checks to see if two time slots overlap
     self.isConflict = function(slot1, slot2) {
       var start1 = parseInt(slot1.start);
-      console.log(start1);
       var end1 = parseInt(slot1.end);
-      console.log(end1);
       var start2 = parseInt(slot2.start);
-      console.log(start2);
       var end2 = parseInt(slot2.end);
-      console.log(end2);
-      console.log("running");
       if((start1 <= start2 && start2 <= end1)) {
         console.log("scenario1");
         return true;
-
       }
       else if(start2 <= start1 && start1 <= end2) {
         console.log("scenario2");
         return true;
-
       }
       else if(start1 == start2 && end1 == end2)
       {
         console.log("scenario3");
         return true;
-
       } else {
         console.log("scenario4");
         return false;
       }
     }
-
-    //Async.series(){
-    //
-    //
-    //}
 
     self.conflictLoop = function(slot1, volunteerid, callback) {
       Volunteer.get({id: volunteerid }, function(results) {
@@ -201,7 +188,6 @@ angular.module('ulyssesApp')
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
           self.conflictLoop(self.slot, self.volunteer, function(success) {
             if(success === true) {
-              console.log("This returned true");
               self.error = true;
               self.success = false;
               self.errorMessage = "This person is already assigned to a time slot during this time period.";
