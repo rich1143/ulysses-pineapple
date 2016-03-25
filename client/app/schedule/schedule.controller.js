@@ -24,7 +24,13 @@ angular.module('ulyssesApp')
             slots.forEach(function(slot) {
               if(slot.start <= time && time <= slot.end) {
                 //console.log("YES");
-                result["slots"].push({"id" : slot._id, "jobID" : job._id});
+                var vols = [];
+                slot.volunteers.forEach(function(volunteer) {
+                  Volunteer.get({id: volunteer}, function(results3) {
+                    vols.push(results3);
+                  });
+                });
+                result["slots"].push({"id" : slot._id, "jobID" : job._id, "volunteers" : vols});
               } else {
                 //console.log("NO");
               }
@@ -39,8 +45,13 @@ angular.module('ulyssesApp')
       if (data) {
         var data2 = "";
         data.forEach(function (element) {
+          var returnData = [];
           if (element["jobID"] == jobID) {
-            data2 = element["id"];
+            element["volunteers"].forEach(function(volunteer) {
+              var vol = volunteer.firstName + " " + volunteer.lastName;
+              returnData.push(vol);
+            })
+            data2 = returnData;
           }
         });
 
@@ -71,33 +82,6 @@ angular.module('ulyssesApp')
 
 
     if($state.current.name == "schedule") {
-
-      self.createSchedule = function() {
-
-        Job.query({}, function(results) {
-          var jobs = results;
-          console.log("jobs: ", jobs);
-          self.times.forEach(function(time) {
-            console.log("Time: ", time);
-            jobs.forEach(function(job) {
-              console.log("job: ", job, "time: ", time);
-              Slot.query({jobID: job._id}, function(results2) {
-                var slots = results2;
-                slots.forEach(function(slot) {
-                  if(slot.start <= time && time <= slot.end) {
-                    self.data["times"].push(time);
-                    //self.data.push({"time" : time,  : true});
-                  } else {
-                    self.data["times"].push(time);
-                    //self.data.push({"time" : time});
-                  }
-                });
-              });
-            });
-
-          });
-        });
-      }
 
       self.hasTime = function(jobid, time) {
         Slot.query({jobID: jobid}, function(results) {
