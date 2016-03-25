@@ -1,4 +1,4 @@
-<div class="slot-container">
+<div class="slot-container" ng-show="slotCtrl.doesSlotExist()">
   <div class="panel panel-default">
     <div class="panel-heading">Slot Info:
       <div class="pull-right"><a href="/slots">Back to slot list</a></div>
@@ -7,7 +7,8 @@
       <strong>Job title</strong>: {{ slotCtrl.getJobTitle(slotCtrl.slot.jobID) }} <br />
       <strong>Start time</strong>: {{ slotCtrl.parseTime(slotCtrl.slot.start) }} <br />
       <strong>End time</strong>: {{ slotCtrl.parseTime(slotCtrl.slot.end) }} <br />
-      <strong>Volunteers needed</strong>: {{ slotCtrl.slot.volunteersNeeded }} <br />
+      <strong>Volunteers needed for slot</strong>: {{ slotCtrl.slot.volunteersNeeded }} <br />
+      <strong>Volunteers still needed</strong>: {{ slotCtrl.slot.left }} <br />
     </div>
   </div>
 
@@ -41,5 +42,9 @@
   </div>
 </div>
 
-
-
+<div class="panel panel-default slot-container" ng-hide="slotCtrl.doesSlotExist()">
+  <div class="panel-heading">Slot Info:</div>
+  <div class="panel-body">
+    This time slot does not exist.
+  </div>
+</div>

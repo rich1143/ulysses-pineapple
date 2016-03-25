@@ -69,8 +69,21 @@ angular.module('ulyssesApp')
       });
 
       self.parseTime = function(time) {
-        var strTime = time.toString();
-        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+        if(time) {
+          var strTime = "";
+          if(time >= 1300) {
+            time = time - 1200;
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " PM";
+          } else {
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " AM";
+          }
+
+          return strTime;
+        }
       }
 
       self.getJobTitle = function(name) {
@@ -85,7 +98,10 @@ angular.module('ulyssesApp')
         return title;
       }
 
+      self.exists = false;
+
       self.volunteer = Volunteer.get({id: $stateParams.id}, function (response) {
+        self.exists = true;
         self.volunteer.slots.forEach(function(data) {
           console.log("id: ", data);
           Slot.get({id: data}).$promise.then(function(results) {
@@ -97,6 +113,12 @@ angular.module('ulyssesApp')
           });
         });
       });
+
+      self.doesVolunteerExist = function() {
+        if(self.volunteer) {
+          return self.exists;
+        }
+      }
 
       self.areThereSlots = function() {
         if(self.slots) {

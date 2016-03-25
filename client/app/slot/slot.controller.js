@@ -27,13 +27,24 @@ angular.module('ulyssesApp')
     });
 
     self.parseTime = function(time) {
-      if (time) {
-        var strTime = time.toString();
-        return strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+      if(time) {
+        var strTime = "";
+        if(time >= 1300) {
+          time = time - 1200;
+          strTime = time.toString();
+          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+          strTime = strTime + " PM";
+        } else {
+          strTime = time.toString();
+          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+          strTime = strTime + " AM";
+        }
+
+        return strTime;
       }
     }
 
-    //checks to see if two time slots overlap
+      //checks to see if two time slots overlap
     self.isConflict = function(slot1, slot2) {
       var start1 = parseInt(slot1.start);
       console.log(start1);
@@ -86,8 +97,6 @@ angular.module('ulyssesApp')
           return false;
 
       })
-
-      //var slot1 = Slot.get({id: slotid});
     }
 
     self.getJobTitle = function(name) {
@@ -97,7 +106,7 @@ angular.module('ulyssesApp')
         if(job.id == name) {
           title = job.title;
         }
-1
+
       });
       return title;
     }
@@ -108,6 +117,7 @@ angular.module('ulyssesApp')
         self.data = results;
         self.data.forEach(function(slot) {
           slot["jobTitle"] = self.getJobTitle(slot.jobID);
+          slot["left"] = slot.volunteersNeeded - slot.volunteers.length;
         })
       }, function (error) {
         console.log("ERROR");
@@ -146,7 +156,10 @@ angular.module('ulyssesApp')
 
     } else if ($state.current.name == "slot-detail") {
       self.vols = [];
+      self.exists = false;
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
+        self.exists = true;
+        self.slot["left"] = self.slot.volunteersNeeded - self.slot.volunteers.length;
         var vols = self.slot.volunteers;
         vols.forEach(function(data) {
           Volunteer.get({id: data}).$promise.then(function(results) {
@@ -156,6 +169,12 @@ angular.module('ulyssesApp')
         });
       });
       self.volunteers = Volunteer.query();
+
+      self.doesSlotExist = function () {
+        if(self.slot) {
+          return self.exists;
+        }
+      }
 
       self.areThereAssignees = function() {
         if(self.vols) {
@@ -170,33 +189,39 @@ angular.module('ulyssesApp')
       }
 
       self.addVolunteer = function() {
-
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
-         // if(self.conflictLoop(self.slot, self.volunteer)) {
-              console.log("arg");
-              self.slot.volunteers.push(self.volunteer);
-              //console.log(self.slot);
-              Slot.update({id: $stateParams.id}, self.slot);
 
-              Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                //console.log("async finished");
-                self.vols.push(results);
-                var vol = results;
-                vol.slots.push(self.slot._id);
-                Volunteer.update({id: vol._id}, vol);
-                self.success = true;
-                self.error = false;
-              }, function (error) {
-                console.log("ERROR");
-              });
-         //  }
-          } else {
-            console.log("err");
+          if (self.vols.length >= self.slot.volunteersNeeded) {
             self.error = true;
+            self.errorMessage = "You cannot add more volunteers than needed.";
             self.success = false;
-            self.errorMessage = "You have already added this volunteer to this time slot.";
-          }
+          } else {
 
+            self.slot.volunteers.push(self.volunteer);
+            self.slot.left--;
+            console.log(self.slot);
+            Slot.update({id: $stateParams.id}, self.slot);
+
+            Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+              console.log("async finished");
+              self.vols.push(results);
+              var vol = results;
+              vol.slots.push(self.slot._id);
+              Volunteer.update({id: vol._id}, vol);
+              self.success = true;
+              self.error = false;
+            }, function (error) {
+              console.log("ERROR");
+            });
+          }
+        }
+        else
+        {
+          console.log("err");
+          self.error = true;
+          self.success = false;
+          self.errorMessage = "You have already added this volunteer to this time slot.";
+        }
       }
 
       self.removeVolunteer = function(volunteer) {
@@ -221,6 +246,8 @@ angular.module('ulyssesApp')
             Volunteer.update({id: volunteer._id}, vol);
           });
 
+          self.slot.left++;
+
           var index = self.vols.indexOf(volunteer);
           if(index > -1) {
             self.vols.splice(index, 1);
@@ -240,6 +267,7 @@ angular.module('ulyssesApp')
       self.jobs = Job.query();
       self.error = false;
       self.success = false;
+      self.errorMessage = "";
 
       self.canCreate = function () {
         if(self.jobs) {
@@ -250,22 +278,38 @@ angular.module('ulyssesApp')
       self.createSlot = function () {
         console.log("clicked submit!");
 
-        if(self.start && self.jobtitle && self.end && self.volunteersNeeded) {
-          console.log(self.volunteer);
-          Slot.save({ start: self.start, end: self.end, volunteers: [], volunteersNeeded: self.volunteersNeeded, jobID: self.jobtitle, createdBy: Auth.getCurrentUser()._id });
-          self.error = false;
-          self.jobtitle = "";
-          self.start = "";
-          self.end = "";
-          self.volunteersNeeded = "";
-          self.success = true;
+        if (self.start && self.jobtitle && self.end && self.volunteersNeeded) {
+          if(parseInt(self.start) < parseInt(self.end)) {
+            console.log(self.volunteer);
+            Slot.save({
+              start: self.start,
+              end: self.end,
+              volunteers: [],
+              volunteersNeeded: self.volunteersNeeded,
+              jobID: self.jobtitle,
+              createdBy: Auth.getCurrentUser()._id
+            });
+            self.error = false;
+            self.jobtitle = "";
+            self.start = "";
+            self.end = "";
+            self.volunteersNeeded = "";
+            self.success = true;
+          } else if(parseInt(self.start) == parseInt(self.end)) {
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "Your start time and end time cannot be the same.";
+          } else {
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "Your start time and end time are not in chronological order.";
+          }
         } else {
           self.error = true;
           self.success = false;
+          self.errorMessage = "You must fill out all of the required fields.";
         }
 
       }
-
-
     }
   });

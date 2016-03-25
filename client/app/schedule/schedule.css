@@ -3,3 +3,21 @@
   margin: 0 auto;
   min-width: 300px;
 }
+
+.schedule-container-big {
+  width: 80%;
+  margin: 0 auto;
+  min-width: 300px;
+}
+
+.col {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.list-group-item-information {
+  color: #000;
+  background-color: #d9edf7;
+}
