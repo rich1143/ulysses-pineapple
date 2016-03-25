@@ -56,39 +56,31 @@ angular.module('ulyssesApp')
     }
 
     self.displaySlot = function(jobID, data) {
-      if (data) {
-        var data2 = "";
-        data.forEach(function (element) {
-          var returnData = [];
-          if (element["jobID"] == jobID) {
+      if(data) {
+        var returnData = [];
+        data.forEach(function(element) {
+          if(element["jobID"] == jobID) {
             element["volunteers"].forEach(function(volunteer) {
+              console.log("test");
               var vol = volunteer.firstName + " " + volunteer.lastName;
               returnData.push(vol);
-            })
-            data2 = returnData;
+            });
           }
         });
 
-        return data2;
-      }
-    }
-
-    self.cleanNames = function(volunteers) {
-      var string = "";
-      if(volunteers) {
-        volunteers.sort();
-        for(var i = 0; i < volunteers.length; i++) {
-          if(i == volunteers.length - 1) {
-            string = string + volunteers[i];
+        returnData.sort();
+        var string = "";
+        for(var i = 0; i < returnData.length; i++) {
+          if(i == returnData.length - 1) {
+            string = string + returnData[i];
           } else {
-            string = string + volunteers[i] + ", ";
+            string = string + returnData[i] + ", ";
           }
         }
         return string;
       }
     }
-
-
+    
     self.parseTime = function(time) {
       if(time) {
         var strTime = "";
