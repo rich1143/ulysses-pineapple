@@ -117,6 +117,7 @@ angular.module('ulyssesApp')
         self.data = results;
         self.data.forEach(function(slot) {
           slot["jobTitle"] = self.getJobTitle(slot.jobID);
+          slot["left"] = slot.volunteersNeeded - slot.volunteers.length;
         })
       }, function (error) {
         console.log("ERROR");
@@ -158,6 +159,7 @@ angular.module('ulyssesApp')
       self.exists = false;
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
         self.exists = true;
+        self.slot["left"] = self.slot.volunteersNeeded - self.slot.volunteers.length;
         var vols = self.slot.volunteers;
         vols.forEach(function(data) {
           Volunteer.get({id: data}).$promise.then(function(results) {
@@ -196,6 +198,7 @@ angular.module('ulyssesApp')
           } else {
 
             self.slot.volunteers.push(self.volunteer);
+            self.slot.left--;
             console.log(self.slot);
             Slot.update({id: $stateParams.id}, self.slot);
 
@@ -242,6 +245,8 @@ angular.module('ulyssesApp')
             console.log("updating");
             Volunteer.update({id: volunteer._id}, vol);
           });
+
+          self.slot.left++;
 
           var index = self.vols.indexOf(volunteer);
           if(index > -1) {

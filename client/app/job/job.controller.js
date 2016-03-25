@@ -85,7 +85,12 @@ angular.module('ulyssesApp')
       self.job = Job.get({id: $stateParams.id}, function(results) {
         self.exists = true;
       });
-      self.slots = Slot.query({jobID: $stateParams.id});
+      Slot.query({jobID: $stateParams.id}, function(response) {
+        self.slots = response;
+        self.slots.forEach(function(slot) {
+          slot["left"] = slot.volunteersNeeded - slot.volunteers.length;
+        });
+      });
 
       self.doesJobExist = function() {
         if(self.job) {

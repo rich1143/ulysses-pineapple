@@ -7,7 +7,8 @@
       <strong>Job title</strong>: {{ slotCtrl.getJobTitle(slotCtrl.slot.jobID) }} <br />
       <strong>Start time</strong>: {{ slotCtrl.parseTime(slotCtrl.slot.start) }} <br />
       <strong>End time</strong>: {{ slotCtrl.parseTime(slotCtrl.slot.end) }} <br />
-      <strong>Volunteers needed</strong>: {{ slotCtrl.slot.volunteersNeeded }} <br />
+      <strong>Volunteers needed for slot</strong>: {{ slotCtrl.slot.volunteersNeeded }} <br />
+      <strong>Volunteers still needed</strong>: {{ slotCtrl.slot.left }} <br />
     </div>
   </div>
 

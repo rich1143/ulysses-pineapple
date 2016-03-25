@@ -30,7 +30,8 @@
         <a ng-href="/slots/{{slot._id}}" class="group-item">
           <strong>Start time</strong>: {{ jobCtrl.parseTime(slot.start) }} <br />
           <strong>End time</strong>: {{ jobCtrl.parseTime(slot.end) }} <br />
-          <strong>Volunteers needed</strong>: {{ slot.volunteersNeeded }} <br />
+          <strong>Volunteers needed for slot</strong>: {{ slot.volunteersNeeded }} <br />
+          <strong>Volunteers still neeeded</strong>: {{ slot.left }} <br />
         </a>
         <a ng-click="jobCtrl.removeSlot(slot)" ng-href="" class="btn btn-sm btn-danger group-item-remove"><span class="glyphicon glyphicon-trash"></span></a>
       </div>
