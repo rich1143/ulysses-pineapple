@@ -155,7 +155,9 @@ angular.module('ulyssesApp')
 
     } else if ($state.current.name == "slot-detail") {
       self.vols = [];
+      self.exists = false;
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
+        self.exists = true;
         var vols = self.slot.volunteers;
         vols.forEach(function(data) {
           Volunteer.get({id: data}).$promise.then(function(results) {
@@ -165,6 +167,12 @@ angular.module('ulyssesApp')
         });
       });
       self.volunteers = Volunteer.query();
+
+      self.doesSlotExist = function () {
+        if(self.slot) {
+          return self.exists;
+        }
+      }
 
       self.areThereAssignees = function() {
         if(self.vols) {

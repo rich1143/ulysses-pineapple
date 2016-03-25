@@ -1,4 +1,4 @@
-<div class="slot-container">
+<div class="slot-container" ng-show="slotCtrl.doesSlotExist()">
   <div class="panel panel-default">
     <div class="panel-heading">Slot Info:
       <div class="pull-right"><a href="/slots">Back to slot list</a></div>
@@ -41,5 +41,9 @@
   </div>
 </div>
 
-
-
+<div class="panel panel-default slot-container" ng-hide="slotCtrl.doesSlotExist()">
+  <div class="panel-heading">Slot Info:</div>
+  <div class="panel-body">
+    This time slot does not exist.
+  </div>
+</div>
