@@ -59,6 +59,21 @@ angular.module('ulyssesApp')
       }
     }
 
+    self.cleanNames = function(volunteers) {
+      var string = "";
+      if(volunteers) {
+        volunteers.sort();
+        for(var i = 0; i < volunteers.length; i++) {
+          if(i == volunteers.length - 1) {
+            string = string + volunteers[i];
+          } else {
+            string = string + volunteers[i] + ", ";
+          }
+        }
+        return string;
+      }
+    }
+
 
     self.parseTime = function(time) {
       if(time) {
