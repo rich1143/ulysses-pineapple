@@ -1,4 +1,4 @@
-'use strict';
+/* 'use strict';
 
 var app = require('../..');
 import request from 'supertest';
@@ -145,3 +145,4 @@ describe('Team API:', function() {
   });
 
 });
+*/
