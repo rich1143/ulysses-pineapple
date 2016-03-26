@@ -80,7 +80,7 @@ angular.module('ulyssesApp')
         return string;
       }
     }
-    
+
     self.parseTime = function(time) {
       if(time) {
         var strTime = "";

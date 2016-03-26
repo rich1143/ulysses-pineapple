@@ -7,4 +7,15 @@
       <button type="submit" ng-click="uploadCtrl.uploadFile()" name="submit">Upload File</button>
     </form>
   </div>
+</div><br />
+
+<div class="panel panel-default upload-container">
+  <div class="panel-heading">Upload a CSV file containing tournament team information:</div>
+  <div class="panel-body">
+    <div ng-show="uploadCtrl.isUploaded2()">Successfully uploaded!</div>
+    <form ng-hide="uploadCtrl.isUploaded2()">
+      <input type="file" file="uploadCtrl.fileinput2"  /><br />
+      <button type="submit" ng-click="uploadCtrl.uploadTeams()" name="submit">Upload File</button>
+    </form>
+  </div>
 </div>
