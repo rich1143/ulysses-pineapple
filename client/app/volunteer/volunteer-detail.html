@@ -239,9 +239,15 @@
       <form class="form-horizontal">
         <div class="col-sm-12">
           <div class="form-group">
-            <label for="comment" class="col-sm-1 control-label">Comments:</label>
-            <div class="col-sm-11">
+            <label for="comment" class="col-sm-2 control-label">Volunteer Comments:</label>
+            <div class="col-sm-10">
               <textarea class="form-control" rows="5" id="comment" ng-model="volunteerCtrl.volunteer.comment"  ng-readonly="volunteerCtrl.isReadOnly()"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="organizerComment" class="col-sm-2 control-label">Organizer Comments:</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="5" id="organizerComment" ng-model="volunteerCtrl.volunteer.organizerComment"  ng-readonly="volunteerCtrl.isReadOnly()"></textarea>
             </div>
           </div>
         </div>

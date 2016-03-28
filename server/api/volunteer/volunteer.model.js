@@ -38,6 +38,7 @@ var VolunteerSchema = new mongoose.Schema({
   tshirtSize: String,
   positionHeld: String,
   comment: String,
+  organizerComment: String,
   certP1: Boolean,
   certP2: Boolean,
   certP3: Boolean,
