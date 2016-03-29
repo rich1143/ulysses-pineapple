@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('UploadCtrl', function($http, $scope, socket, Upload) {
+  .controller('UploadCtrl', function($http, $scope, socket, Upload, Job, Volunteer, Auth) {
     var self = this;
     var uploaded = false;
     var uploaded2 = false;
@@ -18,6 +18,32 @@ angular.module('ulyssesApp')
             if(response['success']) {
               uploaded = true;
               console.log("Successful upload");
+
+              var jobsToCreate = [];
+
+              var volunteers = Volunteer.query(function() {
+                console.log("Got the things of stuff.");
+
+                //(!title == "" || !title == null) && !title == "No Preference" && !title == "None" && !title == "none"
+
+                volunteers.forEach(function(vol) {
+                  if (vol.jobPreference1.includes("Non-Judging")) {
+                    var title = vol.jobPreference1.substring("Non-Judging".length + 1);
+                    if (title != "" && title != null && title != " " && title != "No Preference" && title != "none" && title != "None" &&
+                      jobsToCreate.indexOf(title) == -1) {
+                      console.log(title);
+                      jobsToCreate.push(title);
+                    }
+                  }
+                });
+
+                jobsToCreate.forEach(function(title) {
+                  var data = {title: title, description: "This job lacks description!", createdBy: Auth.getCurrentUser()._id};
+                  Job.save(data);
+                });
+
+              });
+
             }
           });
         }
@@ -49,4 +75,4 @@ angular.module('ulyssesApp')
     self.isUploaded2 = function() {
       return uploaded2;
     }
-});
+  });
