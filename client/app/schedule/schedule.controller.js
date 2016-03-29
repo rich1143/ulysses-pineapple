@@ -46,7 +46,7 @@ angular.module('ulyssesApp')
           Slot.query({jobID: job._id}, function(results2) {
             var slots = results2;
             slots.forEach(function(slot) {
-              if(slot.start <= time && time <= slot.end) {
+              if(slot.start <= time && time < slot.end) {
                 //console.log("YES");
                 var vols = [];
                 slot.volunteers.forEach(function(volunteer) {
@@ -99,6 +99,10 @@ angular.module('ulyssesApp')
           strTime = time.toString();
           strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
           strTime = strTime + " PM";
+        } else if(time >= 1200) {
+          strTime = time.toString();
+          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+          strTime = strTime + " PM";
         } else {
           strTime = time.toString();
           strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
@@ -113,30 +117,6 @@ angular.module('ulyssesApp')
 
 
     if($state.current.name == "schedule") {
-      console.log(self.slotMode);
-      if(!self.slotMode) {
-
-        self.hasTime = function (jobid, time) {
-          Slot.query({jobID: jobid}, function (results) {
-            var slots = results;
-            var slotsInTime = [];
-
-            slots.forEach(function (slot) {
-              console.log("Checking slot", slot._id, "Start: ", slot.start, " End:", slot.end);
-
-              if (slot.start <= time && time <= slot.end) {
-                slotsInTime.push(slot);
-              } else {
-                //
-              }
-            });
-
-            return slotsInTime;
-          })
-        }
-      }
-
-
 
     }
   });

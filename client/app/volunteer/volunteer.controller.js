@@ -76,6 +76,10 @@ angular.module('ulyssesApp')
             strTime = time.toString();
             strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
             strTime = strTime + " PM";
+          } else if(time >= 1200) {
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " PM";
           } else {
             strTime = time.toString();
             strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
