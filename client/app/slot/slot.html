@@ -3,7 +3,7 @@
     <div class="pull-right"><a href="/slots/create">Add a time slot</a></div>
   </div>
   <div class="list-group">
-    <div class="list-group-item no-padding" ng-repeat="slot in slotCtrl.data">
+    <div class="list-group-item no-padding" ng-repeat="slot in slotCtrl.data | orderBy: '-left'">
       <a ng-href="/slots/{{slot._id}}" class="group-item">
         <strong>Job title</strong>: {{ slotCtrl.getJobTitle(slot.jobID) }} <br />
         <strong>Start time</strong>: {{ slotCtrl.parseTime(slot.start) }} <br />
