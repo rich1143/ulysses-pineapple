@@ -24,7 +24,16 @@ angular.module('ulyssesApp')
 
     console.log($state.current.name);
     if ($state.current.name == "volunteer") {
-      self.data = Volunteer.query();
+      Volunteer.query({}, function(results) {
+        results.forEach(function( volunteer) {
+          if(volunteer.slots.length > 0) {
+            volunteer.hasSchedule = true;
+          } else {
+            volunteer.hasSchedule = false;
+          }
+        });
+        self.data = results;
+      });
 
       self.areThereVolunteers = function() {
         if(self.data) {
@@ -33,7 +42,7 @@ angular.module('ulyssesApp')
       }
 
       self.removeVolunteer = function (volunteer) {
-        if(confirm("Are you sure you want to delete?")) {
+        if(confirm("Are you sure you want to delete this volunteer?")) {
           console.log("Deleting");
 
           volunteer.slots.forEach(function(slot) {
@@ -73,6 +82,10 @@ angular.module('ulyssesApp')
           var strTime = "";
           if(time >= 1300) {
             time = time - 1200;
+            strTime = time.toString();
+            strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+            strTime = strTime + " PM";
+          } else if(time >= 1200) {
             strTime = time.toString();
             strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
             strTime = strTime + " PM";

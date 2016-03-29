@@ -36,6 +36,10 @@ angular.module('ulyssesApp')
           strTime = time.toString();
           strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
           strTime = strTime + " PM";
+        } else if(time >= 1200) {
+          strTime = time.toString();
+          strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
+          strTime = strTime + " PM";
         } else {
           strTime = time.toString();
           strTime = strTime.substring(0, strTime.length / 2) + ":" + strTime.substring(strTime.length / 2, strTime.length);
@@ -264,13 +268,23 @@ angular.module('ulyssesApp')
         }
       }
 
-    } else if($state.current.name == "slot-create") {
+    } else if($state.current.name == "slot-create" || $state.current.name == "slot-create-define") {
 
-      // Get jobs
-      self.jobs = Job.query();
       self.error = false;
       self.success = false;
+      self.singleJob = false;
       self.errorMessage = "";
+
+      // Get jobs
+      if($stateParams.id) {
+        self.singleJob = true;
+        self.job = Job.get({id: $stateParams.id});
+        self.jobs = [self.job];
+        self.errorMessage = "You cannot create a time slot for a non-existent job.";
+      } else {
+        self.jobs = Job.query();
+        self.errorMessage = "There are currently no entered jobs. To create a time slot, you must first create jobs.";
+      }
 
       self.canCreate = function () {
         if(self.jobs) {
@@ -278,9 +292,15 @@ angular.module('ulyssesApp')
         }
       }
 
+      self.isSingleJob = function() {
+        return self.singleJob;
+      }
+
       self.createSlot = function () {
         console.log("clicked submit!");
-
+        if(self.singleJob) {
+          self.jobtitle = self.job._id;
+        }
         if (self.start && self.jobtitle && self.end && self.volunteersNeeded) {
           if(parseInt(self.start) < parseInt(self.end)) {
             console.log(self.volunteer);

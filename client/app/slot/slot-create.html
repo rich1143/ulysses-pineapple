@@ -1,18 +1,22 @@
 <div class="panel panel-default slot-container">
   <div class="panel-heading">Create a time slot:</div>
   <div class="panel-body" ng-hide="slotCtrl.canCreate()">
-    There are currently no entered jobs. To create a time slot, you must first create jobs.
+    {{ slotCtrl.errorMessage }}
   </div>
   <div class="panel-body" ng-show="slotCtrl.canCreate()">
     Create a time slot here. You can assign a job to this time slot and how many volunteers are needed for this.<br /><br />
     <div class="success" ng-show="slotCtrl.isSuccess()">You have successfully entered a time slot.<br /><br /></div>
     <div class="warning" ng-show="slotCtrl.isError()">{{ slotCtrl.errorMessage }}<br /><br /></div>
     <form>
-      <div class="form-group">
+      <div class="form-group" ng-hide="slotCtrl.isSingleJob()">
         <label for="jobtitle">Job Title</label><br />
         <select id="jobtitle" name="jobtitle" ng-model="slotCtrl.jobtitle" required>
           <option ng-repeat="job in slotCtrl.jobs" value="{{ job._id }}" >{{ job.title }}</option>
         </select>
+      </div>
+      <div class="form-group" ng-show="slotCtrl.isSingleJob()">
+        <label for="jobtitle">Job Title</label><br />
+          {{ slotCtrl.job.title }}
       </div>
       <div class="form-group">
         <label for="start">Start Time</label><br />

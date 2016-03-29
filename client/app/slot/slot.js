@@ -10,6 +10,12 @@ angular.module('ulyssesApp')
         controllerAs: 'slotCtrl',
         authenticate: 'organizer'
       }).state('slot-create', {
+        url: '/slots/create/:id',
+        templateUrl: 'app/slot/slot-create.html',
+        controller: 'SlotCtrl',
+        controllerAs: 'slotCtrl',
+        authenticate: 'organizer'
+      }).state('slot-create-define', {
         url: '/slots/create',
         templateUrl: 'app/slot/slot-create.html',
         controller: 'SlotCtrl',
