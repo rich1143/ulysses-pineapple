@@ -3,6 +3,7 @@
 angular.module('ulyssesApp')
   .controller('ScheduleCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer) {
     var self = this;
+    self.slotMode = false;
     self.data = {"times" : []};
     self.times = [800,815,830,845,900,915,930,945,1000,1015,1030,1045,1100,1115,1130,1145,1200,1215,1230,1245,1300,1315,1330,1345,1400,1415,1430,1445,1500,1515,1530,1545,1600,1615,1630,1645,1700,1715,1730,1745,1800];
     //self.times = [800, 815, 830, 845, 1700];
@@ -17,6 +18,15 @@ angular.module('ulyssesApp')
       if(self.jobs) {
         return !(self.jobs.length == 0);
       }
+    }
+
+    self.getSlotMode = function() {
+      return self.slotMode;
+    }
+
+    self.toggleSlotMode = function() {
+      self.slotMode = !self.slotMode;
+      console.log(self.slotMode);
     }
 
     self.getClass = function() {
@@ -103,26 +113,29 @@ angular.module('ulyssesApp')
 
 
     if($state.current.name == "schedule") {
+      console.log(self.slotMode);
+      if(!self.slotMode) {
 
-      self.hasTime = function(jobid, time) {
-        Slot.query({jobID: jobid}, function(results) {
-          var slots = results;
-          var slotsInTime = [];
+        self.hasTime = function (jobid, time) {
+          Slot.query({jobID: jobid}, function (results) {
+            var slots = results;
+            var slotsInTime = [];
 
-          slots.forEach(function(slot) {
-            console.log("Checking slot", slot._id, "Start: ", slot.start, " End:", slot.end);
+            slots.forEach(function (slot) {
+              console.log("Checking slot", slot._id, "Start: ", slot.start, " End:", slot.end);
 
-            if(slot.start <= time && time <= slot.end) {
-              slotsInTime.push(slot);
-            } else {
-              //
-            }
-          });
+              if (slot.start <= time && time <= slot.end) {
+                slotsInTime.push(slot);
+              } else {
+                //
+              }
+            });
 
-          return slotsInTime;
-        })
-
+            return slotsInTime;
+          })
+        }
       }
+
 
 
     }
