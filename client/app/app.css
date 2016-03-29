@@ -57,6 +57,13 @@
   margin-top: -15px;
 }
 
+.group-item-calendar {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  margin-top: -15px;
+}
+
 .group-item {
   display: block;
   padding: 10px 15px;
