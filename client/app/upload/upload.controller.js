@@ -24,11 +24,17 @@ angular.module('ulyssesApp')
               var volunteers = Volunteer.query(function() {
                 console.log("Got the things of stuff.");
 
-                //(!title == "" || !title == null) && !title == "No Preference" && !title == "None" && !title == "none"
-
                 volunteers.forEach(function(vol) {
                   if (vol.jobPreference1.includes("Non-Judging")) {
                     var title = vol.jobPreference1.substring("Non-Judging".length + 1);
+                    if (title != "" && title != null && title != " " && title != "No Preference" && title != "none" && title != "None" &&
+                      jobsToCreate.indexOf(title) == -1) {
+                      console.log(title);
+                      jobsToCreate.push(title);
+                    }
+                  }
+                  if (vol.jobPreference2.includes("Non-Judging")) {
+                    var title = vol.jobPreference2.substring("Non-Judging".length + 1);
                     if (title != "" && title != null && title != " " && title != "No Preference" && title != "none" && title != "None" &&
                       jobsToCreate.indexOf(title) == -1) {
                       console.log(title);
