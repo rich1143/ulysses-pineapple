@@ -74,7 +74,8 @@ angular.module('ulyssesApp')
       }
     }
 
-    self.conflictLoop = function(slot1, volunteerid, callback) {
+    self.conflictLoop = function(slot1, volunteerid) {
+      console.log("test");
       Volunteer.get({id: volunteerid }, function(results) {
         var hasCalledBack = false;
         for(var i = 0; i < results.slots.length; i++)
@@ -188,39 +189,32 @@ angular.module('ulyssesApp')
         }
       }
 
+
       self.addVolunteer = function() {
         if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
-          self.conflictLoop(self.slot, self.volunteer, function(success) {
-            if(success === true) {
-              self.error = true;
-              self.success = false;
-              self.errorMessage = "This person is already assigned to a time slot during this time period.";
-            } else {
-              if (self.vols.length >= self.slot.volunteersNeeded) {
-                self.error = true;
-                self.errorMessage = "You cannot add more volunteers than needed.";
-                self.success = false;
-              } else {
 
-                self.slot.volunteers.push(self.volunteer);
-                self.slot.left--;
-                console.log(self.slot);
-                Slot.update({id: $stateParams.id}, self.slot);
+          if (self.vols.length >= self.slot.volunteersNeeded) {
+            self.error = true;
+            self.errorMessage = "You cannot add more volunteers than needed.";
+            self.success = false;
+          } else {
 
-                Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                  console.log("async finished");
-                  self.vols.push(results);
-                  var vol = results;
-                  vol.slots.push(self.slot._id);
-                  Volunteer.update({id: vol._id}, vol);
-                  self.success = true;
-                  self.error = false;
-                }, function (error) {
-                  console.log("ERROR");
-                });
-              }
-            }
-          });
+            self.slot.volunteers.push(self.volunteer);
+            console.log(self.slot);
+            Slot.update({id: $stateParams.id}, self.slot);
+
+            Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+              console.log("async finished");
+              self.vols.push(results);
+              var vol = results;
+              vol.slots.push(self.slot._id);
+              Volunteer.update({id: vol._id}, vol);
+              self.success = true;
+              self.error = false;
+            }, function (error) {
+              console.log("ERROR");
+            });
+          }
         }
         else
         {
