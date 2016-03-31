@@ -28,7 +28,7 @@ var locationIndex = proxyquire('./index.js', {
   './location.controller': locationCtrlStub
 });
 
-describe('Location API Router:', function() {
+describe('location API Router:', function() {
 
   it('should return an express router instance', function() {
     locationIndex.should.equal(routerStub);

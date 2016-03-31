@@ -3,7 +3,7 @@
   <div class="panel-body">
     Create a job here. These are jobs that will later be used to create time slots for the schedule. <br /><br />
     <div class="success" ng-show="jobCtrl.isSuccess()">You have successfully created a new job.<br /><br /></div>
-    <div class="warning" ng-show="jobCtrl.isError()">You must fill out all of the required fields.<br /><br /></div>
+    <div class="warning" ng-show="jobCtrl.isError()">{{ jobCtrl.errorMessage }}<br /><br /></div>
     <form>
       <div class="form-group">
         <label for="jobtitle">Job Title</label>
@@ -13,7 +13,38 @@
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description" placeholder="Description of the job" ng-model="jobCtrl.description">
       </div>
-      <button type="submit" ng-click="jobCtrl.createJob()" class="btn btn-default">Submit</button>
     </form>
   </div>
 </div>
+
+<br />
+
+<div class="panel panel-default job-container">
+  <div class="panel-heading">Add a location:</div>
+  <div class="panel-body">
+    <form>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" placeholder="Location" ng-model="jobCtrl.location">
+      </div>
+      <button type="submit" ng-click="jobCtrl.addLocation()" class="btn btn-default">Add Location</button>
+    </form>
+  </div>
+</div>
+
+<br />
+
+<div class="panel panel-default job-container">
+  <div class="panel-heading">Locations for this job:</div>
+  <div class="list-group">
+    <div class="list-group-item no-padding" style="" ng-repeat="location in jobCtrl.locations">
+      <div class="group-item">{{ location }}</div>
+      <a ng-click="jobCtrl.removeLocation($index)" ng-href="" class="btn btn-sm btn-danger group-item-remove" style=""><span class="glyphicon glyphicon-trash"></span></a>
+    </div>
+  </div>
+  <div class="panel-body" ng-hide="jobCtrl.areThereLocations()">There are currently no locations defined for this job.</div>
+</div>
+
+<br/>
+
+<div class="text-center"><button type="submit" ng-click="jobCtrl.createJob()" class="btn btn-primary">Create Job</button></div>

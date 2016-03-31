@@ -5,7 +5,7 @@ import request from 'supertest';
 
 var newLocation;
 
-describe('Location API:', function() {
+describe('location API:', function() {
 
   describe('GET /api/locations', function() {
     var locations;
@@ -35,7 +35,7 @@ describe('Location API:', function() {
       request(app)
         .post('/api/locations')
         .send({
-          name: 'New Location',
+          name: 'New location',
           info: 'This is the brand new location!!!'
         })
         .expect(201)
@@ -50,7 +50,7 @@ describe('Location API:', function() {
     });
 
     it('should respond with the newly created location', function() {
-      newLocation.name.should.equal('New Location');
+      newLocation.name.should.equal('New location');
       newLocation.info.should.equal('This is the brand new location!!!');
     });
 
@@ -78,7 +78,7 @@ describe('Location API:', function() {
     });
 
     it('should respond with the requested location', function() {
-      location.name.should.equal('New Location');
+      location.name.should.equal('New location');
       location.info.should.equal('This is the brand new location!!!');
     });
 
@@ -91,7 +91,7 @@ describe('Location API:', function() {
       request(app)
         .put('/api/locations/' + newLocation._id)
         .send({
-          name: 'Updated Location',
+          name: 'Updated location',
           info: 'This is the updated location!!!'
         })
         .expect(200)
@@ -110,7 +110,7 @@ describe('Location API:', function() {
     });
 
     it('should respond with the updated location', function() {
-      updatedLocation.name.should.equal('Updated Location');
+      updatedLocation.name.should.equal('Updated location');
       updatedLocation.info.should.equal('This is the updated location!!!');
     });
 

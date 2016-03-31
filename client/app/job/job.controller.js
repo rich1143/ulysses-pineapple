@@ -6,6 +6,7 @@ angular.module('ulyssesApp')
     self.error = false;
     self.success = false;
     self.readOnly = true;
+    self.locations = [];
 
     self.isSuccess = function () {
       return self.success;
@@ -13,6 +14,17 @@ angular.module('ulyssesApp')
 
     self.isError = function () {
       return self.error;
+    }
+
+    self.addLocation = function() {
+      self.locations.push(self.location);
+      self.location = "";
+    }
+
+    self.areThereLocations = function() {
+      if(self.locations) {
+        return !(self.locations.length == 0);
+      }
     }
 
     if($state.current.name == "job") {
@@ -62,20 +74,32 @@ angular.module('ulyssesApp')
       self.jobtitle = "";
       self.description = "";
 
+      self.removeLocation = function(index) {
+        self.locations.splice(index, 1);
+      }
+
       self.createJob = function() {
         if(self.jobtitle.length >= 1 && self.description.length >=1) {
-          console.log("Clicked submit!");
+          if(self.locations.length >= 1) {
+            console.log("Clicked submit!");
 
-          var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id };
-          Job.save(data);
+            var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id };
+            Job.save(data);
 
-          self.jobtitle = "";
-          self.description = "";
-          self.error = false;
-          self.success = true;
+            self.jobtitle = "";
+            self.description = "";
+            self.locations = [];
+            self.error = false;
+            self.success = true;
+          } else {
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "You must enter at least one location for this job."
+          }
         } else {
           self.error = true;
           self.success = false;
+          self.errorMessage = "You must fill out all of the required fields.";
         }
 
       }

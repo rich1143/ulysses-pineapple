@@ -66,7 +66,7 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
-// Gets a single Location from the DB
+// Gets a single location from the DB
 export function show(req, res) {
   Location.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
@@ -74,14 +74,14 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
-// Creates a new Location in the DB
+// Creates a new location in the DB
 export function create(req, res) {
   Location.createAsync(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing Location in the DB
+// Updates an existing location in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
@@ -93,7 +93,7 @@ export function update(req, res) {
     .catch(handleError(res));
 }
 
-// Deletes a Location from the DB
+// Deletes a location from the DB
 export function destroy(req, res) {
   Location.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
