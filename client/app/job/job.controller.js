@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer) {
+  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer, Location) {
     var self = this;
     self.error = false;
     self.success = false;
@@ -17,8 +17,10 @@ angular.module('ulyssesApp')
     }
 
     self.addLocation = function() {
-      self.locations.push(self.location);
-      self.location = "";
+      if(self.location.length >= 1) {
+        self.locations.push(self.location);
+        self.location = "";
+      }
     }
 
     self.areThereLocations = function() {
@@ -78,19 +80,36 @@ angular.module('ulyssesApp')
         self.locations.splice(index, 1);
       }
 
+      self.createLocations = function(callback) {
+        var inc = 0;
+        var data = [];
+        self.locations.forEach(function(location) {
+          var loc = new Location({name: location});
+          loc.$save(function(item, response) {
+            inc++;
+            data.push(item._id);
+            if(inc == self.locations.length) {
+              callback(data);
+            }
+          });
+        });
+      }
+
       self.createJob = function() {
         if(self.jobtitle.length >= 1 && self.description.length >=1) {
           if(self.locations.length >= 1) {
             console.log("Clicked submit!");
 
-            var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id };
-            Job.save(data);
+            self.createLocations(function(data2) {
+              var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: data2 };
+              Job.save(data);
 
-            self.jobtitle = "";
-            self.description = "";
-            self.locations = [];
-            self.error = false;
-            self.success = true;
+              self.jobtitle = "";
+              self.description = "";
+              self.locations = [];
+              self.error = false;
+              self.success = true;
+            });
           } else {
             self.error = true;
             self.success = false;
@@ -108,6 +127,11 @@ angular.module('ulyssesApp')
       self.exists = false;
       self.job = Job.get({id: $stateParams.id}, function(results) {
         self.exists = true;
+        results.locations.forEach(function(location) {
+          Location.get({id: location}, function(results2) {
+            self.locations.push(results2);
+          });
+        });
       });
       Slot.query({jobID: $stateParams.id}, function(response) {
         self.slots = response;
@@ -142,6 +166,10 @@ angular.module('ulyssesApp')
 
           return strTime;
         }
+      }
+
+      self.removeLocation = function(location, index) {
+        console.log(index);
       }
 
       self.removeSlot = function (slot) {
