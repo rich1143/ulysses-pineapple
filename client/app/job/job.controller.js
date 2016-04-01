@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer, Location) {
+  .controller('JobCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer, Location, $anchorScroll, $timeout) {
     var self = this;
     self.error = false;
     self.success = false;
@@ -16,17 +16,28 @@ angular.module('ulyssesApp')
       return self.error;
     }
 
-    self.addLocation = function() {
-      if(self.location.length >= 1) {
-        self.locations.push(self.location);
-        self.location = "";
-      }
-    }
-
     self.areThereLocations = function() {
       if(self.locations) {
         return !(self.locations.length == 0);
       }
+    }
+
+    self.createLocations = function(loc2, callback) {
+      var inc = 0;
+      var data = [];
+      console.log("Loc: " + loc2);
+      loc2.forEach(function(location) {
+        console.log("New!");
+        var loc = new Location({name: location});
+        loc.$save(function(item, response) {
+          console.log("saved");
+          inc++;
+          data.push(item);
+          if(inc == loc2.length) {
+            callback(data);
+          }
+        });
+      });
     }
 
     if($state.current.name == "job") {
@@ -76,23 +87,15 @@ angular.module('ulyssesApp')
       self.jobtitle = "";
       self.description = "";
 
-      self.removeLocation = function(index) {
-        self.locations.splice(index, 1);
+      self.addLocation = function() {
+        if(self.location.length >= 1) {
+          self.locations.push(self.location);
+          self.location = "";
+        }
       }
 
-      self.createLocations = function(callback) {
-        var inc = 0;
-        var data = [];
-        self.locations.forEach(function(location) {
-          var loc = new Location({name: location});
-          loc.$save(function(item, response) {
-            inc++;
-            data.push(item._id);
-            if(inc == self.locations.length) {
-              callback(data);
-            }
-          });
-        });
+      self.removeLocation = function(index) {
+        self.locations.splice(index, 1);
       }
 
       self.createJob = function() {
@@ -100,8 +103,12 @@ angular.module('ulyssesApp')
           if(self.locations.length >= 1) {
             console.log("Clicked submit!");
 
-            self.createLocations(function(data2) {
-              var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: data2 };
+            self.createLocations(self.locations, function(data2) {
+              var dt = [];
+              data2.forEach(function(data) {
+                dt.push(data._id);
+              });
+              var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: dt };
               Job.save(data);
 
               self.jobtitle = "";
@@ -124,6 +131,7 @@ angular.module('ulyssesApp')
       }
 
     } else if($state.current.name == "job-detail") {
+      self.newLocations = [];
       self.exists = false;
       self.job = Job.get({id: $stateParams.id}, function(results) {
         self.exists = true;
@@ -168,16 +176,88 @@ angular.module('ulyssesApp')
         }
       }
 
-      self.removeLocation = function(location) {
-        var index = self.job.locations.indexOf(location._id);
-        if(index > -1) {
-          self.job.locations.splice(index, 1);
+      self.addLocation = function() {
+        console.log("Adding location");
+        if(self.location.length >= 1) {
+          self.locations.push({"name" : self.location});
+          self.newLocations.push(self.location);
+          self.location = "";
         }
-        Job.update({id: self.job._id}, self.job);
+      }
 
-        var index = self.locations.indexOf(location);
-        if(index > -1) {
-          self.locations.splice(index, 1);
+      self.checkForLocationUsage = function(location, callback) {
+        var hasCalledBack = false;
+        Slot.query({jobID: self.job._id}, function(results) {
+          var i = 0;
+          results.forEach(function(slot) {
+            // for each slot, search its volunteer for this location
+            var j = 0;
+            slot.volunteers.forEach(function(volunteer) {
+              Volunteer.get({id: volunteer}, function(vol) {
+                var t = 0;
+                vol.locations.forEach(function(loc) {
+                  console.log("length1: ", results.length, "length2: ", slot.volunteers.length, "length3: ", vol.locations.length);
+                  console.log("i ", i, "j ", j, "t ", t)
+                  if(loc == location._id) {
+                    console.log("FOUND A HIT");
+                    if(!hasCalledBack) {
+                      callback(true);
+                    }
+                    hasCalledBack = true;
+                  }
+                  t++;
+
+                  if(i == results.length && j == (slot.volunteers.length - 1) && t == (vol.locations.length)) {
+                    if(!hasCalledBack) {
+                      callback(false);
+                    }
+                  }
+                });
+                j++;
+              });
+            });
+            i++;
+          });
+        });
+      }
+
+      self.removeLocation = function(location) {
+        if (self.locations.length > 1) {
+          if (location._id) {
+
+            self.checkForLocationUsage(location, function(results) {
+              if(results === true) {
+                $timeout(function() {
+                  alert("You cannot delete a location that has been assigned to a volunteer.");
+                })
+              } else {
+                var index = self.job.locations.indexOf(location._id);
+                if (index > -1) {
+                  self.job.locations.splice(index, 1);
+                }
+                Job.update({id: self.job._id}, self.job);
+
+                var index = self.locations.indexOf(location);
+                if (index > -1) {
+                  self.locations.splice(index, 1);
+                }
+              }
+            });
+
+
+          } else {
+            var index = self.locations.indexOf(location);
+            if (index > -1) {
+              self.locations.splice(index, 1);
+            }
+
+            index = self.newLocations.indexOf(location.name);
+            if (index > -1) {
+              self.newLocations.splice(index, 1);
+            }
+          }
+
+
         }
       }
 
@@ -210,32 +290,65 @@ angular.module('ulyssesApp')
         return self.readOnly;
       }
 
+      var temp;
+
       self.toggleEdit = function () {
         self.readOnly = !self.readOnly;
       }
 
       self.updateJob = function() {
         console.log("updating");
+        console.log(self.newLocations)
         if(self.job.title.length > 1 && self.job.description.length > 1) {
-          var job = {title: self.job.title, description: self.job.description};
-          Job.update({id: $stateParams.id}, job);
-          self.success = true;
-          self.error = false;
-          self.toggleEdit();
+          self.createLocations(self.newLocations, function(data2) {
+            console.log("finished");
+            data2.forEach(function(loc) {
+              var index = -1;
+              var i = 0;
+              self.locations.forEach(function(location) {
+                if(location.name == loc.name) {
+                  index = i;
+                }
+                i++;
+              });
+
+              if(index > -1) {
+                self.locations.splice(index, 1);
+              }
+              self.locations.push(loc);
+              self.job.locations.push(loc._id);
+            });
+            var job = {title: self.job.title, description: self.job.description, locations: self.job.locations};
+            Job.update({id: $stateParams.id}, job);
+            self.newLocations = [];
+            self.success = true;
+            self.error = false;
+            self.toggleEdit();
+            $anchorScroll();
+          });
         } else {
           self.success = false;
           self.error = true;
+          $anchorScroll();
         }
-
       }
 
       self.cancelUpdates = function() {
         console.log("Cancel");
-        self.job = Job.get({id: $stateParams.id});
+        self.locations = [];
+        self.job = Job.get({id: $stateParams.id}, function(results) {
+          self.exists = true;
+          results.locations.forEach(function(location) {
+            Location.get({id: location}, function(results2) {
+              self.locations.push(results2);
+            });
+          });
+        });
+        self.newLocations = [];
         self.toggleEdit();
         self.success = false;
         self.error = false;
-
+        $anchorScroll();
       }
 
       self.areThereSlotsHere = function() {
