@@ -14,10 +14,6 @@
         <label for="description">Description:</label>
         <input type="text" class="form-control" id="description" ng-model="jobCtrl.job.description" ng-readonly="jobCtrl.isReadOnly()">
       </div>
-      <div ng-hide="jobCtrl.isReadOnly()" class="form-group text-center">
-        <button class="btn btn-primary" type="submit" ng-click="jobCtrl.updateJob()" name="submit">Update Job</button>
-        <button class="btn btn-danger" type="submit" ng-click="jobCtrl.cancelUpdates()" name="cancel">Cancel Changes</button>
-      </div>
     </div>
   </div>
 
@@ -62,6 +58,13 @@
     </div>
     <div class="panel-body" ng-hide="jobCtrl.areThereSlotsHere()">There are currently no time slots created for this job.</div>
   </div>
+</div>
+
+<br />
+
+<div ng-hide="jobCtrl.isReadOnly()" class="text-center">
+  <button class="btn btn-primary" type="submit" ng-click="jobCtrl.updateJob()" name="submit">Update Job</button>
+  <button class="btn btn-danger" type="submit" ng-click="jobCtrl.cancelUpdates()" name="cancel">Cancel Changes</button>
 </div>
 
 <div class="panel panel-default job-container" ng-hide="jobCtrl.doesJobExist()">

@@ -215,7 +215,7 @@ angular.module('ulyssesApp')
                 vol.locations.forEach(function(loc) {
                   console.log("length1: ", results.length, "length2: ", slot.volunteers.length, "length3: ", vol.locations.length);
                   console.log("i ", i, "j ", j, "t ", t)
-                  if(loc == location._id) {
+                  if(loc.locationID == location._id) {
                     console.log("FOUND A HIT");
                     if(!hasCalledBack) {
                       callback(true);
@@ -317,32 +317,42 @@ angular.module('ulyssesApp')
         console.log("updating");
         console.log(self.newLocations)
         if(self.job.title.length > 1 && self.job.description.length > 1) {
-          self.createLocations(self.newLocations, function(data2) {
-            console.log("finished");
-            data2.forEach(function(loc) {
-              var index = -1;
-              var i = 0;
-              self.locations.forEach(function(location) {
-                if(location.name == loc.name) {
-                  index = i;
-                }
-                i++;
-              });
+          if(self.newLocations.length >= 1) {
+            self.createLocations(self.newLocations, function (data2) {
+              console.log("finished");
+              data2.forEach(function (loc) {
+                var index = -1;
+                var i = 0;
+                self.locations.forEach(function (location) {
+                  if (location.name == loc.name) {
+                    index = i;
+                  }
+                  i++;
+                });
 
-              if(index > -1) {
-                self.locations.splice(index, 1);
-              }
-              self.locations.push(loc);
-              self.job.locations.push(loc._id);
+                if (index > -1) {
+                  self.locations.splice(index, 1);
+                }
+                self.locations.push(loc);
+                self.job.locations.push(loc._id);
+              });
+              var job = {title: self.job.title, description: self.job.description, locations: self.job.locations};
+              Job.update({id: $stateParams.id}, job);
+              self.newLocations = [];
+              self.success = true;
+              self.error = false;
+              self.toggleEdit();
+              $anchorScroll();
             });
-            var job = {title: self.job.title, description: self.job.description, locations: self.job.locations};
+          } else {
+            var job = {title: self.job.title, description: self.job.description};
             Job.update({id: $stateParams.id}, job);
             self.newLocations = [];
             self.success = true;
             self.error = false;
             self.toggleEdit();
             $anchorScroll();
-          });
+          }
         } else {
           self.success = false;
           self.error = true;
