@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, $anchorScroll, Job, Slot) {
+  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, Location, $anchorScroll, Job, Slot) {
     var self = this;
 
     self.data = [];
@@ -118,9 +118,16 @@ angular.module('ulyssesApp')
         self.volunteer.slots.forEach(function(data) {
           console.log("id: ", data);
           Slot.get({id: data}).$promise.then(function(results) {
-            console.log("async finished");
-            self.slots.push(results);
-            console.log(self.slots);
+            self.volunteer.locations.forEach(function(location) {
+              if(location.slotID == data) {
+                Location.get({id: location.locationID}, function(location2) {
+                  results.location = location2.name;
+                  console.log("async finished");
+                  self.slots.push(results);
+                  console.log(self.slots);
+                })
+              }
+            })
           }, function(error) {
             console.log("ERROR");
           });

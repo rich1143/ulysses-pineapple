@@ -24,6 +24,7 @@ function respondWithResult(res, statusCode) {
 function saveUpdates(updates) {
   return function(entity) {
     delete updates.__v;
+    console.log(updates);
     var updated = _.extend(entity, updates);
     return updated.saveAsync()
       .spread(updated => {

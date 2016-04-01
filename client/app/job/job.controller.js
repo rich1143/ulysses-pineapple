@@ -57,17 +57,34 @@ angular.module('ulyssesApp')
 
           Slot.query({jobID: job._id}, function(results) {
             var slots = results;
+            var test = [];
             slots.forEach(function(slot) {
-              console.log("Removing slot...");
-              slot.volunteers.forEach(function(volunteer) {
-                Volunteer.get({id: volunteer}, function(results2) {
+              test.push(slot._id);
+            });
+
+            slots.forEach(function(slot) {
+              slot.volunteers.forEach(function (volunteer) {
+                Volunteer.get({id: volunteer}, function (results2) {
                   var vol = results2;
-                  var index = vol.slots.indexOf(slot._id);
-                  if(index > -1) {
-                    vol.slots.splice(index, 1);
-                  }
-                  console.log("new", vol.slots);
-                  console.log("updating");
+                  test.forEach(function(slotid) {
+                    var index = vol.slots.indexOf(slotid);
+                    if (index > -1) {
+                      vol.slots.splice(index, 1);
+                    }
+
+                    index = -1;
+                    var i = 0;
+                    vol.locations.forEach(function (location) {
+                      if (location.slotID == slotid) {
+                        index = i;
+                      }
+                      i++;
+                    });
+
+                    if (index > -1) {
+                      vol.locations.splice(index, 1);
+                    }
+                  });
                   Volunteer.update({id: volunteer}, vol);
                 });
               });

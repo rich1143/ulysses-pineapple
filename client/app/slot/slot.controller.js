@@ -144,6 +144,21 @@ angular.module('ulyssesApp')
                 vol.slots.splice(index, 1);
               }
               console.log("updating");
+
+              index = -1;
+              var i = 0;
+              vol.locations.forEach(function(location) {
+                if(location.slotID == slot._id) {
+                  console.log("found");
+                  index = i;
+                }
+                i++;
+              });
+
+              if(index > -1) {
+                vol.locations.splice(index, 1);
+              }
+
               Volunteer.update({id: volunteer}, vol);
             });
           });
@@ -185,13 +200,13 @@ angular.module('ulyssesApp')
           vols.forEach(function(data) {
             Volunteer.get({id: data}).$promise.then(function(results) {
               results.locations.forEach(function(location) {
-                self.locations.forEach(function(location2) {
-                  if(location == location2._id) {
-                    console.log(location2);
-                    console.log("ASDFASFAS");
-                    results.location = location2;
-                  }
-                });
+                if(location.slotID == self.slot._id) {
+                  self.locations.forEach(function(location2) {
+                    if(location2._id == location.locationID) {
+                      results.location = location2;
+                    }
+                  })
+                }
               });
               console.log(results)
               self.vols.push(results);
@@ -244,7 +259,7 @@ angular.module('ulyssesApp')
                     console.log(self.vols);
                     var vol = results;
                     vol.slots.push(self.slot._id);
-                    vol.locations.push(self.location);
+                    vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
                     Volunteer.update({id: vol._id}, vol);
                     self.success = true;
                     self.error = false;
@@ -292,6 +307,21 @@ angular.module('ulyssesApp')
               vol.slots.splice(index, 1);
             }
             console.log("updating");
+
+            index = -1;
+            var i = 0;
+            vol.locations.forEach(function(location) {
+              if(location.slotID == self.slot._id) {
+                console.log("found");
+                index = i;
+              }
+              i++;
+            });
+
+            if(index > -1) {
+              vol.locations.splice(index, 1);
+            }
+
             Volunteer.update({id: volunteer._id}, vol);
           });
 
