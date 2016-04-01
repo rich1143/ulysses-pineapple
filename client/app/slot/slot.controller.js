@@ -3,10 +3,11 @@
 
 
 angular.module('ulyssesApp')
-  .controller('SlotCtrl', function ($scope, $state, $stateParams, Volunteer, Job, Slot, Auth) {
+  .controller('SlotCtrl', function ($scope, $state, $stateParams, Volunteer, Job, Slot, Auth, Location) {
     var self = this;
     self.success = false;
     self.error = false;
+    self.locations = [];
 
     self.isSuccess = function () {
       return self.success;
@@ -158,17 +159,49 @@ angular.module('ulyssesApp')
     } else if ($state.current.name == "slot-detail") {
       self.vols = [];
       self.exists = false;
+
+      self.getLocations = function(response, callback) {
+        Job.get({id: response.jobID}, function(results) {
+          var locs = results.locations;
+          var inc = 0;
+          locs.forEach(function(location) {
+            Location.get({id: location}, function(results2) {
+              inc++;
+              self.locations.push(results2);
+              if(inc == locs.length) {
+                callback();
+              }
+            });
+          });
+        });
+      }
+
       self.slot = Slot.get({id: $stateParams.id}, function (response) {
         self.exists = true;
         self.slot["left"] = self.slot.volunteersNeeded - self.slot.volunteers.length;
-        var vols = self.slot.volunteers;
-        vols.forEach(function(data) {
-          Volunteer.get({id: data}).$promise.then(function(results) {
-            self.vols.push(results);
-            console.log(self.vols);
-          })
+
+        self.getLocations(response, function() {
+          var vols = self.slot.volunteers;
+          vols.forEach(function(data) {
+            Volunteer.get({id: data}).$promise.then(function(results) {
+              results.locations.forEach(function(location) {
+                self.locations.forEach(function(location2) {
+                  if(location == location2._id) {
+                    console.log(location2);
+                    console.log("ASDFASFAS");
+                    results.location = location2;
+                  }
+                });
+              });
+              console.log(results)
+              self.vols.push(results);
+              console.log(self.vols);
+            });
+          });
         });
       });
+
+
       self.volunteers = Volunteer.query();
 
       self.doesSlotExist = function () {
@@ -191,37 +224,52 @@ angular.module('ulyssesApp')
 
 
       self.addVolunteer = function() {
-        if(self.volunteer && !self.slot.volunteers.includes(self.volunteer)) {
+        if(self.volunteer) {
+          if(!self.slot.volunteers.includes(self.volunteer)) {
+            if (self.location) {
+              if (self.vols.length >= self.slot.volunteersNeeded) {
+                self.error = true;
+                self.errorMessage = "You cannot add more volunteers than needed.";
+                self.success = false;
+              } else {
+                self.slot.volunteers.push(self.volunteer);
+                console.log(self.slot);
+                Slot.update({id: $stateParams.id}, self.slot);
 
-          if (self.vols.length >= self.slot.volunteersNeeded) {
-            self.error = true;
-            self.errorMessage = "You cannot add more volunteers than needed.";
-            self.success = false;
+                Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+                  console.log("async finished");
+                  Location.get({id: self.location}, function(results2) {
+                    results.location = results2;
+                    self.vols.push(results);
+                    console.log(self.vols);
+                    var vol = results;
+                    vol.slots.push(self.slot._id);
+                    vol.locations.push(self.location);
+                    Volunteer.update({id: vol._id}, vol);
+                    self.success = true;
+                    self.error = false;
+                    self.volunteer = "";
+                    self.location = "";
+                  });
+                }, function (error) {
+                  console.log("ERROR");
+                });
+              }
+            } else {
+              self.error = true;
+              self.success = false;
+              self.errorMessage = "You must choose a location for this volunteer.";
+            }
           } else {
-
-            self.slot.volunteers.push(self.volunteer);
-            console.log(self.slot);
-            Slot.update({id: $stateParams.id}, self.slot);
-
-            Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-              console.log("async finished");
-              self.vols.push(results);
-              var vol = results;
-              vol.slots.push(self.slot._id);
-              Volunteer.update({id: vol._id}, vol);
-              self.success = true;
-              self.error = false;
-            }, function (error) {
-              console.log("ERROR");
-            });
+            self.error = true;
+            self.success = false;
+            self.errorMessage = "You have already added this volunteer to this time slot.";
           }
-        }
-        else
-        {
+        } else {
           console.log("err");
           self.error = true;
           self.success = false;
-          self.errorMessage = "You have already added this volunteer to this time slot.";
+          self.errorMessage = "You must choose a volunteer to be added.";
         }
       }
 

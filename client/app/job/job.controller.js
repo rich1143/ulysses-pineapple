@@ -168,8 +168,17 @@ angular.module('ulyssesApp')
         }
       }
 
-      self.removeLocation = function(location, index) {
-        console.log(index);
+      self.removeLocation = function(location) {
+        var index = self.job.locations.indexOf(location._id);
+        if(index > -1) {
+          self.job.locations.splice(index, 1);
+        }
+        Job.update({id: self.job._id}, self.job);
+
+        var index = self.locations.indexOf(location);
+        if(index > -1) {
+          self.locations.splice(index, 1);
+        }
       }
 
       self.removeSlot = function (slot) {

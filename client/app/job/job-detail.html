@@ -39,7 +39,7 @@
     <div class="list-group">
       <div class="list-group-item no-padding" style="" ng-repeat="location in jobCtrl.locations">
         <div class="group-item">{{ location.name }}</div>
-        <a ng-click="jobCtrl.removeLocation(location, $index)" ng-href="" class="btn btn-sm btn-danger group-item-remove" style=""><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-click="jobCtrl.removeLocation(location)" ng-href="" class="btn btn-sm btn-danger group-item-remove" style=""><span class="glyphicon glyphicon-trash"></span></a>
       </div>
     </div>
     <div class="panel-body" ng-hide="jobCtrl.areThereLocations()">There are currently no locations defined for this job.</div>
