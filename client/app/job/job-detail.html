@@ -46,7 +46,7 @@
       <div class="pull-right"><a href="/slots/create/{{jobCtrl.job._id}}">Create a time slot</a></div>
     </div>
     <div class="list-group">
-      <div class="list-group-item no-padding" ng-repeat="slot in jobCtrl.slots">
+      <div class="list-group-item no-padding" ng-repeat="slot in jobCtrl.slots | orderBy: 'start'">
         <a ng-href="/slots/{{slot._id}}" class="group-item">
           <strong>Start time</strong>: {{ jobCtrl.parseTime(slot.start) }} <br />
           <strong>End time</strong>: {{ jobCtrl.parseTime(slot.end) }} <br />
