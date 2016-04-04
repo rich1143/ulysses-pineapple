@@ -10,6 +10,15 @@ var locationCtrlStub = {
   destroy: 'locationCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var locationIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './location.controller': locationCtrlStub
+  './location.controller': locationCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('location API Router:', function() {
@@ -38,7 +48,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'locationCtrl.index')
+        .withArgs('/', 'authService.isAuthenticated', 'locationCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'locationCtrl.show')
+        .withArgs('/:id', 'authService.isAuthenticated', 'locationCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'locationCtrl.create')
+        .withArgs('/', 'authService.isAuthenticated', 'locationCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'locationCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'locationCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'locationCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'locationCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('location API Router:', function() {
 
     it('should route to location.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'locationCtrl.destroy')
+        .withArgs('/:id', 'authService.isAuthenticated', 'locationCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

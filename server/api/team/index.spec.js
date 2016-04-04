@@ -10,6 +10,15 @@ var teamCtrlStub = {
   destroy: 'teamCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var teamIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './team.controller': teamCtrlStub
+  './team.controller': teamCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Team API Router:', function() {
@@ -38,7 +48,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'teamCtrl.index')
+        .withArgs('/', 'authService.hasRole.organizer', 'teamCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'teamCtrl.show')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'teamCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'teamCtrl.create')
+        .withArgs('/', 'authService.hasRole.organizer', 'teamCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'teamCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'teamCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'teamCtrl.update')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'teamCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('Team API Router:', function() {
 
     it('should route to team.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'teamCtrl.destroy')
+        .withArgs('/:id', 'authService.hasRole.organizer', 'teamCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

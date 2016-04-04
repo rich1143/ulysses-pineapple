@@ -10,6 +10,15 @@ var slotCtrlStub = {
   destroy: 'slotCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
@@ -25,7 +34,8 @@ var slotIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './slot.controller': slotCtrlStub
+  './slot.controller': slotCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Slot API Router:', function() {
@@ -38,7 +48,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'slotCtrl.index')
+        .withArgs('/', 'authService.isAuthenticated', 'slotCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -48,7 +58,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'slotCtrl.show')
+        .withArgs('/:id', 'authService.isAuthenticated', 'slotCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -58,7 +68,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'slotCtrl.create')
+        .withArgs('/', 'authService.isAuthenticated', 'slotCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,7 +78,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'slotCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'slotCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -78,7 +88,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'slotCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'slotCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +98,7 @@ describe('Slot API Router:', function() {
 
     it('should route to slot.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'slotCtrl.destroy')
+        .withArgs('/:id', 'authService.isAuthenticated', 'slotCtrl.destroy')
         .should.have.been.calledOnce;
     });
 
