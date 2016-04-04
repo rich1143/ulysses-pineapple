@@ -250,7 +250,6 @@ angular.module('ulyssesApp')
                 self.slot.volunteers.push(self.volunteer);
                 console.log(self.slot);
                 Slot.update({id: $stateParams.id}, self.slot);
-
                 Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
                   console.log("async finished");
                   Location.get({id: self.location}, function(results2) {
@@ -261,6 +260,7 @@ angular.module('ulyssesApp')
                     vol.slots.push(self.slot._id);
                     vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
                     Volunteer.update({id: vol._id}, vol);
+                    self.slot["left"]--;
                     self.success = true;
                     self.error = false;
                     self.volunteer = "";
