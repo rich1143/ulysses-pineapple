@@ -4,7 +4,7 @@
       <div class="pull-right"><a href="/view">Back to volunteer list</a></div>
     </div>
     <div class="list-group">
-      <div class="list-group-item" ng-repeat="slot in viewerCtrl.slots">
+      <div class="list-group-item" ng-repeat="slot in viewerCtrl.slots | orderBy: 'start'"">
         <strong>Job title</strong>: {{ viewerCtrl.getJobTitle(slot.jobID) }} <br />
         <strong>Start time</strong>: {{ viewerCtrl.parseTime(slot.start) }} <br />
         <strong>End time</strong>: {{ viewerCtrl.parseTime(slot.end) }} <br />

@@ -46,7 +46,7 @@
   <div class="panel panel-default volunteer-create-container">
     <div class="panel-heading">Assigned jobs:</div>
     <div class="list-group">
-      <div class="list-group-item" ng-repeat="slot in volunteerCtrl.slots">
+      <div class="list-group-item" ng-repeat="slot in volunteerCtrl.slots | orderBy: 'start'"">
         <strong>Job title</strong>: {{ volunteerCtrl.getJobTitle(slot.jobID) }} <br />
         <strong>Start time</strong>: {{ volunteerCtrl.parseTime(slot.start) }} <br />
         <strong>End time</strong>: {{ volunteerCtrl.parseTime(slot.end) }} <br />

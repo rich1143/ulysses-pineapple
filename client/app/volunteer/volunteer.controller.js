@@ -65,7 +65,7 @@ angular.module('ulyssesApp')
       }
 
 
-    } else if ($state.current.name == "volunteer-details") {
+    } else if ($state.current.name == "volunteer-details" || $state.current.name == "volunteer-schedule") {
 
       Job.query().$promise.then(function(results) {
         results.forEach(function(job) {
