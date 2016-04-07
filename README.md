@@ -1,6 +1,6 @@
 # Ulysses
 
-[![Build Status](https://travis-ci.org/devshawn/ulysses.svg?branch=master)](https://travis-ci.org/devshawn/ulysses)
+[![Build Status](https://travis-ci.org/rich1143/ulysses-pineapple.svg?branch=master)](https://travis-ci.org/rich1143/ulysses-pineapple)
 
 Ulysses is a schedule builder for CSCI 3601 developed for the Odyssey of the Mind competition.
 
