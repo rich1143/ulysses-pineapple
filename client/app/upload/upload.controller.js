@@ -47,7 +47,7 @@ angular.module('ulyssesApp')
                   var data = {title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id};
                   Job.save(data, function(jobResponse) {
                     var defaultLocID;
-                    Location.save({name: "Default Location", jobID: jobResponse._id}, function (locResponse) {
+                    Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                       console.log("There's a thing here!");
                       defaultLocID = locResponse._id;
                       console.log(defaultLocID);
