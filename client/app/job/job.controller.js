@@ -125,7 +125,8 @@ angular.module('ulyssesApp')
               data2.forEach(function(data) {
                 dt.push(data._id);
               });
-              var data = { title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: dt };
+
+              var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: dt};
               Job.save(data);
 
               self.jobtitle = "";
@@ -135,9 +136,26 @@ angular.module('ulyssesApp')
               self.success = true;
             });
           } else {
-            self.error = true;
+
+            var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: []};
+            Job.save(data, function (jobResponse) {
+              var defaultLocID;
+              Location.save({name: "Default Location", jobID: jobResponse._id}, function (locResponse) {
+                defaultLocID = locResponse._id;
+                Job.update({id: jobResponse._id}, {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]
+                });
+
+                self.jobtitle = "";
+                self.description = "";
+                self.locations = [];
+                self.error = false;
+                self.success = true;
+              });
+            });
+
+            /*self.error = true;
             self.success = false;
-            self.errorMessage = "You must enter at least one location for this job."
+            self.errorMessage = "You must enter at least one location for this job."*/
           }
         } else {
           self.error = true;

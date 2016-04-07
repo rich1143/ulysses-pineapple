@@ -297,6 +297,12 @@ angular.module('ulyssesApp')
           self.positionHeld = "";
           self.comment = "";
           self.isJudge = false;
+
+          self.readOnly = true;
+          self.success = true;
+          self.error = false;
+          $anchorScroll();
+
         }
         else {
           console.log("error");

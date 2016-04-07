@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('UploadCtrl', function($http, $scope, socket, Upload, Job, Volunteer, Auth) {
+  .controller('UploadCtrl', function($http, $scope, socket, Upload, Job, Volunteer, Auth, Location) {
     var self = this;
     var uploaded = false;
     var uploaded2 = false;
@@ -44,8 +44,16 @@ angular.module('ulyssesApp')
                 });
 
                 jobsToCreate.forEach(function(title) {
-                  var data = {title: title, description: "This job lacks description!", createdBy: Auth.getCurrentUser()._id};
-                  Job.save(data);
+                  var data = {title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id};
+                  Job.save(data, function(jobResponse) {
+                    var defaultLocID;
+                    Location.save({name: "Default Location", jobID: jobResponse._id}, function (locResponse) {
+                      console.log("There's a thing here!");
+                      defaultLocID = locResponse._id;
+                      console.log(defaultLocID);
+                      Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    });
+                  });
                 });
 
               });
