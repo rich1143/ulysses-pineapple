@@ -85,6 +85,7 @@ angular.module('ulyssesApp')
             console.log(results1);
             if(self.isConflict(slot1, results1))
             {
+
               callback(true);
               hasCalledBack = true;
             } else if(i == results.slots.length) {
@@ -247,27 +248,35 @@ angular.module('ulyssesApp')
                 self.errorMessage = "You cannot add more volunteers than needed.";
                 self.success = false;
               } else {
-                self.slot.volunteers.push(self.volunteer);
-                console.log(self.slot);
-                Slot.update({id: $stateParams.id}, self.slot);
-                Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                  console.log("async finished");
-                  Location.get({id: self.location}, function(results2) {
-                    results.location = results2;
-                    self.vols.push(results);
-                    console.log(self.vols);
-                    var vol = results;
-                    vol.slots.push(self.slot._id);
-                    vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
-                    Volunteer.update({id: vol._id}, vol);
-                    self.slot["left"]--;
-                    self.success = true;
-                    self.error = false;
-                    self.volunteer = "";
-                    self.location = "";
-                  });
-                }, function (error) {
-                  console.log("ERROR");
+                self.conflictLoop(self.slot, self.volunteer, function(success) {
+                  if(success === true) {
+                    self.error = true;
+                    self.success = false;
+                    self.errorMessage = "This person is already assigned to a time slot during this time period.";
+                  } else {
+                    self.slot.volunteers.push(self.volunteer);
+                    console.log(self.slot);
+                    Slot.update({id: $stateParams.id}, self.slot);
+                    Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+                      console.log("async finished");
+                      Location.get({id: self.location}, function(results2) {
+                        results.location = results2;
+                        self.vols.push(results);
+                        console.log(self.vols);
+                        var vol = results;
+                        vol.slots.push(self.slot._id);
+                        vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
+                        Volunteer.update({id: vol._id}, vol);
+                        self.slot["left"]--;
+                        self.success = true;
+                        self.error = false;
+                        self.volunteer = "";
+                        self.location = "";
+                      });
+                    }, function (error) {
+                      console.log("ERROR");
+                    });
+                  }
                 });
               }
             } else {
