@@ -75,7 +75,7 @@ angular.module('ulyssesApp')
       }
     }
 
-    self.conflictLoop = function(slot1, volunteerid) {
+    /*self.conflictLoop = function(slot1, volunteerid, callback) {
       console.log("test");
       Volunteer.get({id: volunteerid }, function(results) {
         var hasCalledBack = false;
@@ -98,6 +98,50 @@ angular.module('ulyssesApp')
 
         if(results.slots.length == 0) {
           callback(false);
+        }
+      });
+    }*/
+
+    self.conflictLoop = function(slot1, volunteerid, callback) {
+      console.log("test");
+      var errorMsg = " is already assigned to ";
+      var counter = 0;
+      Volunteer.get({id: volunteerid }, function(results) {
+        errorMsg = results.firstName + " " + results.lastName + errorMsg;
+        var hasCalledBack = false;
+
+        if(results.slots.length == 0) {
+          callback("You have successfully added a volunteer to this time slot.");
+          console.log("You have successfully added a volunteer to this time slot.");
+        }
+        for(var i = 0; i < results.slots.length; i++)
+        {
+          Slot.get({id: results.slots[i]}, function(results1) {
+            console.log(results1);
+            if(self.isConflict(slot1, results1))
+            {
+              Job.get({id: results1.jobID}, function(jobResults) {
+                console.log("Printing results1 " + jobResults.title);
+                if(counter != 0)
+                {
+                  errorMsg += " and " + jobResults.title + " from " + self.parseTime(results1.start) + " to " + self.parseTime(results1.end);
+                  counter++;
+
+                }
+                else {
+                  errorMsg += jobResults.title + " from " + self.parseTime(results1.start) + " to " + self.parseTime(results1.end);
+                  counter++;
+                }
+                callback(errorMsg + ".");
+                hasCalledBack = true;
+              });
+            } else if(i == results.slots.length) {
+              if(!hasCalledBack) {
+                callback("You have successfully added a volunteer to this time slot.");
+                hasCalledBack = true;
+              }
+            }
+          });
         }
       });
     }
@@ -209,7 +253,7 @@ angular.module('ulyssesApp')
                   })
                 }
               });
-              console.log(results)
+              console.log(results);
               self.vols.push(results);
               console.log(self.vols);
             });
@@ -248,11 +292,11 @@ angular.module('ulyssesApp')
                 self.errorMessage = "You cannot add more volunteers than needed.";
                 self.success = false;
               } else {
-                self.conflictLoop(self.slot, self.volunteer, function(success) {
-                  if(success === true) {
+                self.conflictLoop(self.slot, self.volunteer, function(returnMessage) {
+                  if(!(returnMessage === "You have successfully added a volunteer to this time slot.")) {
                     self.error = true;
                     self.success = false;
-                    self.errorMessage = "This person is already assigned to a time slot during this time period.";
+                    self.errorMessage = returnMessage;//"This person is already assigned to a time slot during this time period.";
                   } else {
                     self.slot.volunteers.push(self.volunteer);
                     console.log(self.slot);
