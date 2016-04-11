@@ -58,7 +58,7 @@ angular.module('ulyssesApp')
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;
-                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    Job.update( {id: jobResponse._id},{title: "Child Team Performing", description: "The volunteer is watching their child!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
 

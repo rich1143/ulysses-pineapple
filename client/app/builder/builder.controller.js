@@ -6,6 +6,7 @@ angular.module('ulyssesApp')
     self.error = false;
     self.success = false;
     self.errorMessage = "";
+    self.volunteers = Volunteer.query();
 
     var areThereJobs = false;
     var areThereSlots = false;
@@ -34,6 +35,9 @@ angular.module('ulyssesApp')
     }
 
     self.buildSchedule = function() {
+
+      volunteers = Volunteer.query();
+
       // check for no time slots, no jobs, etc
       console.log(areThereJobs);
       console.log("slot", areThereSlots);
@@ -48,11 +52,14 @@ angular.module('ulyssesApp')
         self.errorMessage = "You have yet to create time slots for your entered jobs.";
       } else {
         console.log("Start creating schedule...");
-        
+
         // sort volunteers by most child teams to watch
         Volunteer.query({}, function(results) {
           var volunteers = results;
           volunteers.sort(function(a, b) {
+            a.slots.forEach(function(slot) {
+
+            });
             return b.childTeam.length - a.childTeam.length;
           });
 

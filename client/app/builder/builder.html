@@ -2,6 +2,8 @@
   <div class="panel-heading">Schedule Builder:
   </div>
   <div class="panel-body">
-      <button ng-click="" type="button" class="btn btn-success">Create a Schedule</button>
+    <button ng-click="" type="button" class="btn btn-success">Create a Schedule</button>
+    <div ng-repeat="volunteer in builderCtrl.volunteers">
+      {{volunteer.firstName}} {{volunteer.lastName}}
   </div>
 </div>
