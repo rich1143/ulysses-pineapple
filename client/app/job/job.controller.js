@@ -8,20 +8,25 @@ angular.module('ulyssesApp')
     self.readOnly = true;
     self.locations = [];
 
+
+    // Data validator to express successful upload or data entry
     self.isSuccess = function () {
       return self.success;
     }
 
+    //Data validator to express unsuccessful upload or data entry
     self.isError = function () {
       return self.error;
     }
 
+    // Determines wheter or not to display list of job locations on job creation form
     self.areThereLocations = function() {
       if(self.locations) {
         return !(self.locations.length == 0);
       }
     }
 
+    // Creates locations for for jobs on jobs form, then validates if the data entry was successful
     self.createLocations = function(loc2, callback) {
       var inc = 0;
       var data = [];
@@ -40,6 +45,8 @@ angular.module('ulyssesApp')
       });
     }
 
+
+    //
     if($state.current.name == "job") {
 
       self.data = [];
@@ -51,6 +58,7 @@ angular.module('ulyssesApp')
         }
       }
 
+      //Enables user to deleted an added job from jobs list, validates whether user actually wants to execute deletion or not.
       self.removeJob = function (job) {
         if(confirm("Are you sure you want to delete? This will delete all time slots associated with this job.")) {
           console.log("Deleting");
@@ -104,6 +112,7 @@ angular.module('ulyssesApp')
       self.jobtitle = "";
       self.description = "";
 
+      // Adds possible location to assign a job to take place at
       self.addLocation = function() {
         if(self.location.length >= 1) {
           self.locations.push(self.location);
@@ -111,10 +120,12 @@ angular.module('ulyssesApp')
         }
       }
 
+      // Removes a possible location from list, does not validate if user truly wants to execute action
       self.removeLocation = function(index) {
         self.locations.splice(index, 1);
       }
 
+      // Creates a job with the jobs form, with title and description fields, validates a successful submission
       self.createJob = function() {
         if(self.jobtitle.length >= 1 && self.description.length >=1) {
           if(self.locations.length >= 1) {
