@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('UploadCtrl', function($http, $scope, socket, Upload, Job, Volunteer, Auth, Location) {
+  .controller('UploadCtrl', function($http, $scope, socket, Upload, Job, Volunteer, Auth, Location, Slot) {
     var self = this;
     var uploaded = false;
     var uploaded2 = false;
@@ -48,11 +48,17 @@ angular.module('ulyssesApp')
                   Job.save(data, function(jobResponse) {
                     var defaultLocID;
                     Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
-                      console.log("There's a thing here!");
                       defaultLocID = locResponse._id;
-                      console.log(defaultLocID);
                       Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                     });
+                  });
+                });
+
+                Job.save({title: "Child Team Performing", description: "The volunteer is watching their child!", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+                  var defaultLocID;
+                  Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
+                    defaultLocID = locResponse._id;
+                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
 
@@ -65,7 +71,6 @@ angular.module('ulyssesApp')
     }
 
     self.uploadTeams = function() {
-      console.log("Clicked submit 2");
       Papa.parse(this.fileinput2, {
         header: true,
         dynamicTyping: true,
