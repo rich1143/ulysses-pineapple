@@ -7,6 +7,7 @@ angular.module('ulyssesApp')
         url: '/builder',
         templateUrl: 'app/builder/builder.html',
         controller: 'BuilderCtrl',
-        controllerAs: 'builderCtrl'
+        controllerAs: 'builderCtrl',
+        authenticate: 'organizer'
       });
   });
