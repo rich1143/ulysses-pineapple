@@ -284,6 +284,7 @@ angular.module('ulyssesApp')
 
 
       self.addVolunteer = function() {
+
         if(self.volunteer) {
           if(!self.slot.volunteers.includes(self.volunteer)) {
             if (self.location) {
@@ -302,7 +303,7 @@ angular.module('ulyssesApp')
                     console.log(self.slot);
                     Slot.update({id: $stateParams.id}, self.slot);
                     Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                      console.log("async finished");
+                      console.log("async finished what things and things");
                       Location.get({id: self.location}, function(results2) {
                         results.location = results2;
                         self.vols.push(results);
@@ -310,6 +311,11 @@ angular.module('ulyssesApp')
                         var vol = results;
                         vol.slots.push(self.slot._id);
                         vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
+                        console.log("Slot Title: " + self.getJobTitle(self.slot.jobID));
+                        if (self.getJobTitle(self.slot.jobID) === "Child Team Performing") {
+                          vol.teamSlots++;
+                          console.log("teamSlots: " + vol.teamSlots);
+                        }
                         Volunteer.update({id: vol._id}, vol);
                         self.slot["left"]--;
                         self.success = true;

@@ -34,9 +34,10 @@ angular.module('ulyssesApp')
       return self.error;
     }
 
+
     self.buildSchedule = function() {
 
-      volunteers = Volunteer.query();
+      self.volunteers = Volunteer.query();
 
       // check for no time slots, no jobs, etc
       console.log(areThereJobs);
@@ -57,13 +58,12 @@ angular.module('ulyssesApp')
         Volunteer.query({}, function(results) {
           var volunteers = results;
           volunteers.sort(function(a, b) {
-            a.slots.forEach(function(slot) {
-
-            });
-            return b.childTeam.length - a.childTeam.length;
+            return b.teamSlots - a.teamSlots;
           });
-
-          console.log(volunteers);
+          
+          volunteers.forEach(function(vol) {
+            console.log(vol.firstName + " " + vol.lastName);
+          });
         });
       }
     }

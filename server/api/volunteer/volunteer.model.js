@@ -48,7 +48,8 @@ var VolunteerSchema = new mongoose.Schema({
   certSpont: Boolean,
   isJudge: Boolean,
   slots: [String],
-  locations: []
+  locations: [],
+  teamSlots: Number
 });
 
 export default mongoose.model('Volunteer', VolunteerSchema);
