@@ -61,7 +61,12 @@ angular.module('ulyssesApp')
                     Job.update( {id: jobResponse._id},{title: "Child Team Performing", description: "The volunteer is watching their child!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
-
+                Job.save({title: "Not available", description: "The volunteer is busy at this time", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+                  var defaultLocID;
+                  Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
+                    defaultLocID = locResponse._id;
+                    Job.update( {id: jobResponse._id},{title: "Not available", description: "The volunteer is busy at this time", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                  });
               });
 
             }
