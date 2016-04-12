@@ -158,6 +158,15 @@ angular.module('ulyssesApp')
       return title;
     }
 
+    self.getJobID = function(name){
+      var id;
+      self.jobTitles.forEach(function(job)){
+        if(job.title == name)
+          id = job.id;
+      }
+      return id;
+    }
+
     if($state.current.name == "slot") {
 
       Slot.query().$promise.then(function(results) {

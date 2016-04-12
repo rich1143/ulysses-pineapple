@@ -20,6 +20,7 @@ angular.module('ulyssesApp')
               console.log("Successful upload");
 
               var jobsToCreate = [];
+              var slotsToCreate = [];
 
               var volunteers = Volunteer.query(function() {
                 console.log("Got the things of stuff.");
@@ -67,13 +68,20 @@ angular.module('ulyssesApp')
                     defaultLocID = locResponse._id;
                     Job.update( {id: jobResponse._id},{title: "Not available", description: "The volunteer is busy at this time", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
-              });
+                    });
 
-            }
+
+
+
+                slotsToCreate.forEach(function(title) {
+                  Slot.save({start: start, end: end, volunteers: [], volunteersNeeded: 1, jobID: Slot.getJobID(jobTitle), createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+
+                  });
+                  });
           });
         }
       });
-    }
+
 
     self.uploadTeams = function() {
       Papa.parse(this.fileinput2, {
