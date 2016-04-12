@@ -20,7 +20,6 @@ angular.module('ulyssesApp')
               console.log("Successful upload");
 
               var jobsToCreate = [];
-              var slotsToCreate = [];
 
               var volunteers = Volunteer.query(function() {
                 console.log("Got the things of stuff.");
@@ -59,29 +58,25 @@ angular.module('ulyssesApp')
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;
-                    Job.update( {id: jobResponse._id},{title: "Child Team Performing", description: "The volunteer is watching their child!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
-                Job.save({title: "Not available", description: "The volunteer is busy at this time", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+
+                Job.save({title: "Not Available", description: "The volunteer is not available at this time.", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;
-                    Job.update( {id: jobResponse._id},{title: "Not available", description: "The volunteer is busy at this time", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
-                    });
+                });
 
+              });
 
-
-
-                slotsToCreate.forEach(function(title) {
-                  Slot.save({start: start, end: end, volunteers: [], volunteersNeeded: 1, jobID: Slot.getJobID(jobTitle), createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
-
-                  });
-                  });
+            }
           });
         }
       });
-
+    }
 
     self.uploadTeams = function() {
       Papa.parse(this.fileinput2, {
