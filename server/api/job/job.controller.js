@@ -12,6 +12,7 @@
 import _ from 'lodash';
 import Job from './job.model';
 
+//
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -21,6 +22,7 @@ function respondWithResult(res, statusCode) {
   };
 }
 
+//
 function saveUpdates(updates) {
   return function(entity) {
     delete updates.__v;
@@ -32,6 +34,7 @@ function saveUpdates(updates) {
   };
 }
 
+//
 function removeEntity(res) {
   return function(entity) {
     if (entity) {
@@ -43,6 +46,7 @@ function removeEntity(res) {
   };
 }
 
+//
 function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
@@ -53,6 +57,7 @@ function handleEntityNotFound(res) {
   };
 }
 
+// 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
