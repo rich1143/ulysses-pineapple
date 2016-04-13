@@ -54,7 +54,7 @@ angular.module('ulyssesApp')
                   });
                 });
 
-                Job.save({title: "Child Team Performing", description: "The volunteer is watching their child!", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+                Job.save({title: "Child Team Performing", description: "The volunteer is watching their child", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;

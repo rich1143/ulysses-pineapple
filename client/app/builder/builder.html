@@ -2,7 +2,11 @@
   <div class="panel-heading">Schedule Builder:
   </div>
   <div class="panel-body">
+
+    <!--clicking button calls buildSchedule function which builds a schedule -->
     <button ng-click="builderCtrl.buildSchedule()" type="button" class="btn btn-success">Create a Schedule</button>
+
+    <!--lists all volunteers in the database-->
     <div ng-repeat="volunteer in builderCtrl.volunteers">
       {{volunteer.firstName}} {{volunteer.lastName}}
   </div>

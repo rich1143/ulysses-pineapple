@@ -8,8 +8,11 @@ angular.module('ulyssesApp')
     self.errorMessage = "";
     self.volunteers = Volunteer.query();
 
+    // assign variables to booleans
     var areThereJobs = false;
     var areThereSlots = false;
+
+    // checks if there are jobs
     Job.query({}, function(results) {
       if(results.length > 0) {
         areThereJobs = true;
@@ -18,6 +21,7 @@ angular.module('ulyssesApp')
       }
     })
 
+    // checks if there are slots
     Slot.query({}, function(results) {
       if(results.length > 0) {
         areThereSlots = true;
@@ -26,15 +30,18 @@ angular.module('ulyssesApp')
       }
     });
 
+    //returns if something is a success or not
     self.isSuccess = function () {
       return self.success;
     }
+
 
     self.isError = function () {
       return self.error;
     }
 
 
+    //builds a schedule when user pushes a button using volunteers and slots already created
     self.buildSchedule = function() {
 
       self.volunteers = Volunteer.query();
@@ -60,7 +67,7 @@ angular.module('ulyssesApp')
           volunteers.sort(function(a, b) {
             return b.teamSlots - a.teamSlots;
           });
-          
+
           volunteers.forEach(function(vol) {
             console.log(vol.firstName + " " + vol.lastName);
           });
