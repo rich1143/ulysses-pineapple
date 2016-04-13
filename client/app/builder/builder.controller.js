@@ -34,6 +34,56 @@ angular.module('ulyssesApp')
       return self.error;
     }
 
+    //checks to see if two time slots overlap
+    self.isConflict = function(slot1, slot2) {
+      var start1 = parseInt(slot1.start);
+      var end1 = parseInt(slot1.end);
+      var start2 = parseInt(slot2.start);
+      var end2 = parseInt(slot2.end);
+      if((start1 <= start2 && start2 <= end1)) {
+        console.log("scenario1");
+        return true;
+      }
+      else if(start2 <= start1 && start1 <= end2) {
+        console.log("scenario2");
+        return true;
+      }
+      else if(start1 == start2 && end1 == end2)
+      {
+        console.log("scenario3");
+        return true;
+      } else {
+        console.log("scenario4");
+        return false;
+      }
+    }
+
+    self.conflictLoop = function(slot1, volunteerid, callback) {
+      console.log("test");
+      Volunteer.get({id: volunteerid }, function(results) {
+        var hasCalledBack = false;
+        for(var i = 0; i < results.slots.length; i++)
+        {
+          Slot.get({id: results.slots[i]}, function(results1) {
+            console.log(results1);
+            if(self.isConflict(slot1, results1))
+            {
+
+              callback(true);
+              hasCalledBack = true;
+            } else if(i == results.slots.length) {
+              if(!hasCalledBack) {
+                callback(false);
+              }
+            }
+          });
+        }
+
+        if(results.slots.length == 0) {
+          callback(false);
+        }
+      });
+    }
 
     self.buildSchedule = function() {
 
@@ -72,17 +122,33 @@ angular.module('ulyssesApp')
           console.log("First Slot " + slots[0].volunteersNeeded);
             console.log("First Volunteer " + volunteers[0].firstName + " " + volunteers[0].lastName);
 
-            slots[0].volunteers.push(volunteers[0]._id);
-            Slot.update({id: slots[0]._id}, slots[0]);
-            Job.get({id: slots[0].jobID}, function(jobitself) {
-              Location.get({id: jobitself.locations[0]}, function(location) {
-                //ignored self.vols.push(volunteers[0]);
-                console.log("Getting Job Id" + location);
-                volunteers[0].slots.push(slots[0]._id);
-                volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[0]._id});
-                Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
-              });
-            });
+            console.log("Is he in there?" + slots[0].volunteers.includes(volunteers[0]._id));
+
+
+            if(!slots[0].volunteers.includes(volunteers[0]._id))
+            {
+              if(slots[0].volunteers.length < slots[0].volunteersNeeded)
+              {
+                self.conflictLoop(slots[0], volunteers[0]._id, function(success) {
+                  if(success === false) {
+                    slots[0].volunteers.push(volunteers[0]._id);
+                    Slot.update({id: slots[0]._id}, slots[0]);
+                    Job.get({id: slots[0].jobID}, function(jobitself) {
+                      Location.get({id: jobitself.locations[0]}, function(location) {
+                        //ignored self.vols.push(volunteers[0]);
+                        console.log("Getting Job Id" + location);
+                        volunteers[0].slots.push(slots[0]._id);
+                        volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[0]._id});
+                        Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
+                        console.log("Volunteer got added");
+                      });
+                    });
+                  }
+                });
+              }
+            }
+
+
 
 
 
