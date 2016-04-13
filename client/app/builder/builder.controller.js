@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('BuilderCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer) {
+  .controller('BuilderCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer, Location) {
     var self = this;
     self.error = false;
     self.success = false;
@@ -62,33 +62,37 @@ angular.module('ulyssesApp')
           });
 
 
-          Slot.query({}, function(results) {
-            var slots = results;
+          Slot.query({}, function(results1) {
+            var slots = results1;
 
             slots.sort(function(a, b) {
               return (b.volunteersNeeded - b.volunteers.length) - (a.volunteersNeeded - a.volunteers.length);
             });
 
-          /*  slots.forEach(function(slot){
-              console.log("Slots: " + slot.volunteersNeeded);
+          console.log("First Slot " + slots[0].volunteersNeeded);
+            console.log("First Volunteer " + volunteers[0].firstName + " " + volunteers[0].lastName);
+
+            slots[0].volunteers.push(volunteers[0]._id);
+            Slot.update({id: slots[0]._id}, slots[0]);
+            Job.get({id: slots[0].jobID}, function(jobitself) {
+              Location.get({id: jobitself.locations[0]}, function(location) {
+                //ignored self.vols.push(volunteers[0]);
+                console.log("Getting Job Id" + location);
+                volunteers[0].slots.push(slots[0]._id);
+                volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[0]._id});
+                Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
+              });
             });
 
-            console.log(slots[0].volunteersNeeded); */
 
-          volunteers.forEach(function(vol) {
-            slots.forEach(function(slot){
-              console.log(vol.firstName + slot.volunteersNeeded);
 
-              //console.log("Volunteers in slot" + slot.volunteersNeeded + slot.volunteers[0].firstName);
-            });
+
+
+
+
           });
-        });
-
-
-
 
         });
-
 
       }
     }
