@@ -14,21 +14,25 @@ angular.module('ulyssesApp')
       console.log(self.width);
     });
 
+    // if jobs exists it returns that the job length is not zero
     self.areThereJobs = function() {
       if(self.jobs) {
         return !(self.jobs.length == 0);
       }
     }
 
+    // returns false
     self.getSlotMode = function() {
       return self.slotMode;
     }
 
+    // returns the opposite of slot mode
     self.toggleSlotMode = function() {
       self.slotMode = !self.slotMode;
       console.log(self.slotMode);
     }
 
+    // returns schedule-container-big if there are jobs and schedule container if there are no jobs
     self.getClass = function() {
       if(self.areThereJobs()) {
         return "schedule-container-big";
@@ -37,6 +41,7 @@ angular.module('ulyssesApp')
       }
     }
 
+    // pushes volunteers in their assigned time slots onto the row corresponding to the time
     self.getRow = function(time) {
       console.log("Run once");
       var result = {"slots" : []};
@@ -65,6 +70,8 @@ angular.module('ulyssesApp')
       return result;
     }
 
+    
+    // displays volunteers first and last name
     self.displaySlot = function(jobID, data) {
       if(data) {
         var returnData = [];
@@ -78,6 +85,7 @@ angular.module('ulyssesApp')
           }
         });
 
+        
         returnData.sort();
         var string = "";
         for(var i = 0; i < returnData.length; i++) {
@@ -91,6 +99,7 @@ angular.module('ulyssesApp')
       }
     }
 
+    // changes military time to standard time
     self.parseTime = function(time) {
       if(time) {
         var strTime = "";
