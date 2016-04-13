@@ -60,11 +60,38 @@ angular.module('ulyssesApp')
           volunteers.sort(function(a, b) {
             return b.teamSlots - a.teamSlots;
           });
-          
+
+
+          Slot.query({}, function(results) {
+            var slots = results;
+
+            slots.sort(function(a, b) {
+              return (b.volunteersNeeded - b.volunteers.length) - (a.volunteersNeeded - a.volunteers.length);
+            });
+
+          /*  slots.forEach(function(slot){
+              console.log("Slots: " + slot.volunteersNeeded);
+            });
+
+            console.log(slots[0].volunteersNeeded); */
+
           volunteers.forEach(function(vol) {
-            console.log(vol.firstName + " " + vol.lastName);
+            slots.forEach(function(slot){
+              console.log(vol.firstName + slot.volunteersNeeded);
+
+              //console.log("Volunteers in slot" + slot.volunteersNeeded + slot.volunteers[0].firstName);
+            });
           });
         });
+
+
+
+
+        });
+
+
       }
     }
   });
+
+
