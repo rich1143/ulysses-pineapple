@@ -205,11 +205,47 @@ angular.module('ulyssesApp')
               });
             } */
 
-
-            if(!slots[0].volunteers.includes(volunteers[0]._id))
+            var stopper = false;
+            volunteers.forEach(function(vol)
             {
+                stopper = false;
+                slots.forEach(function(slot) {
+                  if(stopper === false) {
+                    console.log(vol.firstName + " " + vol.lastName + " " + slot.volunteersNeeded);
+                    if (!slot.volunteers.includes(vol._id)) {
+                      if (slot.volunteers.length < slot.volunteersNeeded) {
+                        self.conflictLoop(slot, vol._id, function (success) {
+                          if (success === false) {
+                            slot.volunteers.push(vol._id);
+                            Slot.update({id: slot._id}, slot);
+                            Job.get({id: slot.jobID}, function (jobitself) {
+                              Location.get({id: jobitself.locations[0]}, function (location) {
+                                //ignored self.vols.push(volunteers[0]);
+                                console.log("Getting Job Id" + location);
+                                vol.slots.push(slot._id);
+                                vol.locations.push({"locationID": location._id, "slotID": slot._id});
+                                Volunteer.update({id: vol._id}, vol);
+                                console.log("Volunteer got added");
+                                stopper = true;
+                              });
+                            });
+                          }
+                        });
+                      }
+                    }
+                  }
+                });
+
+
+
+            });
+
+           /* if(!slots[0].volunteers.includes(volunteers[0]._id))
+            {
+              console.log("past stage one" + (slots[0].volunteers.length < slots[0].volunteersNeeded));
               if(slots[0].volunteers.length < slots[0].volunteersNeeded)
               {
+                console.log("past stage two");
                 self.conflictLoop(slots[0], volunteers[0]._id, function(success) {
                   if(success === false) {
                     slots[0].volunteers.push(volunteers[0]._id);
@@ -227,7 +263,7 @@ angular.module('ulyssesApp')
                   }
                 });
               }
-            }
+            } */
 
 
           });
