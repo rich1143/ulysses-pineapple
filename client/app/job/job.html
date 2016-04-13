@@ -6,7 +6,8 @@
     <div class="list-group-item no-padding" style="" ng-repeat="job in jobCtrl.data">
       <a ng-href="/jobs/{{job._id}}" class="group-item">
         <strong>Job title</strong>: {{ job.title }} <br />
-        <strong>Description</strong>: {{ job.description }}
+        <strong>Description</strong>: {{ job.description }} <br />
+        <strong>Training Time</strong>: {{ job.trainingTime }}
       </a>
       <a ng-click="jobCtrl.removeJob(job)" ng-href="" class="btn btn-sm btn-danger group-item-remove" style=""><span class="glyphicon glyphicon-trash"></span></a>
     </div>

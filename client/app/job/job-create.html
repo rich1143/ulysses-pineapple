@@ -13,6 +13,10 @@
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description" placeholder="Description of the job" ng-model="jobCtrl.description">
       </div>
+      <div class="form-group">
+        <label for="trainingTime">Training Time</label>
+        <input type="number" id="trainingTime" placeholder="min" ng-model="jobCtrl.trainingTime" min="1" max="100">
+      </div>
     </form>
   </div>
 </div>

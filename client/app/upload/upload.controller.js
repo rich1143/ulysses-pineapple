@@ -54,11 +54,11 @@ angular.module('ulyssesApp')
                   });
                 });
 
-                Job.save({title: "Child Team Performing", description: "The volunteer is watching their child", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
+                Job.save({title: "Child Team Performing", description: "The volunteer is watching a performance.", createdBy: Auth.getCurrentUser()._id}, function(jobResponse) {
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;
-                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    Job.update( {id: jobResponse._id},{title: "Child Team Performing", description: "The volunteer is watching a performance.", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
 
@@ -66,7 +66,7 @@ angular.module('ulyssesApp')
                   var defaultLocID;
                   Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                     defaultLocID = locResponse._id;
-                    Job.update( {id: jobResponse._id},{title: title, description: "Please give this job a description!", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
+                    Job.update( {id: jobResponse._id},{title: "Not Available", description: "The volunteer is not available at this time.", createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]})
                   });
                 });
 

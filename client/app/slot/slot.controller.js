@@ -309,10 +309,8 @@ angular.module('ulyssesApp')
                     self.errorMessage = returnMessage;//"This person is already assigned to a time slot during this time period.";
                   } else {
                     self.slot.volunteers.push(self.volunteer);
-                    console.log(self.slot);
                     Slot.update({id: $stateParams.id}, self.slot);
                     Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                      console.log("async finished what things and things");
                       Location.get({id: self.location}, function(results2) {
                         results.location = results2;
                         self.vols.push(results);

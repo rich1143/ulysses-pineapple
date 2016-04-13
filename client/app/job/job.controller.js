@@ -111,6 +111,7 @@ angular.module('ulyssesApp')
     } else if($state.current.name == "job-create") {
       self.jobtitle = "";
       self.description = "";
+      self.trainingTime = "";
 
       // Adds possible location to assign a job to take place at
       self.addLocation = function() {
@@ -137,27 +138,29 @@ angular.module('ulyssesApp')
                 dt.push(data._id);
               });
 
-              var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: dt};
+              var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: dt, trainingTime: self.trainingTime};
               Job.save(data);
 
               self.jobtitle = "";
               self.description = "";
+              self.trainingTime = "";
               self.locations = [];
               self.error = false;
               self.success = true;
             });
           } else {
 
-            var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: []};
+            var data = {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: [], trainingTime: self.trainingTime};
             Job.save(data, function (jobResponse) {
               var defaultLocID;
               Location.save({name: "Location TBD", jobID: jobResponse._id}, function (locResponse) {
                 defaultLocID = locResponse._id;
-                Job.update({id: jobResponse._id}, {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID]
+                Job.update({id: jobResponse._id}, {title: self.jobtitle, description: self.description, createdBy: Auth.getCurrentUser()._id, locations: [defaultLocID], trainingTime: self.trainingTime
                 });
 
                 self.jobtitle = "";
                 self.description = "";
+                self.trainingTime = "";
                 self.locations = [];
                 self.error = false;
                 self.success = true;
@@ -365,7 +368,7 @@ angular.module('ulyssesApp')
                 self.locations.push(loc);
                 self.job.locations.push(loc._id);
               });
-              var job = {title: self.job.title, description: self.job.description, locations: self.job.locations};
+              var job = {title: self.job.title, description: self.job.description, locations: self.job.locations, trainingTime: self.job.trainingTime};
               Job.update({id: $stateParams.id}, job);
               self.newLocations = [];
               self.success = true;
@@ -374,7 +377,7 @@ angular.module('ulyssesApp')
               $anchorScroll();
             });
           } else {
-            var job = {title: self.job.title, description: self.job.description};
+            var job = {title: self.job.title, description: self.job.description, trainingTime: self.job.trainingTime};
             Job.update({id: $stateParams.id}, job);
             self.newLocations = [];
             self.success = true;

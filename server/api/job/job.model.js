@@ -6,7 +6,8 @@ var JobSchema = new mongoose.Schema({
   title: String,
   description: String,
   createdBy: String,
-  locations: [String]
+  locations: [String],
+  trainingTime: Number
 });
 
 export default mongoose.model('Job', JobSchema);
