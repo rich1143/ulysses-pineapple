@@ -41,25 +41,20 @@ angular.module('ulyssesApp')
       var start2 = parseInt(slot2.start);
       var end2 = parseInt(slot2.end);
       if((start1 <= start2 && start2 <= end1)) {
-        console.log("scenario1");
         return true;
       }
       else if(start2 <= start1 && start1 <= end2) {
-        console.log("scenario2");
         return true;
       }
       else if(start1 == start2 && end1 == end2)
       {
-        console.log("scenario3");
         return true;
       } else {
-        console.log("scenario4");
         return false;
       }
     }
 
     self.conflictLoop = function(slot1, volunteerid, callback) {
-      console.log("test");
       Volunteer.get({id: volunteerid }, function(results) {
         var hasCalledBack = false;
         for(var i = 0; i < results.slots.length; i++)
@@ -124,6 +119,92 @@ angular.module('ulyssesApp')
 
             console.log("Is he in there?" + slots[0].volunteers.includes(volunteers[0]._id));
 
+           /* var skipper = false;
+
+            while(skipper === false)
+            {
+
+            } */
+
+
+            var prefs1 = "No Preference";
+            if (volunteers[0].jobPreference1.includes("Non-Judging")) {
+              prefs1 = volunteers[0].jobPreference1.substring("Non-Judging".length + 1);
+            }
+            console.log("Pref 1 " + prefs1);
+            var prefs2 = "No Preference";
+            if (volunteers[0].jobPreference2.includes("Non-Judging")) {
+              prefs2 = volunteers[0].jobPreference2.substring("Non-Judging".length + 1);
+            }
+            console.log("Pref 2 " + prefs2);
+            /*
+
+            var firstRun = true;
+            for(var i = 0; i < slots.length; i++) {
+              console.log("current " + i);
+              Job.get({id: slots[i].jobID}, function(jobitself) {
+                console.log("The Job Title: " + jobitself.title + " the iteration " + i + "the slot number" + slots[i].volunteersNeeded);
+                if(firstRun === true) {
+                  if((jobitself.title === prefs1 || jobitself.title === prefs2) && (jobitself.title !== "Child Team Performing")) {
+                    if(!slots[i].volunteers.includes(volunteers[0]._id))
+                    {
+                      if(slots[i].volunteers.length < slots[i].volunteersNeeded)
+                      {
+                        self.conflictLoop(slots[i], volunteers[0]._id, function(success) {
+                          if(success === false) {
+                            slots[i].volunteers.push(volunteers[0]._id);
+                            Slot.update({id: slots[i]._id}, slots[i]);
+                            Job.get({id: slots[i].jobID}, function(jobitself) {
+                              Location.get({id: jobitself.locations[0]}, function(location) {
+                                //ignored self.vols.push(volunteers[0]);
+                                volunteers[0].slots.push(slots[i]._id);
+                                volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[i]._id});
+                                Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
+                                console.log("Volunteer got added");
+                                i = slots.length;
+                              });
+                            });
+                          }
+                        });
+                      }
+                    }
+                  }
+                }
+                else {
+                  if(!slots[i].volunteers.includes(volunteers[0]._id))
+                  {
+                    if(slots[i].volunteers.length < slots[i].volunteersNeeded)
+                    {
+                      self.conflictLoop(slots[i], volunteers[0]._id, function(success) {
+                        if(success === false) {
+                          slots[i].volunteers.push(volunteers[0]._id);
+                          Slot.update({id: slots[i]._id}, slots[i]);
+                          Job.get({id: slots[i].jobID}, function(jobitself) {
+                            Location.get({id: jobitself.locations[0]}, function(location) {
+                              //ignored self.vols.push(volunteers[0]);
+                              console.log("Getting Job Id" + location);
+                              volunteers[0].slots.push(slots[i]._id);
+                              volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[i]._id});
+                              Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
+                              console.log("Volunteer got added");
+                              i = slots.length;
+                            });
+                          });
+                        }
+                      });
+                    }
+                  }
+                }
+                if(i = (slots.length - 1)) {
+                  if(firstRun === true) {
+                    i = 0;
+                    firstRun = false;
+                  }
+                }
+
+              });
+            } */
+
 
             if(!slots[0].volunteers.includes(volunteers[0]._id))
             {
@@ -147,13 +228,6 @@ angular.module('ulyssesApp')
                 });
               }
             }
-
-
-
-
-
-
-
 
 
           });
