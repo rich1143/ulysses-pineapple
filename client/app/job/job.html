@@ -1,7 +1,11 @@
 <div class="panel panel-default job-container">
   <div class="panel-heading">List of all jobs:
+
+    <!--link to create job page where user can add a new job-->
     <div class="pull-right"><a href="/jobs/create">Add a job</a></div>
   </div>
+
+  <!--lists all jobs that have been created-->
   <div class="list-group">
     <div class="list-group-item no-padding" style="" ng-repeat="job in jobCtrl.data">
       <a ng-href="/jobs/{{job._id}}" class="group-item">
@@ -9,8 +13,12 @@
         <strong>Description</strong>: {{ job.description }} <br />
         <strong>Training Time</strong>: {{ job.trainingTime }}
       </a>
+
+      <!--button for user to delete an existing job-->
       <a ng-click="jobCtrl.removeJob(job)" ng-href="" class="btn btn-sm btn-danger group-item-remove" style=""><span class="glyphicon glyphicon-trash"></span></a>
     </div>
   </div>
+
+  <!--displays when there are no existing jobs-->
   <div class="panel-body" ng-hide="jobCtrl.areThereJobs()">There are currently no jobs.</div>
 </div>

@@ -1,5 +1,7 @@
 <div class="job-container" ng-show="jobCtrl.doesJobExist()">
   <div class="panel panel-default">
+
+    <!--this page contains info on jobs the user has created, the user can also edit jobs on this page-->
     <div class="panel-heading">Job Info:
       <div class="pull-right"><span ng-show="jobCtrl.isReadOnly()"><a href="" ng-click="jobCtrl.toggleEdit()">Enter Editing Mode</a> | </span><a href="/jobs">Back to job list</a></div>
     </div>

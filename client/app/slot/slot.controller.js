@@ -19,6 +19,8 @@ angular.module('ulyssesApp')
 
     self.jobTitles = [];
 
+
+    // finds jobs and pushes them to the jobTitles array
     Job.query().$promise.then(function(results) {
       results.forEach(function(job) {
         console.log("run");
@@ -29,6 +31,7 @@ angular.module('ulyssesApp')
       console.log("ERROR");
     });
 
+    // converts military time to standard time
     self.parseTime = function(time) {
       if(time) {
         var strTime = "";
@@ -102,8 +105,11 @@ angular.module('ulyssesApp')
       });
     }*/
 
+    // uses isConflict to check if there is an error, then adds a volunteer to a time slot
     self.conflictLoop = function(slot1, volunteerid, callback) {
       console.log("test");
+
+      // tells user the volunteer has already been assigned here
       var errorMsg = " is already assigned to ";
       var counter = 0;
       Volunteer.get({id: volunteerid }, function(results) {
@@ -111,6 +117,8 @@ angular.module('ulyssesApp')
         var hasCalledBack = false;
 
         if(results.slots.length == 0) {
+
+          // tells user the volunteer has been assigned to the slot
           callback("You have successfully added a volunteer to this time slot.");
           console.log("You have successfully added a volunteer to this time slot.");
         }
@@ -146,6 +154,7 @@ angular.module('ulyssesApp')
       });
     }
 
+    // gets title of a job
     self.getJobTitle = function(name) {
       var title;
       self.jobTitles.forEach(function(job) {
@@ -167,28 +176,33 @@ angular.module('ulyssesApp')
       return id;
     }*/
 
+
     if($state.current.name == "slot") {
 
       Slot.query().$promise.then(function(results) {
         self.data = results;
         self.data.forEach(function(slot) {
+          // returns the job title for the slot
           slot["jobTitle"] = self.getJobTitle(slot.jobID);
+          // returns how many slots still need to be filled
           slot["left"] = slot.volunteersNeeded - slot.volunteers.length;
         })
       }, function (error) {
         console.log("ERROR");
       });
 
+      // checks if there are slots and if slots exists returns the length to not be zero
       self.areThereSlots = function() {
         if(self.data) {
           return !(self.data.length == 0);
         }
       }
 
+      // removes an existing slot from the database
       self.removeSlot = function (slot) {
         if (confirm("Are you sure you want to delete? This will remove all volunteers from this time slot.")) {
           console.log("Deleting");
-
+          // removes slots from the volunteer list of slots
           var vols = slot.volunteers;
           vols.forEach(function(volunteer) {
             Volunteer.get({id: volunteer}, function(results) {
@@ -229,15 +243,16 @@ angular.module('ulyssesApp')
       self.vols = [];
       self.exists = false;
 
+      // getter for job location
       self.getLocations = function(response, callback) {
         Job.get({id: response.jobID}, function(results) {
-          var locs = results.locations;
-          var inc = 0;
-          locs.forEach(function(location) {
+          var locations = results.locations;
+          var increment = 0;
+          locations.forEach(function(location) {
             Location.get({id: location}, function(results2) {
-              inc++;
+              increment++;
               self.locations.push(results2);
-              if(inc == locs.length) {
+              if(increment == locations.length) {
                 callback();
               }
             });
@@ -292,6 +307,7 @@ angular.module('ulyssesApp')
       }
 
 
+      // adds a volunteer to an open slot
       self.addVolunteer = function() {
 
         if(self.volunteer) {
@@ -354,6 +370,7 @@ angular.module('ulyssesApp')
         }
       }
 
+      // removes volunteer from a slot they've been assigned to
       self.removeVolunteer = function(volunteer) {
         if (confirm("Are you sure you want to delete?")) {
           Slot.get({id: self.slot._id}, function(results) {
@@ -434,6 +451,7 @@ angular.module('ulyssesApp')
         return self.singleJob;
       }
 
+      //creates a new job slot
       self.createSlot = function () {
         console.log("clicked submit!");
         if(self.singleJob) {

@@ -19,7 +19,7 @@ angular.module('ulyssesApp')
       return self.error;
     }
 
-    // Determines wheter or not to display list of job locations on job creation form
+    // Determines whether or not to display list of job locations on job creation form
     self.areThereLocations = function() {
       if(self.locations) {
         return !(self.locations.length == 0);
@@ -46,7 +46,7 @@ angular.module('ulyssesApp')
     }
 
 
-    //
+    // If there is data it returns that the length doesn't equal zero
     if($state.current.name == "job") {
 
       self.data = [];
@@ -58,7 +58,7 @@ angular.module('ulyssesApp')
         }
       }
 
-      //Enables user to deleted an added job from jobs list, validates whether user actually wants to execute deletion or not.
+      //Enables user to delete an added job from jobs list, validates whether user actually wants to execute deletion or not.
       self.removeJob = function (job) {
         if(confirm("Are you sure you want to delete? This will delete all time slots associated with this job.")) {
           console.log("Deleting");
@@ -197,12 +197,15 @@ angular.module('ulyssesApp')
         });
       });
 
+
+      // checks if a job exists
       self.doesJobExist = function() {
         if(self.job) {
           return self.exists;
         }
       }
 
+      // converts from military time to standard time
       self.parseTime = function(time) {
         if(time) {
           var strTime = "";
@@ -225,6 +228,8 @@ angular.module('ulyssesApp')
         }
       }
 
+
+      // adds a new location to the database
       self.addLocation = function() {
         console.log("Adding location");
         if(self.location.length >= 1) {
@@ -234,6 +239,7 @@ angular.module('ulyssesApp')
         }
       }
 
+      // checks if the location has been used for job
       self.checkForLocationUsage = function(location, callback) {
         var hasCalledBack = false;
         Slot.query({jobID: self.job._id}, function(results) {
@@ -270,6 +276,7 @@ angular.module('ulyssesApp')
         });
       }
 
+     // deletes a location from the database
       self.removeLocation = function(location) {
         if (self.locations.length > 1) {
           if (location._id) {
@@ -310,6 +317,7 @@ angular.module('ulyssesApp')
         }
       }
 
+      // deletes a slot of a job from the database
       self.removeSlot = function (slot) {
         if (confirm("Are you sure you want to delete? This will remove all volunteers from this time slot.")) {
           console.log("Deleting");
@@ -335,16 +343,20 @@ angular.module('ulyssesApp')
         }
       }
 
+      // returns true and the page cannot be edited by user
       self.isReadOnly = function() {
         return self.readOnly;
       }
 
+      // random assignment variable
       var temp;
 
+      // returns false allowing the user to edit
       self.toggleEdit = function () {
         self.readOnly = !self.readOnly;
       }
 
+      // updates a job
       self.updateJob = function() {
         console.log("updating");
         console.log(self.newLocations)
@@ -392,6 +404,8 @@ angular.module('ulyssesApp')
         }
       }
 
+
+      // reverts back to original job settings and ignores the update
       self.cancelUpdates = function() {
         console.log("Cancel");
         self.locations = [];
@@ -410,6 +424,7 @@ angular.module('ulyssesApp')
         $anchorScroll();
       }
 
+      //  checks if slots exist
       self.areThereSlotsHere = function() {
         if(self.slots && self.slots.length > 0) {
           return true;

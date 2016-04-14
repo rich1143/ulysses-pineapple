@@ -2,6 +2,7 @@
 
 angular.module('ulyssesApp')
   .controller('BuilderCtrl', function ($scope, $state, $stateParams, Job, Slot, Auth, Volunteer, Location) {
+
     var self = this;
     self.error = false;
     self.success = false;
@@ -10,6 +11,8 @@ angular.module('ulyssesApp')
 
     var areThereJobs = false;
     var areThereSlots = false;
+
+    // checks if there are jobs in the database. If the job exists it returns true otherwise it returns false
     Job.query({}, function(results) {
       if(results.length > 0) {
         areThereJobs = true;
@@ -18,6 +21,7 @@ angular.module('ulyssesApp')
       }
     })
 
+    // checks if there are slots in the database. If the slot exists it returns true otherwise it returns false
     Slot.query({}, function(results) {
       if(results.length > 0) {
         areThereSlots = true;
@@ -54,6 +58,8 @@ angular.module('ulyssesApp')
       }
     }
 
+
+    // uses self.isConflict to loop through all slots and check for conflicts
     self.conflictLoop = function(slot1, volunteerid, callback) {
       Volunteer.get({id: volunteerid }, function(results) {
         var hasCalledBack = false;
@@ -80,22 +86,26 @@ angular.module('ulyssesApp')
       });
     }
 
+    // builds a schedule using jobs, slots, and volunteers in the database
     self.buildSchedule = function() {
 
       self.volunteers = Volunteer.query();
 
-      // check for no time slots, no jobs, etc
+      // checks for time slots, no jobs and displays in console
       console.log(areThereJobs);
       console.log("slot", areThereSlots);
 
+      // checks if there are jobs and if there are no jobs it returns true for error
       if(!areThereJobs) {
         self.success = false;
         self.error = true;
         self.errorMessage = "You must create jobs before building a schedule.";
+        // checks if there are slots and if there are no slots it returns an true for message
       } else if(!areThereSlots) {
         self.success = false;
         self.error = true;
         self.errorMessage = "You have yet to create time slots for your entered jobs.";
+        // if there are jobs and slots it prints "Start creating schedule..." to the console
       } else {
         console.log("Start creating schedule...");
 
@@ -127,6 +137,7 @@ angular.module('ulyssesApp')
             } */
 
 
+            //gets volunteers job preference 1 and job preference 2
             var prefs1 = "No Preference";
             if (volunteers[0].jobPreference1.includes("Non-Judging")) {
               prefs1 = volunteers[0].jobPreference1.substring("Non-Judging".length + 1);
@@ -136,6 +147,8 @@ angular.module('ulyssesApp')
             if (volunteers[0].jobPreference2.includes("Non-Judging")) {
               prefs2 = volunteers[0].jobPreference2.substring("Non-Judging".length + 1);
             }
+
+            //prints volunteers preferences to the console
             console.log("Pref 2 " + prefs2);
             /*
 
@@ -236,6 +249,8 @@ angular.module('ulyssesApp')
                   }
                 });
 
+            // checks if a slot needs more volunteers and adds a volunteer to an empty slot
+            if(!slots[0].volunteers.includes(volunteers[0]._id))
 
 
             });
@@ -263,7 +278,7 @@ angular.module('ulyssesApp')
                   }
                 });
               }
-            } */
+            }
 
 
           });
