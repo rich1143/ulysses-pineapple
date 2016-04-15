@@ -8,6 +8,7 @@ angular.module('ulyssesApp')
     self.success = false;
     self.error = false;
     self.locations = [];
+    var allowanceBool = false;
 
     self.isSuccess = function () {
       return self.success;
@@ -110,24 +111,28 @@ angular.module('ulyssesApp')
       console.log("test");
 
       // tells user the volunteer has already been assigned here
-      var errorMsg = " is already assigned to ";
+
+       var errorMsg = " is already assigned to ";
       var counter = 0;
       Volunteer.get({id: volunteerid }, function(results) {
         errorMsg = results.firstName + " " + results.lastName + errorMsg;
         var hasCalledBack = false;
-
+        console.log("this should only appear once");
         if(results.slots.length == 0) {
 
           // tells user the volunteer has been assigned to the slot
+
           callback("You have successfully added a volunteer to this time slot.");
           console.log("You have successfully added a volunteer to this time slot.");
         }
         for(var i = 0; i < results.slots.length; i++)
         {
+          console.log("this should only appear twice yup")
           Slot.get({id: results.slots[i]}, function(results1) {
-            console.log(results1);
+            //console.log(results1);
             if(self.isConflict(slot1, results1))
             {
+              allowanceBool = true;
               Job.get({id: results1.jobID}, function(jobResults) {
                 console.log("Printing results1 " + jobResults.title);
                 if(counter != 0)
@@ -142,9 +147,12 @@ angular.module('ulyssesApp')
                 }
                 callback(errorMsg + ".");
                 hasCalledBack = true;
+                console.log("so here hasCalledBack is " + hasCalledBack + "error message if: " + errorMsg);
               });
             } else if(i == results.slots.length) {
-              if(!hasCalledBack) {
+              if(hasCalledBack == false) {
+                console.log("it's getting here" + hasCalledBack+ "error message: " + errorMsg);
+
                 callback("You have successfully added a volunteer to this time slot.");
                 hasCalledBack = true;
               }
@@ -319,10 +327,13 @@ angular.module('ulyssesApp')
                 self.success = false;
               } else {
                 self.conflictLoop(self.slot, self.volunteer, function(returnMessage) {
-                  if(!(returnMessage === "You have successfully added a volunteer to this time slot.")) {
+                  setTimeout( function () {
+                  if(allowanceBool == true) {
+                    //console.log("Was able to get into the correct location.");
                     self.error = true;
                     self.success = false;
                     self.errorMessage = returnMessage;//"This person is already assigned to a time slot during this time period.";
+
                   } else {
                     self.slot.volunteers.push(self.volunteer);
                     Slot.update({id: $stateParams.id}, self.slot);
@@ -349,7 +360,7 @@ angular.module('ulyssesApp')
                     }, function (error) {
                       console.log("ERROR");
                     });
-                  }
+                  }}, 1000);
                 });
               }
             } else {
@@ -368,6 +379,7 @@ angular.module('ulyssesApp')
           self.success = false;
           self.errorMessage = "You must choose a volunteer to be added.";
         }
+        allowanceBool = false;
       }
 
       // removes volunteer from a slot they've been assigned to

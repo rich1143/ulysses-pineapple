@@ -8,9 +8,15 @@ angular.module('ulyssesApp')
     self.success = false;
     self.errorMessage = "";
     self.volunteers = Volunteer.query();
+    var allowanceBool = false;
+    var volNumAdded = 0;
+    var failSafe = 0;
+    self.endMessage = "";
 
     var areThereJobs = false;
     var areThereSlots = false;
+
+    var added = false;
 
     // checks if there are jobs in the database. If the job exists it returns true otherwise it returns false
     Job.query({}, function(results) {
@@ -66,9 +72,10 @@ angular.module('ulyssesApp')
         for(var i = 0; i < results.slots.length; i++)
         {
           Slot.get({id: results.slots[i]}, function(results1) {
-            console.log(results1);
+            //console.log(results1);
             if(self.isConflict(slot1, results1))
             {
+              allowanceBool = true;
 
               callback(true);
               hasCalledBack = true;
@@ -86,10 +93,58 @@ angular.module('ulyssesApp')
       });
     }
 
+    //adds a volunteer to a slot
+    self.addVolunteer = function (vol, slot) {
+      //console.log("in there? " + slot.volunteersNeeded + !slot.volunteers.includes(vol._id))
+      if(added == false){
+      if (!slot.volunteers.includes(vol._id)) {
+        if (slot.volunteers.length < slot.volunteersNeeded) {
+          self.conflictLoop(slot, vol._id, function (success) {
+            setTimeout( function () {
+              if (allowanceBool == false) {
+                if (!slot.volunteers.includes(vol._id)) {
+                  console.log("This should only run once");
+                  slot.volunteers.push(vol._id);
+                  Slot.update({id: slot._id}, slot);
+                  //self.slotsToUpdate.push(slot);
+                  Job.get({id: slot.jobID}, function (jobitself) {
+                    Location.get({id: jobitself.locations[0]}, function (location) {
+                      //ignored self.vols.push(volunteers[0]);
+                      vol.slots.push(slot._id);
+                      vol.locations.push({"locationID": location._id, "slotID": slot._id});
+                      Volunteer.update({id: vol._id}, vol);
+                      //self.volsToUpdate.push(vol);
+                      console.log("Volunteer got added to " + jobitself.title);
+                      added = true;
+                      volNumAdded++;
+                      failSafe++;
+                    });
+                  });
+                }
+              }
+            }, 1000);
+          });
+        }
+      }
+    }
+      allowanceBool = false;
+    }
+
+    self.countVolStillNeeded = function(slots) {
+      var volNeeded = 0;
+      var volAssigned = 0;
+      slots.forEach(function(slot) {
+        volNeeded += slot.volunteersNeeded;
+        volAssigned += slot.volunteers.length;
+      });
+      return volNeeded - volAssigned;
+    }
+
     // builds a schedule using jobs, slots, and volunteers in the database
     self.buildSchedule = function() {
-
+      self.endMessage = "Build in progress...";
       self.volunteers = Volunteer.query();
+
 
       // checks for time slots, no jobs and displays in console
       console.log(areThereJobs);
@@ -119,22 +174,16 @@ angular.module('ulyssesApp')
 
           Slot.query({}, function(results1) {
             var slots = results1;
-
+            var toFulfill = self.countVolStillNeeded(slots);
+            console.log("toFulfill " + toFulfill);
             slots.sort(function(a, b) {
               return (b.volunteersNeeded - b.volunteers.length) - (a.volunteersNeeded - a.volunteers.length);
             });
 
-          console.log("First Slot " + slots[0].volunteersNeeded);
+            console.log("First Slot " + slots[0].volunteersNeeded);
             console.log("First Volunteer " + volunteers[0].firstName + " " + volunteers[0].lastName);
 
             console.log("Is he in there?" + slots[0].volunteers.includes(volunteers[0]._id));
-
-           /* var skipper = false;
-
-            while(skipper === false)
-            {
-
-            } */
 
 
             //gets volunteers job preference 1 and job preference 2
@@ -150,117 +199,71 @@ angular.module('ulyssesApp')
 
             //prints volunteers preferences to the console
             console.log("Pref 2 " + prefs2);
-            /*
 
-            var firstRun = true;
-            for(var i = 0; i < slots.length; i++) {
-              console.log("current " + i);
-              Job.get({id: slots[i].jobID}, function(jobitself) {
-                console.log("The Job Title: " + jobitself.title + " the iteration " + i + "the slot number" + slots[i].volunteersNeeded);
-                if(firstRun === true) {
-                  if((jobitself.title === prefs1 || jobitself.title === prefs2) && (jobitself.title !== "Child Team Performing")) {
-                    if(!slots[i].volunteers.includes(volunteers[0]._id))
-                    {
-                      if(slots[i].volunteers.length < slots[i].volunteersNeeded)
-                      {
-                        self.conflictLoop(slots[i], volunteers[0]._id, function(success) {
-                          if(success === false) {
-                            slots[i].volunteers.push(volunteers[0]._id);
-                            Slot.update({id: slots[i]._id}, slots[i]);
-                            Job.get({id: slots[i].jobID}, function(jobitself) {
-                              Location.get({id: jobitself.locations[0]}, function(location) {
-                                //ignored self.vols.push(volunteers[0]);
-                                volunteers[0].slots.push(slots[i]._id);
-                                volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[i]._id});
-                                Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
-                                console.log("Volunteer got added");
-                                i = slots.length;
-                              });
-                            });
-                          }
-                        });
-                      }
-                    }
-                  }
-                }
-                else {
-                  if(!slots[i].volunteers.includes(volunteers[0]._id))
-                  {
-                    if(slots[i].volunteers.length < slots[i].volunteersNeeded)
-                    {
-                      self.conflictLoop(slots[i], volunteers[0]._id, function(success) {
-                        if(success === false) {
-                          slots[i].volunteers.push(volunteers[0]._id);
-                          Slot.update({id: slots[i]._id}, slots[i]);
-                          Job.get({id: slots[i].jobID}, function(jobitself) {
-                            Location.get({id: jobitself.locations[0]}, function(location) {
-                              //ignored self.vols.push(volunteers[0]);
-                              console.log("Getting Job Id" + location);
-                              volunteers[0].slots.push(slots[i]._id);
-                              volunteers[0].locations.push({"locationID" : location._id, "slotID" : slots[i]._id});
-                              Volunteer.update({id: volunteers[0]._id}, volunteers[0]);
-                              console.log("Volunteer got added");
-                              i = slots.length;
-                            });
-                          });
-                        }
-                      });
-                    }
-                  }
-                }
-                if(i = (slots.length - 1)) {
-                  if(firstRun === true) {
-                    i = 0;
-                    firstRun = false;
-                  }
-                }
 
-              });
-            } */
-
-            var stopper = false;
-            volunteers.forEach(function(vol)
+            var i = 0;
+            var o = 0;
+            var maxInner = slots.length;
+            var maxOuter = 1;
+            var delay = 2000;
+            function rec()
             {
-                stopper = false;
-                slots.forEach(function(slot) {
-                  if(stopper === false) {
-                    console.log(vol.firstName + " " + vol.lastName + " " + slot.volunteersNeeded);
-                    if (!slot.volunteers.includes(vol._id)) {
-                      if (slot.volunteers.length < slot.volunteersNeeded) {
-                        self.conflictLoop(slot, vol._id, function (success) {
-                          if (success === false) {
-                            slot.volunteers.push(vol._id);
-                            Slot.update({id: slot._id}, slot);
-                            Job.get({id: slot.jobID}, function (jobitself) {
-                              Location.get({id: jobitself.locations[0]}, function (location) {
-                                //ignored self.vols.push(volunteers[0]);
-                                console.log("Getting Job Id" + location);
-                                vol.slots.push(slot._id);
-                                vol.locations.push({"locationID": location._id, "slotID": slot._id});
-                                Volunteer.update({id: vol._id}, vol);
-                                console.log("Volunteer got added");
-                                stopper = true;
-                              });
-                            });
-                          }
-                        });
-                      }
-                    }
-                  }
-                });
+              console.log("outerloop "+o);
+              var inner = setInterval(function(){
 
+                console.log("innerloop "+i);
+
+                console.log("iteration outer: " + o + " iteration inner: " + i + " " + volunteers[o].firstName + " " + volunteers[o].lastName);
+                console.log("what is added? " + added);
+
+                self.addVolunteer(volunteers[o], slots[i]);
+               // console.log("volNumAdded is now:" + volNumAdded);
+
+                i++;
+
+                if(added) {
+                  i = maxInner;
+                }
+
+                if(i==maxInner)
+                {
+                  clearTimeout(inner);
+                  var outer = setTimeout(function(){
+
+                    console.log("added" + added);
+                    added = false;
+                    o++;
+                    i=0;
+                    if(o==maxOuter)
+                    {
+                      if(volNumAdded != toFulfill && failSafe != 0)
+                      {
+                        o = 0;
+                        failSafe = 0;
+
+                      } else {
+                        self.endMessage = "Schedule is built.";
+                        return;
+                      }
+
+
+                    }
+                    clearTimeout(outer);
+                    rec();
+                  },delay);
+                }
+              },delay);
+            }
+            rec();
+
+
+
+          /*
             // checks if a slot needs more volunteers and adds a volunteer to an empty slot
             if(!slots[0].volunteers.includes(volunteers[0]._id))
-
-
-            });
-
-           /* if(!slots[0].volunteers.includes(volunteers[0]._id))
             {
-              console.log("past stage one" + (slots[0].volunteers.length < slots[0].volunteersNeeded));
               if(slots[0].volunteers.length < slots[0].volunteersNeeded)
               {
-                console.log("past stage two");
                 self.conflictLoop(slots[0], volunteers[0]._id, function(success) {
                   if(success === false) {
                     slots[0].volunteers.push(volunteers[0]._id);
@@ -278,7 +281,7 @@ angular.module('ulyssesApp')
                   }
                 });
               }
-            }
+            } */
 
 
           });
@@ -286,6 +289,7 @@ angular.module('ulyssesApp')
         });
 
       }
+
     }
   });
 

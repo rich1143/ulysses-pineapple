@@ -4,10 +4,8 @@
   <div class="panel-body">
 
     <!--clicking button calls buildSchedule function which builds a schedule -->
-    <button ng-click="builderCtrl.buildSchedule()" type="button" class="btn btn-success">Create a Schedule</button>
+    <button  type="button" ng-click="builderCtrl.buildSchedule()" class="btn btn-success">Create a Schedule</button>
+    <span ng-bind="builderCtrl.endMessage"></span>
 
-    <!--lists all volunteers in the database-->
-    <div ng-repeat="volunteer in builderCtrl.volunteers">
-      {{volunteer.firstName}} {{volunteer.lastName}}
-  </div>
+
 </div>
