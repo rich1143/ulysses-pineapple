@@ -5,6 +5,8 @@
  * adapted from code by chiyuk
  * https://github.com/DaftMonk/generator-angular-fullstack/issues/494#issuecomment-62564718
  */
+
+
 'use strict';
 
 var app = require('../app');
@@ -40,7 +42,7 @@ function Authed(role) {
       if (err) return done(err);
       done();
     });
-  };
+  }
 
   function getToken(done) {
     agent
@@ -101,3 +103,4 @@ function Authed(role) {
 module.exports = function(role) {
   return new Authed(role);
 }
+
