@@ -9,6 +9,7 @@ angular.module('ulyssesApp')
     self.error = false;
     self.locations = [];
     var allowanceBool = false;
+    var toBeRemoved = [];
 
     self.isSuccess = function () {
       return self.success;
@@ -16,6 +17,15 @@ angular.module('ulyssesApp')
 
     self.isError = function () {
       return self.error;
+    }
+
+    self.isRemovable = function () {
+      if(toBeRemoved.length > 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
     }
 
     self.jobTitles = [];
@@ -55,7 +65,7 @@ angular.module('ulyssesApp')
       }
     }
 
-      //checks to see if two time slots overlap
+    //checks to see if two time slots overlap
     self.isConflict = function(slot1, slot2) {
       var start1 = parseInt(slot1.start);
       var end1 = parseInt(slot1.end);
@@ -80,31 +90,31 @@ angular.module('ulyssesApp')
     }
 
     /*self.conflictLoop = function(slot1, volunteerid, callback) {
-      console.log("test");
-      Volunteer.get({id: volunteerid }, function(results) {
-        var hasCalledBack = false;
-        for(var i = 0; i < results.slots.length; i++)
-        {
-          Slot.get({id: results.slots[i]}, function(results1) {
-            console.log(results1);
-            if(self.isConflict(slot1, results1))
-            {
+     console.log("test");
+     Volunteer.get({id: volunteerid }, function(results) {
+     var hasCalledBack = false;
+     for(var i = 0; i < results.slots.length; i++)
+     {
+     Slot.get({id: results.slots[i]}, function(results1) {
+     console.log(results1);
+     if(self.isConflict(slot1, results1))
+     {
 
-              callback(true);
-              hasCalledBack = true;
-            } else if(i == results.slots.length) {
-              if(!hasCalledBack) {
-                callback(false);
-              }
-            }
-          });
-        }
+     callback(true);
+     hasCalledBack = true;
+     } else if(i == results.slots.length) {
+     if(!hasCalledBack) {
+     callback(false);
+     }
+     }
+     });
+     }
 
-        if(results.slots.length == 0) {
-          callback(false);
-        }
-      });
-    }*/
+     if(results.slots.length == 0) {
+     callback(false);
+     }
+     });
+     }*/
 
     // uses isConflict to check if there is an error, then adds a volunteer to a time slot
     self.conflictLoop = function(slot1, volunteerid, callback) {
@@ -112,12 +122,11 @@ angular.module('ulyssesApp')
 
       // tells user the volunteer has already been assigned here
 
-       var errorMsg = " is already assigned to ";
+      var errorMsg = " is already assigned to ";
       var counter = 0;
       Volunteer.get({id: volunteerid }, function(results) {
         errorMsg = results.firstName + " " + results.lastName + errorMsg;
         var hasCalledBack = false;
-        console.log("this should only appear once");
         if(results.slots.length == 0) {
 
           // tells user the volunteer has been assigned to the slot
@@ -127,12 +136,13 @@ angular.module('ulyssesApp')
         }
         for(var i = 0; i < results.slots.length; i++)
         {
-          console.log("this should only appear twice yup")
           Slot.get({id: results.slots[i]}, function(results1) {
             //console.log(results1);
             if(self.isConflict(slot1, results1))
             {
               allowanceBool = true;
+              toBeRemoved.push(results1);
+              console.log("added to toBeRemoved");
               Job.get({id: results1.jobID}, function(jobResults) {
                 console.log("Printing results1 " + jobResults.title);
                 if(counter != 0)
@@ -147,11 +157,9 @@ angular.module('ulyssesApp')
                 }
                 callback(errorMsg + ".");
                 hasCalledBack = true;
-                console.log("so here hasCalledBack is " + hasCalledBack + "error message if: " + errorMsg);
               });
             } else if(i == results.slots.length) {
               if(hasCalledBack == false) {
-                console.log("it's getting here" + hasCalledBack+ "error message: " + errorMsg);
 
                 callback("You have successfully added a volunteer to this time slot.");
                 hasCalledBack = true;
@@ -176,13 +184,13 @@ angular.module('ulyssesApp')
     }
 
     /*self.getJobID = function(name){
-      var id;
-      self.jobTitles.forEach(function(job){
-        if(job.title == name)
-          id = job.id;
-      }
-      return id;
-    }*/
+     var id;
+     self.jobTitles.forEach(function(job){
+     if(job.title == name)
+     id = job.id;
+     }
+     return id;
+     }*/
 
 
     if($state.current.name == "slot") {
@@ -317,7 +325,8 @@ angular.module('ulyssesApp')
 
       // adds a volunteer to an open slot
       self.addVolunteer = function() {
-
+        toBeRemoved = [];
+        console.log("checking that toBeRemoved is empty, so length is: " + toBeRemoved.length);
         if(self.volunteer) {
           if(!self.slot.volunteers.includes(self.volunteer)) {
             if (self.location) {
@@ -328,39 +337,41 @@ angular.module('ulyssesApp')
               } else {
                 self.conflictLoop(self.slot, self.volunteer, function(returnMessage) {
                   setTimeout( function () {
-                  if(allowanceBool == true) {
-                    //console.log("Was able to get into the correct location.");
-                    self.error = true;
-                    self.success = false;
-                    self.errorMessage = returnMessage;//"This person is already assigned to a time slot during this time period.";
+                    if(allowanceBool == true) {
+                      //console.log("Was able to get into the correct location.");
+                      self.error = true;
+                      self.success = false;
+                      self.errorMessage = returnMessage;//"This person is already assigned to a time slot during this time period.";
 
-                  } else {
-                    self.slot.volunteers.push(self.volunteer);
-                    Slot.update({id: $stateParams.id}, self.slot);
-                    Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
-                      Location.get({id: self.location}, function(results2) {
-                        results.location = results2;
-                        self.vols.push(results);
-                        console.log(self.vols);
-                        var vol = results;
-                        vol.slots.push(self.slot._id);
-                        vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
-                        console.log("Slot Title: " + self.getJobTitle(self.slot.jobID));
-                        if (self.getJobTitle(self.slot.jobID) === "Child Team Performing") {
-                          vol.teamSlots++;
-                          console.log("teamSlots: " + vol.teamSlots);
-                        }
-                        Volunteer.update({id: vol._id}, vol);
-                        self.slot["left"]--;
-                        self.success = true;
-                        self.error = false;
-                        self.volunteer = "";
-                        self.location = "";
+                    } else {
+                      self.slot.volunteers.push(self.volunteer);
+                      Slot.update({id: $stateParams.id}, self.slot);
+                      Volunteer.get({id: self.volunteer}).$promise.then(function (results) {
+                        Location.get({id: self.location}, function(results2) {
+                          results.location = results2;
+                          self.vols.push(results);
+                          console.log(self.vols);
+                          var vol = results;
+                          vol.slots.push(self.slot._id);
+                          vol.locations.push({"locationID" : self.location, "slotID" : self.slot._id});
+                          console.log("Slot Title: " + self.getJobTitle(self.slot.jobID));
+                          if (self.getJobTitle(self.slot.jobID) === "Child Team Performing") {
+                            vol.teamSlots++;
+                            console.log("teamSlots: " + vol.teamSlots);
+                          }
+                          Volunteer.update({id: vol._id}, vol);
+                          self.slot["left"]--;
+                          self.success = true;
+                          self.error = false;
+                          self.volunteer = "";
+                          self.location = "";
+                        });
+                      }, function (error) {
+                        console.log("ERROR");
                       });
-                    }, function (error) {
-                      console.log("ERROR");
-                    });
-                  }}, 1000);
+                    }
+                  }, 1000);
+                  console.log("length of toBeRemoved " + toBeRemoved.length);
                 });
               }
             } else {
@@ -380,6 +391,7 @@ angular.module('ulyssesApp')
           self.errorMessage = "You must choose a volunteer to be added.";
         }
         allowanceBool = false;
+
       }
 
       // removes volunteer from a slot they've been assigned to
@@ -432,6 +444,68 @@ angular.module('ulyssesApp')
             self.slot.volunteers.splice(index, 1);
           }
 
+        }
+      }
+
+      // removes volunteer from a slot they've been assigned to
+      self.removeVolunteerSpecific = function(slot) {
+
+            var index = slot.volunteers.indexOf(self.volunteer);
+            if(index > -1) {
+              slot.volunteers.splice(index, 1);
+            }
+            Slot.update({id: slot._id}, slot);
+
+
+          Volunteer.get({id: self.volunteer}, function (results) {
+            var vol = results;
+            console.log(vol);
+            var index = vol.slots.indexOf(slot._id);
+            if (index > -1) {
+              vol.slots.splice(index, 1);
+            }
+            console.log("updating");
+
+            index = -1;
+            var i = 0;
+            vol.locations.forEach(function(location) {
+              if(location.slotID == slot._id) {
+                console.log("found");
+                index = i;
+              }
+              i++;
+            });
+
+            if(index > -1) {
+              vol.locations.splice(index, 1);
+            }
+
+            Volunteer.update({id: self.volunteer}, vol);
+
+            slot.left++;
+
+            var index = self.vols.indexOf(results);
+            if(index > -1) {
+              self.vols.splice(index, 1);
+            }
+          });
+
+
+
+          index = slot.volunteers.indexOf(self.volunteer);
+          if(index > -1) {
+            slot.volunteers.splice(index, 1);
+          }
+
+
+      }
+
+      //removes volunteer from all slots in array
+      self.removeVolunteerFromSlots = function() {
+        if (confirm("Are you sure you want to remove this volunteer from all conflicting slots?")) {
+          for (var i = 0; i < toBeRemoved.length; i++) {
+            self.removeVolunteerSpecific(toBeRemoved[i]);
+          }
         }
       }
 

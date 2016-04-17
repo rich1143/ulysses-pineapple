@@ -30,7 +30,9 @@
     <div class="panel-body" ng-show="slotCtrl.areThereVolunteers()">
       <div class="success" ng-show="slotCtrl.isSuccess()">You have successfully added a volunteer to this time slot.<br /><br /></div>
       <div class="warning" ng-show="slotCtrl.isError()">{{ slotCtrl.errorMessage }}<br /><br /></div>
+
       <form>
+        <button type="button" ng-show="slotCtrl.isRemovable()" ng-click="slotCtrl.removeVolunteerFromSlots()" class="btn btn-default">Remove Volunteer From Conflicting Slots</button>
         <div class="clearfix">
           <div class="form-group pull-left">
             <label for="volunteer">Pick a volunteer</label><br />
