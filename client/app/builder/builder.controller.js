@@ -204,7 +204,7 @@ angular.module('ulyssesApp')
             var i = 0;
             var o = 0;
             var maxInner = slots.length;
-            var maxOuter = 1;
+            var maxOuter = volunteers.length;
             var delay = 2000;
             function rec()
             {
