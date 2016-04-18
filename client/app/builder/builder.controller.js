@@ -217,7 +217,6 @@ angular.module('ulyssesApp')
                 console.log("what is added? " + added);
 
                 self.addVolunteer(volunteers[o], slots[i]);
-                // console.log("volNumAdded is now:" + volNumAdded);
 
                 i++;
 
@@ -230,6 +229,9 @@ angular.module('ulyssesApp')
                   clearTimeout(inner);
                   var outer = setTimeout(function(){
 
+                    if(volNumAdded == toFulfill) {
+                      return;
+                    }
                     console.log("added" + added);
                     added = false;
                     o++;
