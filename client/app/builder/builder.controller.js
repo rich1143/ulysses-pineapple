@@ -142,8 +142,10 @@ angular.module('ulyssesApp')
 
     // builds a schedule using jobs, slots, and volunteers in the database
     self.buildSchedule = function() {
-      self.endMessage = "Build in progress...";
+      document.getElementById("brokenthing").innerHTML = "Build in progress, please remain on this page.";
+      self.endMessage = "Build in progress, please remain on this page.";
       self.volunteers = Volunteer.query();
+      self.isFinished = false;
 
 
       // checks for time slots, no jobs and displays in console
@@ -230,6 +232,10 @@ angular.module('ulyssesApp')
                   var outer = setTimeout(function(){
 
                     if(volNumAdded == toFulfill) {
+                      self.endMessage = "Schedule is built.";
+                      self.isFinished = true;
+                      document.getElementById("brokenthing").innerHTML = "Schedule is built.";
+                      console.log("LAKJSDLSAJ");
                       return;
                     }
                     console.log("added" + added);
@@ -245,6 +251,9 @@ angular.module('ulyssesApp')
 
                       } else {
                         self.endMessage = "Schedule is built.";
+                        self.isFinished = true;
+                        document.getElementById("brokenthing").innerHTML = "Schedule is built.";
+                        console.log("LAKJSDLSAJ");
                         return;
                       }
 
