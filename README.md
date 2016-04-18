@@ -16,4 +16,4 @@ Link to iteration two burndown chart:
 https://docs.google.com/a/morris.umn.edu/spreadsheets/d/1HQCJIfJlXe7wZT7nCkilqlaBvSVQDuAZ6bqYZTRJLrw/edit?usp=sharing
 
 Link to iteration three burndown chart:
-https://docs.google.com/spreadsheets/d/1NLJvbSI9inGlK9htTg-wfhmxyh-FzzNEJDb9AY46pWg/edit#gid=988502581
+https://docs.google.com/a/morris.umn.edu/spreadsheets/d/1VvjlQaz3brxx0e-zqxSIRh2LeRTRbiVSI2nDQi5Wmbk/edit?usp=sharing
