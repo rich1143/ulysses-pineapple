@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulyssesApp')
-  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, Location, $anchorScroll, Job, Slot) {
+  .controller('VolunteerCtrl', function ($scope, $state, $stateParams, Volunteer, $location, Location, $anchorScroll, Job, Slot, $window) {
     var self = this;
 
     self.data = [];
@@ -13,6 +13,7 @@ angular.module('ulyssesApp')
     self.slots = [];
     self.jobTitles = [];
 
+
     self.isSuccess = function () {
       return self.success;
     }
@@ -20,6 +21,9 @@ angular.module('ulyssesApp')
     self.isError = function () {
       return self.error;
     }
+
+
+
 
 
     console.log($state.current.name);
@@ -39,7 +43,36 @@ angular.module('ulyssesApp')
         if(self.data) {
           return !(self.data.length == 0);
         }
-      }
+      };
+
+      // send email to all volunteers
+      var sendEmails = function(vols){
+        var str = 'http://mail.google.com/mail/?view=cm&fs=1'+
+          '&to=' + vols.to +
+          '&su=' + vols.subject +
+          '&body=' + vols.message +
+          '&ui=1';
+        $window.open(str);
+      };
+
+
+
+
+      self.emailAllVolunteers = function() {
+        var emailList = "";
+          self.data.forEach(function(volunteer) {
+            emailList += volunteer.email + ","
+          });
+        setTimeout(function() {
+          sendEmails({
+            to: emailList,
+            subject: "Volunteer Information for Odyssey of the Mind",
+            message: "Dear Volunteer, %0D%0A%0D%0AThank you for your participation in this event!%0D%0A%0D%0AYou can log in to see your schedule at http://localhost:9000/ using the email \"peter@example.com\" and the password \"peter\".%0D%0A%0D%0ASincerely,%0D%0A%0D%0AOdyssey of the Mind"
+
+          });
+        }, 1000);
+
+      };
 
       self.removeVolunteer = function (volunteer) {
         if(confirm("Are you sure you want to delete this volunteer?")) {
@@ -122,7 +155,7 @@ angular.module('ulyssesApp')
               if(location.slotID == data) {
                 Location.get({id: location.locationID}, function(location2) {
                   results.location = location2.name;
-                  console.log("async finished");
+                  console.log("this is: " + results.location);
                   self.slots.push(results);
                   console.log(self.slots);
                 })
@@ -133,6 +166,54 @@ angular.module('ulyssesApp')
           });
         });
       });
+
+      // send email to all volunteers
+      var sendEmail = function(vols){
+        var str = 'http://mail.google.com/mail/?view=cm&fs=1'+
+          '&to=' + vols.to +
+          '&su=' + vols.subject +
+          '&body=' + vols.message +
+          '&ui=1';
+        $window.open(str);
+      };
+
+
+
+
+      self.emailVolunteer = function() {
+        var jobInfo = "";
+        self.volunteer.slots.forEach(function(slotID) {
+          Slot.get({id: slotID}).$promise.then(function(slot) {
+            Job.get({id: slot.jobID}, function(job){
+              self.volunteer.locations.forEach(function (location) {
+                if (location.slotID == slotID) {
+                  Location.get({id: location.locationID}, function (location2) {
+                    slot.location = location2.name;
+                    console.log("this is the location: " + slot.location);
+                    jobInfo += "Job Title: " + job.title + "%0D%0AStart Time: " + self.parseTime(slot.start) + "%0D%0AEnd Time: " + self.parseTime(slot.end) + "%0D%0ALocation: " + slot.location + "%0D%0A%0D%0A";
+                  })
+                }
+              });
+            });
+          }, function(error) {
+            console.log("ERROR");
+          });
+        });
+
+        console.log("what is self.volunteer? " + jobInfo);
+        setTimeout(function() {
+          sendEmail({
+            to: self.volunteer.email,
+            subject: "Volunteer Information for Odyssey of the Mind",
+            message: "Dear " + self.volunteer.firstName + "," + "%0D%0A%0D%0A" + "Thank you for your participation in this event! Our records show your team of interest is "
+            + self.volunteer.childTeam.substring(1) + ".%0D%0A%0D%0A"
+            + "You have been assigned to the following:%0D%0A%0D%0A"
+            + jobInfo + "You can log in to see your schedule at http://localhost:9000/ using the email \"peter@example.com\" and the password \"peter\".%0D%0A%0D%0ASincerely,%0D%0A%0D%0AOdyssey of the Mind"
+
+          });
+        }, 1000);
+
+      };
 
       self.doesVolunteerExist = function() {
         if(self.volunteer) {
