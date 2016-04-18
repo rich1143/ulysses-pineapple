@@ -1,25 +1,29 @@
-<div ng-show="volunteerCtrl.areThereVolunteers()"><div class="panel panel-default volunteer-container">
+<div ng-show="volunteerCtrl.areThereVolunteers()">
+  <div class="panel panel-default volunteer-container">
   <div class="panel-heading">Search for a specific volunteer:</div>
   <div class="panel-body text-center">
     <input type="search" ng-model="search.firstName" placeholder="filter volunteer by first name" aria-label="filter volunteer" class="filtering"/>
     <input type="search" ng-model="search.lastName" placeholder="filter volunteer by last name" aria-label="filter volunteer" class="filtering" />
   </div>
-</div><br /></div>
-<div class="panel panel-default volunteer-container">
-  <div class="panel-heading">Email all volunteers:</div>
-  <div class="panel-body">
-    <form class="form-horizontal">
-      <div class="col-md-6">
-        <div class="form-group">
-          <div class="col-sm-9">
-            <button ng-click="volunteerCtrl.emailAllVolunteers()" type="button" class="btn btn-success">Email Volunteers</button>
+</div>
+  <br />
+  <div class="panel panel-default volunteer-container">
+    <div class="panel-heading">Email all volunteers:</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-sm-9">
+              <button ng-click="volunteerCtrl.emailAllVolunteers()" type="button" class="btn btn-success">Email Volunteers</button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+<br /></div>
 </div>
-</div><br /></div>
+
 <div class="panel panel-default volunteer-container">
   <div class="panel-heading">List of all volunteers:
     <div class="pull-right"><a href="/volunteers/create">Add a volunteer</a></div>
